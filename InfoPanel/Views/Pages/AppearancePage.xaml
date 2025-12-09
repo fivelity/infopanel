@@ -1,0 +1,553 @@
+<Page
+    x:Class="InfoPanel.Views.Pages.AppearancePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="InfoPanel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:InfoPanel.Models"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="Appearance"
+    d:DesignHeight="800"
+    d:DesignWidth="1200"
+    DataContext="{Binding RelativeSource={RelativeSource self}}"
+    mc:Ignorable="d">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Header  -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock
+                FontSize="28"
+                FontWeight="SemiBold"
+                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Text="Appearance" />
+            <TextBlock
+                Margin="0,8,0,0"
+                FontSize="14"
+                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Text="Customize the look, feel, and layout of your InfoPanel workspace"
+                TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!--  Main Content  -->
+        <Border
+            Grid.Row="1"
+            Background="{DynamicResource ControlFillColorDefaultBrush}"
+            CornerRadius="8">
+            <TabControl
+                Margin="0"
+                Padding="16"
+                Background="Transparent"
+                BorderThickness="0"
+                TabStripPlacement="Top">
+
+                <!--  Themes Tab  -->
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon
+                                Margin="0,0,8,0"
+                                FontSize="18"
+                                Symbol="Color20" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Medium"
+                                Text="Themes" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ScrollViewer
+                        Padding="16"
+                        HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!--  Theme Selection Header  -->
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        Text="Select Theme" />
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        FontSize="12"
+                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Text="Choose a theme to customize colors, typography, and visual style"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button
+                                        Margin="0,0,8,0"
+                                        Command="{Binding ViewModel.ImportThemeCommand}"
+                                        Content="Import Theme"
+                                        ToolTip="Import a theme from a JSON file" />
+                                    <Button
+                                        Command="{Binding ViewModel.ExportThemeCommand}"
+                                        Content="Export Theme"
+                                        ToolTip="Export the current theme to a JSON file" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!--  Theme Cards Grid  -->
+                            <ItemsControl
+                                Margin="0,0,0,20"
+                                ItemsSource="{Binding ViewModel.AvailableThemes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Width="280"
+                                            Height="180"
+                                            Margin="0,0,16,16"
+                                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                            BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
+                                            BorderThickness="2"
+                                            CornerRadius="8"
+                                            Cursor="Hand">
+                                            <Border.InputBindings>
+                                                <MouseBinding
+                                                    Command="{Binding DataContext.ViewModel.SelectThemeCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding Id}"
+                                                    MouseAction="LeftClick" />
+                                            </Border.InputBindings>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <!--  Theme Preview  -->
+                                                <Border
+                                                    Grid.Row="0"
+                                                    Margin="12,12,12,8"
+                                                    Background="{Binding Colors.Background}"
+                                                    CornerRadius="4">
+                                                    <Grid Margin="12">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <!--  Color Swatches  -->
+                                                        <StackPanel
+                                                            Grid.Row="0"
+                                                            Margin="0,0,0,8"
+                                                            Orientation="Horizontal">
+                                                            <Border
+                                                                Width="24"
+                                                                Height="24"
+                                                                Margin="0,0,4,0"
+                                                                Background="{Binding Colors.Primary}"
+                                                                CornerRadius="4" />
+                                                            <Border
+                                                                Width="24"
+                                                                Height="24"
+                                                                Margin="0,0,4,0"
+                                                                Background="{Binding Colors.Accent}"
+                                                                CornerRadius="4" />
+                                                            <Border
+                                                                Width="24"
+                                                                Height="24"
+                                                                Margin="0,0,4,0"
+                                                                Background="{Binding Colors.Success}"
+                                                                CornerRadius="4" />
+                                                            <Border
+                                                                Width="24"
+                                                                Height="24"
+                                                                Margin="0,0,4,0"
+                                                                Background="{Binding Colors.Warning}"
+                                                                CornerRadius="4" />
+                                                            <Border
+                                                                Width="24"
+                                                                Height="24"
+                                                                Background="{Binding Colors.Error}"
+                                                                CornerRadius="4" />
+                                                        </StackPanel>
+                                                        <!--  Sample Text  -->
+                                                        <StackPanel Grid.Row="1">
+                                                            <TextBlock
+                                                                FontSize="12"
+                                                                FontWeight="SemiBold"
+                                                                Foreground="{Binding Colors.TextPrimary}"
+                                                                Text="Sample Text" />
+                                                            <TextBlock
+                                                                FontSize="10"
+                                                                Foreground="{Binding Colors.TextSecondary}"
+                                                                Text="Secondary text preview" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+
+                                                <!--  Theme Info  -->
+                                                <Border
+                                                    Grid.Row="1"
+                                                    Padding="12,8"
+                                                    Background="{DynamicResource ControlFillColorTertiaryBrush}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Grid.Column="0">
+                                                            <TextBlock
+                                                                FontSize="14"
+                                                                FontWeight="SemiBold"
+                                                                Text="{Binding Name}" />
+                                                            <TextBlock
+                                                                FontSize="11"
+                                                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                                Text="{Binding Description}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                        </StackPanel>
+                                                        <ui:SymbolIcon
+                                                            Grid.Column="1"
+                                                            FontSize="20"
+                                                            Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                                                            Symbol="Checkmark24"
+                                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!--  Apply Button  -->
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button
+                                    MinWidth="120"
+                                    Command="{Binding ViewModel.ApplyThemeCommand}"
+                                    Content="Apply Theme"
+                                    IsEnabled="{Binding ViewModel.HasSelectedTheme}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!--  Layouts Tab  -->
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon
+                                Margin="0,0,8,0"
+                                FontSize="18"
+                                Symbol="LayoutColumnTwoSplitLeft20" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Medium"
+                                Text="Layouts" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ScrollViewer
+                        Padding="16"
+                        HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!--  Layout Selection Header  -->
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        Text="Select Layout" />
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        FontSize="12"
+                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Text="Choose a layout to define how panels are arranged on your display"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button
+                                        Margin="0,0,8,0"
+                                        Command="{Binding ViewModel.ImportLayoutCommand}"
+                                        Content="Import Layout"
+                                        ToolTip="Import a layout from a JSON file" />
+                                    <Button
+                                        Command="{Binding ViewModel.ExportLayoutCommand}"
+                                        Content="Export Layout"
+                                        ToolTip="Export the current layout to a JSON file" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!--  Layout Cards Grid  -->
+                            <ItemsControl
+                                Margin="0,0,0,20"
+                                ItemsSource="{Binding ViewModel.AvailableLayouts}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Width="280"
+                                            Height="180"
+                                            Margin="0,0,16,16"
+                                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                            BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
+                                            BorderThickness="2"
+                                            CornerRadius="8"
+                                            Cursor="Hand">
+                                            <Border.InputBindings>
+                                                <MouseBinding
+                                                    Command="{Binding DataContext.ViewModel.SelectLayoutCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding Id}"
+                                                    MouseAction="LeftClick" />
+                                            </Border.InputBindings>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <!--  Layout Preview (placeholder grid visualization)  -->
+                                                <Border
+                                                    Grid.Row="0"
+                                                    Margin="12,12,12,8"
+                                                    Background="{DynamicResource ControlFillColorTertiaryBrush}"
+                                                    CornerRadius="4">
+                                                    <Viewbox Margin="12">
+                                                        <Grid Width="100" Height="60">
+                                                            <!--  Simplified grid preview  -->
+                                                            <Rectangle
+                                                                Fill="{DynamicResource AccentFillColorDefaultBrush}"
+                                                                Opacity="0.3"
+                                                                RadiusX="2"
+                                                                RadiusY="2" />
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="8"
+                                                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                                                Text="{Binding Type}" />
+                                                        </Grid>
+                                                    </Viewbox>
+                                                </Border>
+
+                                                <!--  Layout Info  -->
+                                                <Border
+                                                    Grid.Row="1"
+                                                    Padding="12,8"
+                                                    Background="{DynamicResource ControlFillColorTertiaryBrush}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Grid.Column="0">
+                                                            <TextBlock
+                                                                FontSize="14"
+                                                                FontWeight="SemiBold"
+                                                                Text="{Binding Name}" />
+                                                            <TextBlock
+                                                                FontSize="11"
+                                                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                                Text="{Binding Description}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                        </StackPanel>
+                                                        <ui:SymbolIcon
+                                                            Grid.Column="1"
+                                                            FontSize="20"
+                                                            Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                                                            Symbol="Checkmark24"
+                                                            Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!--  Apply Button  -->
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button
+                                    MinWidth="120"
+                                    Command="{Binding ViewModel.ApplyLayoutCommand}"
+                                    Content="Apply Layout"
+                                    IsEnabled="{Binding ViewModel.HasSelectedLayout}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!--  Workspace Tab  -->
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon
+                                Margin="0,0,8,0"
+                                FontSize="18"
+                                Symbol="AppFolder20" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Medium"
+                                Text="Workspace" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ScrollViewer
+                        Padding="16"
+                        HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!--  Workspace Header  -->
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        Text="Manage Workspaces" />
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        FontSize="12"
+                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Text="Save, load, and share complete workspace configurations (theme + layout + panel placements)"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button
+                                        Margin="0,0,8,0"
+                                        Command="{Binding ViewModel.NewWorkspaceCommand}"
+                                        Content="New Workspace"
+                                        ToolTip="Create a new workspace" />
+                                    <Button
+                                        Margin="0,0,8,0"
+                                        Command="{Binding ViewModel.ImportWorkspaceCommand}"
+                                        Content="Import"
+                                        ToolTip="Import a workspace from file" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!--  Workspace List  -->
+                            <ItemsControl ItemsSource="{Binding ViewModel.Workspaces}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Margin="0,0,0,12"
+                                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                            BorderBrush="{Binding IsActive, Converter={StaticResource BooleanToBrushConverter}}"
+                                            BorderThickness="2"
+                                            CornerRadius="8">
+                                            <Grid Margin="16">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!--  Workspace Info  -->
+                                                <StackPanel Grid.Column="0">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock
+                                                            FontSize="16"
+                                                            FontWeight="SemiBold"
+                                                            Text="{Binding Name}" />
+                                                        <Border
+                                                            Margin="8,0,0,0"
+                                                            Padding="6,2"
+                                                            Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                                            CornerRadius="4"
+                                                            Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <TextBlock
+                                                                FontSize="10"
+                                                                FontWeight="SemiBold"
+                                                                Text="DEFAULT" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <TextBlock
+                                                        Margin="0,4,0,0"
+                                                        FontSize="12"
+                                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                        Text="{Binding Description}" />
+                                                    <StackPanel
+                                                        Margin="0,8,0,0"
+                                                        Orientation="Horizontal">
+                                                        <TextBlock
+                                                            FontSize="11"
+                                                            Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+                                                            <Run Text="Theme:" />
+                                                            <Run FontWeight="Medium" Text="{Binding ThemeId}" />
+                                                        </TextBlock>
+                                                        <TextBlock
+                                                            Margin="16,0,0,0"
+                                                            FontSize="11"
+                                                            Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+                                                            <Run Text="Layout:" />
+                                                            <Run FontWeight="Medium" Text="{Binding LayoutId}" />
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <!--  Actions  -->
+                                                <StackPanel
+                                                    Grid.Column="1"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <Button
+                                                        Margin="0,0,8,0"
+                                                        Command="{Binding DataContext.ViewModel.LoadWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                        CommandParameter="{Binding Id}"
+                                                        Content="Load"
+                                                        ToolTip="Load this workspace" />
+                                                    <Button
+                                                        Margin="0,0,8,0"
+                                                        Command="{Binding DataContext.ViewModel.SaveWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                        CommandParameter="{Binding Id}"
+                                                        Content="Save"
+                                                        ToolTip="Save current state to this workspace" />
+                                                    <Button
+                                                        Margin="0,0,8,0"
+                                                        Command="{Binding DataContext.ViewModel.ExportWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                        CommandParameter="{Binding Id}"
+                                                        Content="Export"
+                                                        ToolTip="Export workspace to file" />
+                                                    <Button
+                                                        Margin="0,0,8,0"
+                                                        Command="{Binding DataContext.ViewModel.DuplicateWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                        CommandParameter="{Binding Id}"
+                                                        Content="Duplicate"
+                                                        ToolTip="Duplicate this workspace" />
+                                                    <Button
+                                                        Appearance="Danger"
+                                                        Command="{Binding DataContext.ViewModel.DeleteWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                        CommandParameter="{Binding Id}"
+                                                        Content="Delete"
+                                                        IsEnabled="{Binding CanDelete}"
+                                                        ToolTip="Delete this workspace" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Border>
+    </Grid>
+</Page>

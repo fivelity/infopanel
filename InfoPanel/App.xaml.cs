@@ -80,6 +80,8 @@ namespace InfoPanel
            services.AddScoped<SettingsViewModel>();
            services.AddScoped<Views.Pages.UpdatesPage>();
            services.AddScoped<UpdatesViewModel>();
+           services.AddScoped<Views.Pages.AppearancePage>();
+           services.AddScoped<AppearanceViewModel>();
 
            // Configuration
            //services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

@@ -101,6 +101,11 @@
                         Icon="DesktopCursor20"
                         PageTag="design"
                         PageType="{x:Type pages:DesignPage}" />
+                    <ui:NavigationItem
+                        Content="Appearance"
+                        Icon="PaintBrush20"
+                        PageTag="appearance"
+                        PageType="{x:Type pages:AppearancePage}" />
                 </ui:NavigationStore.Items>
                 <ui:NavigationStore.Footer>
                     <ui:NavigationItem
