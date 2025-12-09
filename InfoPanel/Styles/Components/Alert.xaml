@@ -1,0 +1,60 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+    ========================================
+    ALERT COMPONENT
+    Informational messages with variants
+    ========================================
+    -->
+
+    <!-- Base Alert Style -->
+    <Style x:Key="DS_Alert" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource DS_SecondaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Md}"/>
+        <Setter Property="Padding" Value="{StaticResource DS_Space_4}"/>
+    </Style>
+
+    <!-- Alert Title -->
+    <Style x:Key="DS_AlertTitle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
+        <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Medium}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,4"/>
+    </Style>
+
+    <!-- Alert Description -->
+    <Style x:Key="DS_AlertDescription" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundMutedBrush}"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="LineHeight" Value="20"/>
+    </Style>
+
+    <!-- Destructive Alert (Error) -->
+    <Style x:Key="DS_Alert_Destructive" TargetType="Border" BasedOn="{StaticResource DS_Alert}">
+        <Setter Property="Background" Value="#1A1816"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_DestructiveBrush}"/>
+    </Style>
+
+    <!-- Success Alert -->
+    <Style x:Key="DS_Alert_Success" TargetType="Border" BasedOn="{StaticResource DS_Alert}">
+        <Setter Property="Background" Value="#16181A"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_SuccessBrush}"/>
+    </Style>
+
+    <!-- Warning Alert -->
+    <Style x:Key="DS_Alert_Warning" TargetType="Border" BasedOn="{StaticResource DS_Alert}">
+        <Setter Property="Background" Value="#1A1816"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_WarningBrush}"/>
+    </Style>
+
+    <!-- Info Alert -->
+    <Style x:Key="DS_Alert_Info" TargetType="Border" BasedOn="{StaticResource DS_Alert}">
+        <Setter Property="Background" Value="#16181A"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_PrimaryBrush}"/>
+    </Style>
+
+</ResourceDictionary>

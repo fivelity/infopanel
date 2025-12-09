@@ -1,0 +1,267 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+    ========================================
+    DESIGN SYSTEM TOKENS
+    Inspired by shadcn/ui principles
+    ========================================
+    -->
+
+    <!-- ==================== COLORS ==================== -->
+
+    <!-- Background Colors -->
+    <Color x:Key="DS_Background">#0A0A0A</Color>
+    <Color x:Key="DS_BackgroundSecondary">#1A1A1A</Color>
+    <Color x:Key="DS_BackgroundTertiary">#2A2A2A</Color>
+    <Color x:Key="DS_BackgroundMuted">#161616</Color>
+
+    <!-- Foreground/Text Colors -->
+    <Color x:Key="DS_Foreground">#FAFAFA</Color>
+    <Color x:Key="DS_ForegroundSecondary">#A1A1AA</Color>
+    <Color x:Key="DS_ForegroundMuted">#71717A</Color>
+    <Color x:Key="DS_ForegroundDisabled">#52525B</Color>
+
+    <!-- Border Colors -->
+    <Color x:Key="DS_Border">#27272A</Color>
+    <Color x:Key="DS_BorderHover">#3F3F46</Color>
+    <Color x:Key="DS_BorderFocus">#52525B</Color>
+
+    <!-- Accent/Primary Colors -->
+    <Color x:Key="DS_Primary">#3B82F6</Color>
+    <Color x:Key="DS_PrimaryHover">#2563EB</Color>
+    <Color x:Key="DS_PrimaryPressed">#1D4ED8</Color>
+    <Color x:Key="DS_PrimaryForeground">#FFFFFF</Color>
+
+    <!-- Secondary Colors -->
+    <Color x:Key="DS_Secondary">#27272A</Color>
+    <Color x:Key="DS_SecondaryHover">#3F3F46</Color>
+    <Color x:Key="DS_SecondaryPressed">#52525B</Color>
+    <Color x:Key="DS_SecondaryForeground">#FAFAFA</Color>
+
+    <!-- Destructive/Danger Colors -->
+    <Color x:Key="DS_Destructive">#EF4444</Color>
+    <Color x:Key="DS_DestructiveHover">#DC2626</Color>
+    <Color x:Key="DS_DestructivePressed">#B91C1C</Color>
+    <Color x:Key="DS_DestructiveForeground">#FFFFFF</Color>
+
+    <!-- Success Colors -->
+    <Color x:Key="DS_Success">#10B981</Color>
+    <Color x:Key="DS_SuccessHover">#059669</Color>
+    <Color x:Key="DS_SuccessPressed">#047857</Color>
+    <Color x:Key="DS_SuccessForeground">#FFFFFF</Color>
+
+    <!-- Warning Colors -->
+    <Color x:Key="DS_Warning">#F59E0B</Color>
+    <Color x:Key="DS_WarningHover">#D97706</Color>
+    <Color x:Key="DS_WarningPressed">#B45309</Color>
+    <Color x:Key="DS_WarningForeground">#000000</Color>
+
+    <!-- Accent Colors -->
+    <Color x:Key="DS_Accent">#8B5CF6</Color>
+    <Color x:Key="DS_AccentHover">#7C3AED</Color>
+    <Color x:Key="DS_AccentPressed">#6D28D9</Color>
+    <Color x:Key="DS_AccentForeground">#FFFFFF</Color>
+
+    <!-- Muted Colors -->
+    <Color x:Key="DS_Muted">#27272A</Color>
+    <Color x:Key="DS_MutedHover">#3F3F46</Color>
+    <Color x:Key="DS_MutedForeground">#A1A1AA</Color>
+
+    <!-- Card Colors -->
+    <Color x:Key="DS_Card">#18181B</Color>
+    <Color x:Key="DS_CardHover">#1F1F23</Color>
+    <Color x:Key="DS_CardForeground">#FAFAFA</Color>
+
+    <!-- Popover/Dialog Colors -->
+    <Color x:Key="DS_Popover">#18181B</Color>
+    <Color x:Key="DS_PopoverForeground">#FAFAFA</Color>
+
+    <!-- Input Colors -->
+    <Color x:Key="DS_Input">#18181B</Color>
+    <Color x:Key="DS_InputForeground">#FAFAFA</Color>
+    <Color x:Key="DS_InputPlaceholder">#71717A</Color>
+
+    <!-- Ring/Focus Colors -->
+    <Color x:Key="DS_Ring">#3B82F6</Color>
+    <Color x:Key="DS_RingOffset">#0A0A0A</Color>
+
+
+    <!-- ==================== BRUSHES ==================== -->
+
+    <!-- Background Brushes -->
+    <SolidColorBrush x:Key="DS_BackgroundBrush" Color="{StaticResource DS_Background}"/>
+    <SolidColorBrush x:Key="DS_BackgroundSecondaryBrush" Color="{StaticResource DS_BackgroundSecondary}"/>
+    <SolidColorBrush x:Key="DS_BackgroundTertiaryBrush" Color="{StaticResource DS_BackgroundTertiary}"/>
+    <SolidColorBrush x:Key="DS_BackgroundMutedBrush" Color="{StaticResource DS_BackgroundMuted}"/>
+
+    <!-- Foreground Brushes -->
+    <SolidColorBrush x:Key="DS_ForegroundBrush" Color="{StaticResource DS_Foreground}"/>
+    <SolidColorBrush x:Key="DS_ForegroundSecondaryBrush" Color="{StaticResource DS_ForegroundSecondary}"/>
+    <SolidColorBrush x:Key="DS_ForegroundMutedBrush" Color="{StaticResource DS_ForegroundMuted}"/>
+    <SolidColorBrush x:Key="DS_ForegroundDisabledBrush" Color="{StaticResource DS_ForegroundDisabled}"/>
+
+    <!-- Border Brushes -->
+    <SolidColorBrush x:Key="DS_BorderBrush" Color="{StaticResource DS_Border}"/>
+    <SolidColorBrush x:Key="DS_BorderHoverBrush" Color="{StaticResource DS_BorderHover}"/>
+    <SolidColorBrush x:Key="DS_BorderFocusBrush" Color="{StaticResource DS_BorderFocus}"/>
+
+    <!-- Primary Brushes -->
+    <SolidColorBrush x:Key="DS_PrimaryBrush" Color="{StaticResource DS_Primary}"/>
+    <SolidColorBrush x:Key="DS_PrimaryHoverBrush" Color="{StaticResource DS_PrimaryHover}"/>
+    <SolidColorBrush x:Key="DS_PrimaryPressedBrush" Color="{StaticResource DS_PrimaryPressed}"/>
+    <SolidColorBrush x:Key="DS_PrimaryForegroundBrush" Color="{StaticResource DS_PrimaryForeground}"/>
+
+    <!-- Secondary Brushes -->
+    <SolidColorBrush x:Key="DS_SecondaryBrush" Color="{StaticResource DS_Secondary}"/>
+    <SolidColorBrush x:Key="DS_SecondaryHoverBrush" Color="{StaticResource DS_SecondaryHover}"/>
+    <SolidColorBrush x:Key="DS_SecondaryPressedBrush" Color="{StaticResource DS_SecondaryPressed}"/>
+    <SolidColorBrush x:Key="DS_SecondaryForegroundBrush" Color="{StaticResource DS_SecondaryForeground}"/>
+
+    <!-- Destructive Brushes -->
+    <SolidColorBrush x:Key="DS_DestructiveBrush" Color="{StaticResource DS_Destructive}"/>
+    <SolidColorBrush x:Key="DS_DestructiveHoverBrush" Color="{StaticResource DS_DestructiveHover}"/>
+    <SolidColorBrush x:Key="DS_DestructivePressedBrush" Color="{StaticResource DS_DestructivePressed}"/>
+    <SolidColorBrush x:Key="DS_DestructiveForegroundBrush" Color="{StaticResource DS_DestructiveForeground}"/>
+
+    <!-- Success Brushes -->
+    <SolidColorBrush x:Key="DS_SuccessBrush" Color="{StaticResource DS_Success}"/>
+    <SolidColorBrush x:Key="DS_SuccessHoverBrush" Color="{StaticResource DS_SuccessHover}"/>
+    <SolidColorBrush x:Key="DS_SuccessPressedBrush" Color="{StaticResource DS_SuccessPressed}"/>
+    <SolidColorBrush x:Key="DS_SuccessForegroundBrush" Color="{StaticResource DS_SuccessForeground}"/>
+
+    <!-- Warning Brushes -->
+    <SolidColorBrush x:Key="DS_WarningBrush" Color="{StaticResource DS_Warning}"/>
+    <SolidColorBrush x:Key="DS_WarningHoverBrush" Color="{StaticResource DS_WarningHover}"/>
+    <SolidColorBrush x:Key="DS_WarningPressedBrush" Color="{StaticResource DS_WarningPressed}"/>
+    <SolidColorBrush x:Key="DS_WarningForegroundBrush" Color="{StaticResource DS_WarningForeground}"/>
+
+    <!-- Accent Brushes -->
+    <SolidColorBrush x:Key="DS_AccentBrush" Color="{StaticResource DS_Accent}"/>
+    <SolidColorBrush x:Key="DS_AccentHoverBrush" Color="{StaticResource DS_AccentHover}"/>
+    <SolidColorBrush x:Key="DS_AccentPressedBrush" Color="{StaticResource DS_AccentPressed}"/>
+    <SolidColorBrush x:Key="DS_AccentForegroundBrush" Color="{StaticResource DS_AccentForeground}"/>
+
+    <!-- Muted Brushes -->
+    <SolidColorBrush x:Key="DS_MutedBrush" Color="{StaticResource DS_Muted}"/>
+    <SolidColorBrush x:Key="DS_MutedHoverBrush" Color="{StaticResource DS_MutedHover}"/>
+    <SolidColorBrush x:Key="DS_MutedForegroundBrush" Color="{StaticResource DS_MutedForeground}"/>
+
+    <!-- Card Brushes -->
+    <SolidColorBrush x:Key="DS_CardBrush" Color="{StaticResource DS_Card}"/>
+    <SolidColorBrush x:Key="DS_CardHoverBrush" Color="{StaticResource DS_CardHover}"/>
+    <SolidColorBrush x:Key="DS_CardForegroundBrush" Color="{StaticResource DS_CardForeground}"/>
+
+    <!-- Popover Brushes -->
+    <SolidColorBrush x:Key="DS_PopoverBrush" Color="{StaticResource DS_Popover}"/>
+    <SolidColorBrush x:Key="DS_PopoverForegroundBrush" Color="{StaticResource DS_PopoverForeground}"/>
+
+    <!-- Input Brushes -->
+    <SolidColorBrush x:Key="DS_InputBrush" Color="{StaticResource DS_Input}"/>
+    <SolidColorBrush x:Key="DS_InputForegroundBrush" Color="{StaticResource DS_InputForeground}"/>
+    <SolidColorBrush x:Key="DS_InputPlaceholderBrush" Color="{StaticResource DS_InputPlaceholder}"/>
+
+    <!-- Ring Brushes -->
+    <SolidColorBrush x:Key="DS_RingBrush" Color="{StaticResource DS_Ring}"/>
+    <SolidColorBrush x:Key="DS_RingOffsetBrush" Color="{StaticResource DS_RingOffset}"/>
+
+
+    <!-- ==================== TYPOGRAPHY ==================== -->
+
+    <!-- Font Families -->
+    <FontFamily x:Key="DS_FontFamily">Segoe UI, Inter, -apple-system, BlinkMacSystemFont, sans-serif</FontFamily>
+    <FontFamily x:Key="DS_FontFamilyMono">Cascadia Code, Consolas, monospace</FontFamily>
+
+    <!-- Font Sizes -->
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_Xs">11</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_Sm">12</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_Base">14</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_Lg">16</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_Xl">18</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_2xl">24</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_3xl">30</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_FontSize_4xl">36</system:Double>
+
+    <!-- Font Weights -->
+    <FontWeight x:Key="DS_FontWeight_Normal">Normal</FontWeight>
+    <FontWeight x:Key="DS_FontWeight_Medium">Medium</FontWeight>
+    <FontWeight x:Key="DS_FontWeight_Semibold">SemiBold</FontWeight>
+    <FontWeight x:Key="DS_FontWeight_Bold">Bold</FontWeight>
+
+
+    <!-- ==================== SPACING ==================== -->
+
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_0">0</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_1">4</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_2">8</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_3">12</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_4">16</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_5">20</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_6">24</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_8">32</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_10">40</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_12">48</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_16">64</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_20">80</system:Double>
+    <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_24">96</system:Double>
+
+
+    <!-- ==================== BORDER RADIUS ==================== -->
+
+    <CornerRadius x:Key="DS_Radius_None">0</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_Sm">4</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_Base">6</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_Md">8</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_Lg">12</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_Xl">16</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_2xl">24</CornerRadius>
+    <CornerRadius x:Key="DS_Radius_Full">9999</CornerRadius>
+
+
+    <!-- ==================== ELEVATION / SHADOWS ==================== -->
+
+    <!-- Small elevation -->
+    <DropShadowEffect x:Key="DS_Shadow_Sm"
+                      Color="#000000"
+                      BlurRadius="4"
+                      ShadowDepth="1"
+                      Opacity="0.1"
+                      Direction="270"/>
+
+    <!-- Medium elevation -->
+    <DropShadowEffect x:Key="DS_Shadow_Md"
+                      Color="#000000"
+                      BlurRadius="8"
+                      ShadowDepth="2"
+                      Opacity="0.15"
+                      Direction="270"/>
+
+    <!-- Large elevation -->
+    <DropShadowEffect x:Key="DS_Shadow_Lg"
+                      Color="#000000"
+                      BlurRadius="16"
+                      ShadowDepth="4"
+                      Opacity="0.2"
+                      Direction="270"/>
+
+    <!-- Extra large elevation -->
+    <DropShadowEffect x:Key="DS_Shadow_Xl"
+                      Color="#000000"
+                      BlurRadius="24"
+                      ShadowDepth="8"
+                      Opacity="0.25"
+                      Direction="270"/>
+
+
+    <!-- ==================== ANIMATION / TRANSITIONS ==================== -->
+
+    <Duration x:Key="DS_Duration_Fast">0:0:0.15</Duration>
+    <Duration x:Key="DS_Duration_Base">0:0:0.2</Duration>
+    <Duration x:Key="DS_Duration_Slow">0:0:0.3</Duration>
+
+    <KeySpline x:Key="DS_Ease">0.4,0,0.2,1</KeySpline>
+    <KeySpline x:Key="DS_EaseIn">0.4,0,1,1</KeySpline>
+    <KeySpline x:Key="DS_EaseOut">0,0,0.2,1</KeySpline>
+    <KeySpline x:Key="DS_EaseInOut">0.4,0,0.2,1</KeySpline>
+
+</ResourceDictionary>

@@ -1,0 +1,41 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+    ========================================
+    INFOPANEL DESIGN SYSTEM
+    Comprehensive UI component library
+    Inspired by shadcn/ui principles
+    ========================================
+
+    Usage:
+    Apply styles using StaticResource:
+
+    <Border Style="{StaticResource DS_Card}">
+        <StackPanel>
+            <TextBlock Style="{StaticResource DS_CardTitle}" Text="Card Title"/>
+            <TextBlock Style="{StaticResource DS_CardDescription}" Text="Description"/>
+            <Button Style="{StaticResource DS_Button_Primary}" Content="Action"/>
+        </StackPanel>
+    </Border>
+
+    ========================================
+    -->
+
+    <!-- Core Design Tokens -->
+    <ResourceDictionary.MergedDictionaries>
+
+        <!-- Design Tokens: Colors, Typography, Spacing, etc. -->
+        <ResourceDictionary Source="/Styles/DesignSystem/Tokens.xaml"/>
+
+        <!-- Component Styles -->
+        <ResourceDictionary Source="/Styles/Components/Card.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Button.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Input.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Badge.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Alert.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Separator.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

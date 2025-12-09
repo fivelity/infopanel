@@ -18,6 +18,9 @@
 
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
+
+                <!--  InfoPanel Design System - shadcn/ui inspired component library  -->
+                <ResourceDictionary Source="/Styles/DesignSystem.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--<FontFamily x:Key="NunitoSansRegular">./Fonts/NunitoSans_7pt-Regular.ttf#Noto Sans</FontFamily>-->

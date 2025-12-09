@@ -1,0 +1,145 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+    ========================================
+    BUTTON COMPONENT
+    shadcn/ui style buttons with variants
+    ========================================
+    -->
+
+    <!-- Base Button Template -->
+    <ControlTemplate x:Key="DS_ButtonTemplate" TargetType="Button">
+        <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{StaticResource DS_Radius_Md}"
+                Padding="{TemplateBinding Padding}">
+            <ContentPresenter HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            TextElement.FontWeight="{TemplateBinding FontWeight}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="Background" Value="{TemplateBinding Tag}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- Default Button (Secondary) -->
+    <Style x:Key="DS_Button" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource DS_SecondaryBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_SecondaryForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
+        <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Medium}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Tag" Value="{StaticResource DS_SecondaryHoverBrush}"/>
+        <Setter Property="Template" Value="{StaticResource DS_ButtonTemplate}"/>
+    </Style>
+
+    <!-- Primary Button -->
+    <Style x:Key="DS_Button_Primary" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Background" Value="{StaticResource DS_PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_PrimaryForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_PrimaryBrush}"/>
+        <Setter Property="Tag" Value="{StaticResource DS_PrimaryHoverBrush}"/>
+    </Style>
+
+    <!-- Destructive Button -->
+    <Style x:Key="DS_Button_Destructive" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Background" Value="{StaticResource DS_DestructiveBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_DestructiveForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_DestructiveBrush}"/>
+        <Setter Property="Tag" Value="{StaticResource DS_DestructiveHoverBrush}"/>
+    </Style>
+
+    <!-- Success Button -->
+    <Style x:Key="DS_Button_Success" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Background" Value="{StaticResource DS_SuccessBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_SuccessForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_SuccessBrush}"/>
+        <Setter Property="Tag" Value="{StaticResource DS_SuccessHoverBrush}"/>
+    </Style>
+
+    <!-- Warning Button -->
+    <Style x:Key="DS_Button_Warning" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Background" Value="{StaticResource DS_WarningBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_WarningForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_WarningBrush}"/>
+        <Setter Property="Tag" Value="{StaticResource DS_WarningHoverBrush}"/>
+    </Style>
+
+    <!-- Outline Button -->
+    <Style x:Key="DS_Button_Outline" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Tag" Value="{StaticResource DS_SecondaryBrush}"/>
+    </Style>
+
+    <!-- Ghost Button (no background until hover) -->
+    <Style x:Key="DS_Button_Ghost" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Tag" Value="{StaticResource DS_SecondaryBrush}"/>
+    </Style>
+
+    <!-- Link Button (text button) -->
+    <Style x:Key="DS_Button_Link" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_PrimaryBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="4,2"/>
+        <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
+        <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Medium}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ContentPresenter x:Name="content" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="content" Property="TextElement.TextDecorations" Value="Underline"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Icon Button (square button for icons) -->
+    <Style x:Key="DS_Button_Icon" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- Small Button -->
+    <Style x:Key="DS_Button_Sm" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Xs}"/>
+    </Style>
+
+    <!-- Large Button -->
+    <Style x:Key="DS_Button_Lg" TargetType="Button" BasedOn="{StaticResource DS_Button}">
+        <Setter Property="Padding" Value="20,12"/>
+        <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Base}"/>
+    </Style>
+
+</ResourceDictionary>
