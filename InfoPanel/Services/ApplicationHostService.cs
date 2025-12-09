@@ -91,38 +91,57 @@ public class ApplicationHostService : IHostedService
         {
             Logger.Information("HandleActivationAsync: Starting window activation");
 
-            // Must create window on UI thread
-            await Application.Current.Dispatcher.InvokeAsync(() =>
+            // Check if we're already on the UI thread
+            if (Application.Current.Dispatcher.CheckAccess())
             {
-                Logger.Debug("HandleActivationAsync: Checking for existing MainWindow");
-                if (!Application.Current.Windows.OfType<MainWindow>().Any())
-                {
-                    Logger.Information("HandleActivationAsync: No existing MainWindow found, creating new one on UI thread");
-
-                    Logger.Debug("HandleActivationAsync: Requesting INavigationWindow from service provider");
-                    _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
-
-                    if (_navigationWindow == null)
-                    {
-                        Logger.Error("HandleActivationAsync: Failed to resolve INavigationWindow from service provider");
-                        throw new InvalidOperationException("Failed to resolve INavigationWindow from service provider");
-                    }
-
-                    Logger.Information("HandleActivationAsync: MainWindow created successfully, calling ShowWindow()");
-                    _navigationWindow.ShowWindow();
-                    Logger.Information("HandleActivationAsync: ShowWindow() completed");
-                }
-                else
-                {
-                    Logger.Information("HandleActivationAsync: MainWindow already exists");
-                }
-            });
+                Logger.Debug("HandleActivationAsync: Already on UI thread, creating window directly");
+                CreateMainWindow();
+            }
+            else
+            {
+                Logger.Debug("HandleActivationAsync: Not on UI thread, dispatching to UI thread");
+                await Application.Current.Dispatcher.InvokeAsync(CreateMainWindow);
+            }
 
             Logger.Information("HandleActivationAsync: Window activation completed successfully");
         }
         catch (Exception ex)
         {
             Logger.Fatal(ex, "HandleActivationAsync: Critical error during window activation");
+            throw;
+        }
+    }
+
+    private void CreateMainWindow()
+    {
+        try
+        {
+            Logger.Debug("CreateMainWindow: Checking for existing MainWindow");
+            if (!Application.Current.Windows.OfType<MainWindow>().Any())
+            {
+                Logger.Information("CreateMainWindow: No existing MainWindow found, creating new one");
+
+                Logger.Debug("CreateMainWindow: Requesting INavigationWindow from service provider");
+                _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
+
+                if (_navigationWindow == null)
+                {
+                    Logger.Error("CreateMainWindow: Failed to resolve INavigationWindow from service provider");
+                    throw new InvalidOperationException("Failed to resolve INavigationWindow from service provider");
+                }
+
+                Logger.Information("CreateMainWindow: MainWindow instance created, calling ShowWindow()");
+                _navigationWindow.ShowWindow();
+                Logger.Information("CreateMainWindow: ShowWindow() completed");
+            }
+            else
+            {
+                Logger.Information("CreateMainWindow: MainWindow already exists");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Fatal(ex, "CreateMainWindow: Critical error during window creation");
             throw;
         }
     }
