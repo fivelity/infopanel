@@ -91,7 +91,7 @@ namespace InfoPanel
            services.AddSingleton<WorkspaceManager>();
 
            // Main window container with navigation
-           services.AddScoped<INavigationWindow, MainWindow>();
+           services.AddSingleton<INavigationWindow, MainWindow>();
            //services.AddScoped<ContainerViewModel>();
 
            // Views and ViewModels

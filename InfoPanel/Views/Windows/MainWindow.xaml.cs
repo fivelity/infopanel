@@ -3,7 +3,6 @@ using System;
 using System.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
-using System.Windows.Controls;
 using Wpf.Ui.Controls;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -159,19 +158,6 @@ namespace InfoPanel.Views.Windows
         }
 
         #region INavigationWindow methods
-
-        public Frame GetFrame()
-        {
-            // In WPF-UI v3, NavigationView manages its own internal frame
-            // We need to return a Frame for compatibility, so we'll create one if needed
-            if (_navigationFrame == null)
-            {
-                _navigationFrame = new Frame();
-            }
-            return _navigationFrame;
-        }
-        
-        private Frame? _navigationFrame;
 
         public INavigationView GetNavigation()
             => RootNavigation;
