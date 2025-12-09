@@ -584,55 +584,85 @@ namespace InfoPanel
 
         private void Upgrade_File_Structure_From_1_1_4()
         {
-            var profilesFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel", "profiles");
-
-            if (Directory.Exists(profilesFolder))
+            try
             {
-                foreach (var file in Directory.GetFiles(profilesFolder))
+                Logger.Information("Starting upgrade from version 1.1.4 (v114)");
+                var profilesFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel", "profiles");
+
+                if (Directory.Exists(profilesFolder))
                 {
-                    //read the file
-                    XmlSerializer xs = new(typeof(List<DisplayItem>),
-                       [typeof(BarDisplayItem), typeof(GraphDisplayItem), typeof(TableSensorDisplayItem), typeof(SensorDisplayItem), typeof(ClockDisplayItem), typeof(CalendarDisplayItem), typeof(TextDisplayItem), typeof(ImageDisplayItem)]);
+                    var files = Directory.GetFiles(profilesFolder);
+                    Logger.Information("Found {Count} profile files to upgrade", files.Length);
 
-                    List<DisplayItem>? displayItems = null;
-                    using (var rd = XmlReader.Create(file))
+                    foreach (var file in files)
                     {
-                        displayItems = xs.Deserialize(rd) as List<DisplayItem>;
-                    }
-
-                    if (displayItems != null)
-                    {
-                        var assetsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel", "assets", Path.GetFileNameWithoutExtension(file));
-
-                        if (!Directory.Exists(assetsFolder))
+                        try
                         {
-                            Directory.CreateDirectory(assetsFolder);
-                        }
+                            Logger.Debug("Upgrading profile file: {File}", file);
 
-                        foreach (var displayItem in displayItems)
-                        {
-                            if (displayItem is ImageDisplayItem imageDisplayItem)
+                            //read the file
+                            XmlSerializer xs = new(typeof(List<DisplayItem>),
+                               [typeof(BarDisplayItem), typeof(GraphDisplayItem), typeof(TableSensorDisplayItem), typeof(SensorDisplayItem), typeof(ClockDisplayItem), typeof(CalendarDisplayItem), typeof(TextDisplayItem), typeof(ImageDisplayItem)]);
+
+                            List<DisplayItem>? displayItems = null;
+                            using (var rd = XmlReader.Create(file))
                             {
-                                if (!imageDisplayItem.RelativePath && imageDisplayItem.FilePath != null)
+                                displayItems = xs.Deserialize(rd) as List<DisplayItem>;
+                            }
+
+                            if (displayItems != null)
+                            {
+                                var assetsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel", "assets", Path.GetFileNameWithoutExtension(file));
+
+                                if (!Directory.Exists(assetsFolder))
                                 {
-                                    if (File.Exists(imageDisplayItem.FilePath))
+                                    Directory.CreateDirectory(assetsFolder);
+                                }
+
+                                foreach (var displayItem in displayItems)
+                                {
+                                    if (displayItem is ImageDisplayItem imageDisplayItem)
                                     {
-                                        //copy and update
-                                        var fileName = Path.GetFileName(imageDisplayItem.FilePath);
-                                        File.Copy(imageDisplayItem.FilePath, Path.Combine(assetsFolder, fileName), true);
-                                        imageDisplayItem.FilePath = fileName;
-                                        imageDisplayItem.RelativePath = true;
+                                        if (!imageDisplayItem.RelativePath && imageDisplayItem.FilePath != null)
+                                        {
+                                            if (File.Exists(imageDisplayItem.FilePath))
+                                            {
+                                                //copy and update
+                                                var fileName = Path.GetFileName(imageDisplayItem.FilePath);
+                                                File.Copy(imageDisplayItem.FilePath, Path.Combine(assetsFolder, fileName), true);
+                                                imageDisplayItem.FilePath = fileName;
+                                                imageDisplayItem.RelativePath = true;
+                                            }
+                                        }
                                     }
                                 }
+
+                                //write back
+                                var settings = new XmlWriterSettings() { Encoding = Encoding.UTF8, Indent = true };
+                                using var wr = XmlWriter.Create(file, settings);
+                                xs.Serialize(wr, displayItems);
+
+                                Logger.Information("Successfully upgraded profile file: {File}", Path.GetFileName(file));
                             }
                         }
-
-                        //write back
-                        var settings = new XmlWriterSettings() { Encoding = Encoding.UTF8, Indent = true };
-                        using var wr = XmlWriter.Create(file, settings);
-                        xs.Serialize(wr, displayItems);
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex, "Failed to upgrade profile file: {File}. Skipping this file.", file);
+                            // Continue with other files - don't let one bad file break the entire upgrade
+                        }
                     }
+
+                    Logger.Information("Upgrade from version 1.1.4 completed");
                 }
+                else
+                {
+                    Logger.Information("No profiles folder found, skipping upgrade");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error during upgrade from version 1.1.4. Upgrade will be skipped but application will continue.");
+                // Don't rethrow - let the application continue even if upgrade fails
             }
         }
 
