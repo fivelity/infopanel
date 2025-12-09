@@ -98,7 +98,8 @@ namespace InfoPanel.Services
                     try
                     {
                         Log.Debug("LayoutProvider: Loading layout from {File}", file);
-                        var json = await File.ReadAllTextAsync(file);
+                        // Use synchronous read to avoid async context issues during startup
+                        var json = File.ReadAllText(file);
                         var layout = JsonSerializer.Deserialize<LayoutModel>(json);
                         if (layout != null && !string.IsNullOrEmpty(layout.Id))
                         {
@@ -129,7 +130,7 @@ namespace InfoPanel.Services
                 {
                     try
                     {
-                        var json = await File.ReadAllTextAsync(file);
+                        var json = File.ReadAllText(file);
                         var layout = JsonSerializer.Deserialize<LayoutModel>(json);
                         if (layout != null && !string.IsNullOrEmpty(layout.Id))
                         {
@@ -138,10 +139,12 @@ namespace InfoPanel.Services
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error loading layout from {file}: {ex.Message}");
+                        Log.Error(ex, "LayoutProvider: Error loading custom layout from {File}", file);
                     }
                 }
             }
+            
+            await Task.CompletedTask; // Keep method async-compatible
         }
 
         /// <summary>

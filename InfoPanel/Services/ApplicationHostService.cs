@@ -48,7 +48,9 @@ public class ApplicationHostService : IHostedService
             // Initialize theme and layout providers
             Log.Information("ApplicationHostService: Initializing providers...");
             await _themeProvider.LoadThemesAsync();
-            Log.Information("ApplicationHostService: Loaded {Count} themes", _themeProvider.Themes.Count);
+            Log.Information("ApplicationHostService: LoadThemesAsync completed");
+            var themeCount = _themeProvider.Themes.Count;
+            Log.Information("ApplicationHostService: Loaded {Count} themes", themeCount);
             
             await _layoutProvider.LoadLayoutsAsync();
             Log.Information("ApplicationHostService: Loaded {Count} layouts", _layoutProvider.Layouts.Count);
@@ -83,35 +85,35 @@ public class ApplicationHostService : IHostedService
     /// </summary>
     private async Task HandleActivationAsync()
     {
-        await Task.CompletedTask;
-
         try
         {
             Log.Information("ApplicationHostService: HandleActivationAsync starting");
             
-            if (!Application.Current.Windows.OfType<MainWindow>().Any())
+            // Must create window on UI thread
+            await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Log.Information("ApplicationHostService: Creating MainWindow");
-                _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
-                
-                if (_navigationWindow == null)
+                if (!Application.Current.Windows.OfType<MainWindow>().Any())
                 {
-                    Log.Error("ApplicationHostService: Failed to resolve INavigationWindow from service provider");
-                    return;
+                    Log.Information("ApplicationHostService: Creating MainWindow on UI thread");
+                    _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
+                    
+                    if (_navigationWindow == null)
+                    {
+                        Log.Error("ApplicationHostService: Failed to resolve INavigationWindow from service provider");
+                        return;
+                    }
+                    
+                    Log.Information("ApplicationHostService: MainWindow created, showing window");
+                    _navigationWindow.ShowWindow();
+                    Log.Information("ApplicationHostService: MainWindow shown");
                 }
-                
-                Log.Information("ApplicationHostService: MainWindow created, showing window");
-                _navigationWindow.ShowWindow();
-                Log.Information("ApplicationHostService: MainWindow shown");
-            }
+            });
         }
         catch (Exception ex)
         {
             Log.Error(ex, "ApplicationHostService: Error during HandleActivationAsync");
             throw;
         }
-
-        await Task.CompletedTask;
     }
 
     private void PrepareNavigation()

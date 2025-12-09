@@ -711,3 +711,28 @@
 2025-12-09 04:22:21.742 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
 2025-12-09 04:22:21.743 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
 2025-12-09 04:22:21.744 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:33:59.158 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:33:59.173 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:33:59.175 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:33:59.176 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:33:59.177 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:36:37.426 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:36:37.441 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:36:37.443 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:36:37.444 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:36:37.445 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:39:16.971 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:39:16.990 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:39:16.992 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:39:16.993 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:39:16.993 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:39:50.296 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:39:50.311 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:39:50.313 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:39:50.314 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:39:50.315 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:41:43.137 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:41:43.152 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:41:43.154 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:41:43.155 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:41:43.156 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json

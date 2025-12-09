@@ -90,8 +90,13 @@ namespace InfoPanel.Services
                     try
                     {
                         Log.Debug("ThemeProvider: Loading theme from {File}", file);
-                        var json = await File.ReadAllTextAsync(file);
+                        System.Diagnostics.Debug.WriteLine($"ThemeProvider: About to read file {file}");
+                        // Use synchronous read to avoid async context issues during startup
+                        var json = File.ReadAllText(file);
+                        System.Diagnostics.Debug.WriteLine($"ThemeProvider: File read complete, length={json.Length}");
+                        Log.Debug("ThemeProvider: Read JSON file, deserializing...");
                         var theme = JsonSerializer.Deserialize<ThemeModel>(json);
+                        Log.Debug("ThemeProvider: Deserialized theme, checking validity...");
                         if (theme != null && !string.IsNullOrEmpty(theme.Id))
                         {
                             _themes[theme.Id] = theme;
@@ -107,6 +112,7 @@ namespace InfoPanel.Services
                         Log.Error(ex, "ThemeProvider: Error loading theme from {File}", file);
                     }
                 }
+                Log.Information("ThemeProvider: Finished loading app themes");
             }
             else
             {
@@ -121,7 +127,7 @@ namespace InfoPanel.Services
                 {
                     try
                     {
-                        var json = await File.ReadAllTextAsync(file);
+                        var json = File.ReadAllText(file);
                         var theme = JsonSerializer.Deserialize<ThemeModel>(json);
                         if (theme != null && !string.IsNullOrEmpty(theme.Id))
                         {
@@ -130,11 +136,12 @@ namespace InfoPanel.Services
                     }
                     catch (Exception ex)
                     {
-                        // Log error (could integrate with existing logging system)
-                        Console.WriteLine($"Error loading theme from {file}: {ex.Message}");
+                        Log.Error(ex, "ThemeProvider: Error loading custom theme from {File}", file);
                     }
                 }
             }
+            
+            await Task.CompletedTask; // Keep method async-compatible
         }
 
         /// <summary>

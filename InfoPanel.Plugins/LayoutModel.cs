@@ -44,6 +44,7 @@ namespace InfoPanel.Plugins
         /// Layout type (Grid, Canvas, Dock, etc.)
         /// </summary>
         [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public LayoutType Type { get; set; } = LayoutType.Grid;
 
         /// <summary>

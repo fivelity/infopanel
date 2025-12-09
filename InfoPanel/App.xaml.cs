@@ -91,7 +91,8 @@ namespace InfoPanel
            services.AddSingleton<WorkspaceManager>();
 
            // Main window container with navigation
-           services.AddSingleton<INavigationWindow, MainWindow>();
+           // Use transient to avoid singleton creation on background thread
+           services.AddTransient<INavigationWindow, MainWindow>();
            //services.AddScoped<ContainerViewModel>();
 
            // Views and ViewModels
