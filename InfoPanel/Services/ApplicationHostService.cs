@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using InfoPanel.Views.Windows;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using Wpf.Ui;
 using Wpf.Ui.Abstractions;
 
@@ -42,18 +43,30 @@ public class ApplicationHostService : IHostedService
     /// <param name="cancellationToken">Indicates that the start process has been aborted.</param>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        // Initialize theme and layout providers
-        Console.WriteLine("ApplicationHostService: Initializing providers...");
-        await _themeProvider.LoadThemesAsync();
-        Console.WriteLine($"ApplicationHostService: Loaded {_themeProvider.Themes.Count} themes");
-        await _layoutProvider.LoadLayoutsAsync();
-        Console.WriteLine($"ApplicationHostService: Loaded {_layoutProvider.Layouts.Count} layouts");
-        await _workspaceManager.LoadWorkspacesAsync();
-        Console.WriteLine("ApplicationHostService: Provider initialization complete");
+        try
+        {
+            // Initialize theme and layout providers
+            Log.Information("ApplicationHostService: Initializing providers...");
+            await _themeProvider.LoadThemesAsync();
+            Log.Information("ApplicationHostService: Loaded {Count} themes", _themeProvider.Themes.Count);
+            
+            await _layoutProvider.LoadLayoutsAsync();
+            Log.Information("ApplicationHostService: Loaded {Count} layouts", _layoutProvider.Layouts.Count);
+            
+            await _workspaceManager.LoadWorkspacesAsync();
+            Log.Information("ApplicationHostService: Provider initialization complete");
 
-        PrepareNavigation();
+            PrepareNavigation();
+            Log.Information("ApplicationHostService: Navigation prepared, calling HandleActivationAsync");
 
-        await HandleActivationAsync();
+            await HandleActivationAsync();
+            Log.Information("ApplicationHostService: HandleActivationAsync completed");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "ApplicationHostService: Error during StartAsync");
+            throw;
+        }
     }
 
     /// <summary>
@@ -72,16 +85,30 @@ public class ApplicationHostService : IHostedService
     {
         await Task.CompletedTask;
 
-        if (!Application.Current.Windows.OfType<MainWindow>().Any())
+        try
         {
-            _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
-            _navigationWindow?.ShowWindow();
-
-            // NOTICE: You can set this service directly in the window 
-            // _navigationWindow.SetPageService(_pageService);
-
-            // NOTICE: In the case of this window, we navigate to the Dashboard after loading with Container.InitializeUi()
-            // _navigationWindow.Navigate(typeof(Views.Pages.Dashboard));
+            Log.Information("ApplicationHostService: HandleActivationAsync starting");
+            
+            if (!Application.Current.Windows.OfType<MainWindow>().Any())
+            {
+                Log.Information("ApplicationHostService: Creating MainWindow");
+                _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
+                
+                if (_navigationWindow == null)
+                {
+                    Log.Error("ApplicationHostService: Failed to resolve INavigationWindow from service provider");
+                    return;
+                }
+                
+                Log.Information("ApplicationHostService: MainWindow created, showing window");
+                _navigationWindow.ShowWindow();
+                Log.Information("ApplicationHostService: MainWindow shown");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "ApplicationHostService: Error during HandleActivationAsync");
+            throw;
         }
 
         await Task.CompletedTask;
