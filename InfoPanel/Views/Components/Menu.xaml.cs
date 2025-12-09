@@ -1,11 +1,8 @@
 ﻿using InfoPanel.Views.Components.WebServer;
 using System;
 using System.Diagnostics;
-using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace InfoPanel.Views.Components
 {
@@ -21,7 +18,6 @@ namespace InfoPanel.Views.Components
 
         private async void MenuItemExit_Click(object sender, RoutedEventArgs e)
         {
-            await PanelDrawTask.Instance.StopAsync();
             await BeadaPanelTask.Instance.StopAsync();
 
             Environment.Exit(0);

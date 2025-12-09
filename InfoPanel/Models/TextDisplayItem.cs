@@ -1,15 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InfoPanel.Drawing;
+using SkiaSharp;
 using System;
-using System.Drawing;
 using System.Linq;
-using System.Windows;
 
 namespace InfoPanel.Models
 {
     [Serializable]
     public partial class TextDisplayItem : DisplayItem
     {
-        private string _font = System.Windows.Media.Fonts.SystemFontFamilies.First().ToString();
+        private string _font = SKFontManager.Default.GetFontFamilies().First();
         public string Font
         {
             get { return _font; }
@@ -21,6 +21,9 @@ namespace InfoPanel.Models
                 }
             }
         }
+
+        [ObservableProperty]
+        private string _fontStyle = string.Empty;
 
         private int _fontSize = 20;
         public int FontSize
@@ -97,13 +100,7 @@ namespace InfoPanel.Models
                     value = "#" + value;
                 }
 
-                try
-                {
-                    ColorTranslator.FromHtml(value);
-                    SetProperty(ref _color, value);
-                }
-                catch
-                { }
+                SetProperty(ref _color, value);
             }
         }
 
@@ -125,16 +122,31 @@ namespace InfoPanel.Models
         }
 
         [ObservableProperty]
+        private bool _wrap = true;
+
+        [ObservableProperty]
+        private bool _ellipsis = true;
+
+        [ObservableProperty]
         private int _width = 0;
 
         [ObservableProperty]
         private int _height = 0;
 
+        [ObservableProperty]
+        private bool _marquee = false;
+
+        [ObservableProperty]
+        private int _marqueeSpeed = 50;
+
+        [ObservableProperty]
+        private int _marqueeSpacing = 40;
+
         public TextDisplayItem()
         {
         }
 
-        public TextDisplayItem(string name) : base(name) { }
+        public TextDisplayItem(string name, Profile profile) : base(name, profile) { }
 
 
         public override string EvaluateText()
@@ -152,40 +164,21 @@ namespace InfoPanel.Models
             return (Name, Color);
         }
 
-        public override SizeF EvaluateSize()
+        public override SKSize EvaluateSize()
         {
-            using Bitmap bitmap = new(1, 1);
-            using Graphics g = Graphics.FromImage(bitmap);
-            using Font font = new(Font, FontSize);
+            var skiaGraphics = SkiaGraphics.FromEmpty(Profile.FontScale);
             var text = EvaluateText();
-            var sizeF = g.MeasureString(text, font, 0, StringFormat.GenericTypographic);
-
-            if(Width != 0)
-            {
-                sizeF.Width = Width;
-            }
-
-            return sizeF;
+            var (width, height) = skiaGraphics.MeasureString(text, Font, FontStyle, FontSize, Bold, Italic, Underline, Strikeout, Wrap, Ellipsis, Width);
+            return new SKSize(width, height);
         }
 
-        public override Rect EvaluateBounds()
+        public override SKRect EvaluateBounds()
         {
             var size = EvaluateSize();
-            if (RightAlign && Width == 0)
-            {
-                return new Rect(X - size.Width, Y, size.Width, size.Height);
-            }
-            else
-            {
-                return new Rect(X, Y, size.Width, size.Height);
-            }
-        }
+            int rectX = Width == 0 && RightAlign ? (int)(X - size.Width) : X;
 
-        public override void SetProfileGuid(Guid profileGuid)
-        {
-            ProfileGuid = profileGuid;
+            return new SKRect(rectX, Y, rectX + size.Width, Y + size.Height);
         }
-
         public override object Clone()
         {
             var clone = (DisplayItem)MemberwiseClone();
@@ -216,7 +209,7 @@ namespace InfoPanel.Models
         {
         }
 
-        public ClockDisplayItem(string name) : base(name) { }
+        public ClockDisplayItem(string name, Profile profile) : base(name, profile) { }
 
 
         public override string EvaluateText()
@@ -254,7 +247,7 @@ namespace InfoPanel.Models
         {
         }
 
-        public CalendarDisplayItem(string name) : base(name) { }
+        public CalendarDisplayItem(string name, Profile profile) : base(name, profile) { }
 
         public override string EvaluateText()
         {

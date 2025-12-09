@@ -1,34 +1,32 @@
-﻿using InfoPanel.Extensions;
+﻿using InfoPanel.Models;
+using SkiaSharp;
+using SkiaSharp.Views.WPF;
 using System;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Timers;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace InfoPanel.Views.Controls
 {
     public class MyImage : Image
     {
-        public static readonly DependencyProperty ImagePathProperty =
-            DependencyProperty.Register(
-                "ImagePath",
-                typeof(string),
-                typeof(MyImage),
-                new PropertyMetadata(string.Empty, OnImagePathChanged));
+        public static readonly DependencyProperty ImageDisplayItemProperty =
+    DependencyProperty.Register(
+        nameof(ImageDisplayItem),  // Property name
+        typeof(ImageDisplayItem),   // Change to ImageDisplayItem type
+        typeof(MyImage),
+        new PropertyMetadata(null, OnImageDisplayItemChanged));
 
-        public string ImagePath
+        public ImageDisplayItem ImageDisplayItem
         {
-            get => (string)GetValue(ImagePathProperty);
-            set => SetValue(ImagePathProperty, value);
+            get => (ImageDisplayItem)GetValue(ImageDisplayItemProperty);
+            set => SetValue(ImageDisplayItemProperty, value);  // Add setter
         }
 
-        private WriteableBitmap? _writeableBitmap;
-        private readonly Timer Timer = new(TimeSpan.FromMilliseconds(16));
+        private readonly Timer Timer = new(TimeSpan.FromMilliseconds(41));
 
         public MyImage()
         {
@@ -36,18 +34,19 @@ namespace InfoPanel.Views.Controls
             Unloaded += MyImage_Unloaded;
         }
 
-        private static void OnImagePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnImageDisplayItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (MyImage)d;
-            string newImagePath = (string)e.NewValue;
-
-            if (string.IsNullOrEmpty(newImagePath))
+            if (d is MyImage myImage)
             {
-                control.Source = null;
-            }
-            else
-            {
-                control.Source = control._writeableBitmap;
+                if (e.NewValue is ImageDisplayItem imageDisplayItem)
+                {
+                    myImage.Timer.Start();
+                }
+                else
+                {
+                    myImage.Source = null;
+                    myImage.Timer.Stop();
+                }
             }
         }
 
@@ -55,83 +54,83 @@ namespace InfoPanel.Views.Controls
         {
             Timer.Stop();
             Timer.Elapsed -= Timer_Tick;
+            Timer.Dispose();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            InitializeWriteableBitmap();
+            Timer.Elapsed += Timer_Tick;
         }
 
-        private void InitializeWriteableBitmap()
+        private void Timer_Tick(object? sender, EventArgs? e)
         {
-            int width = (int)Width;
-            int height = (int)Height;
-
-            if (width > 0 && height > 0)
+            (ImageDisplayItem imageDisplayItem, int width, int height, ImageSource source) = Dispatcher.Invoke(() =>
             {
-                _writeableBitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
-                this.Source = _writeableBitmap;
-
-                Timer.Elapsed += Timer_Tick;
-                Timer.Start();
-            }
-        }
-
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            (string currentImagePath, int width, int height) = Dispatcher.Invoke(() =>
-            {
-                return (ImagePath, (int)Width, (int)Height);
+                return (ImageDisplayItem, (int)Width, (int)Height, Source);
             });
 
-            if (!string.IsNullOrEmpty(currentImagePath) && _writeableBitmap != null)
+            if(imageDisplayItem == null)
             {
-                using var bitmap = Cache.GetLocalImage(currentImagePath)?.GetBitmapCopy(width, height);
-
-                // Update the WriteableBitmap with the new frame data
-                if (bitmap != null)
-                {
-                    try
-                    {
-                        if (_writeableBitmap != null)
-                        {
-                            IntPtr backBuffer = IntPtr.Zero;
-
-                            _writeableBitmap.Dispatcher.Invoke(() =>
-                            {
-                                if (_writeableBitmap.Width == bitmap.Width && _writeableBitmap.Height == bitmap.Height)
-                                {
-                                    _writeableBitmap.Lock();
-                                    backBuffer = _writeableBitmap.BackBuffer;
-                                }
-                            });
-
-                            if (backBuffer == IntPtr.Zero)
-                            {
-                                return;
-                            }
-
-                            // copy the pixel data from the bitmap to the back buffer
-                            BitmapData bitmapData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                            int stride = bitmapData.Stride;
-                            byte[] pixels = new byte[stride * bitmap.Height];
-                            Marshal.Copy(bitmapData.Scan0, pixels, 0, pixels.Length);
-                            Marshal.Copy(pixels, 0, backBuffer, pixels.Length);
-                            bitmap.UnlockBits(bitmapData);
-
-                            _writeableBitmap.Dispatcher.Invoke(() =>
-                            {
-                                _writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, _writeableBitmap.PixelWidth, _writeableBitmap.PixelHeight));
-                                _writeableBitmap.Unlock();
-                            });
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex.Message);
-                    }
-                    }
+                return;
             }
+
+            var image = Cache.GetLocalImage(imageDisplayItem);
+
+            WriteableBitmap? writeableBitmap = null;
+
+            if (image != null)
+            {
+                if (image.Type == LockedImage.ImageType.SVG)
+                {
+                    image.AccessSVG(picture =>
+                    {
+                        var bounds = picture.CullRect;
+                        writeableBitmap = picture.ToWriteableBitmap(new SKSizeI((int)bounds.Width, (int)bounds.Height));
+                        writeableBitmap.Freeze();
+                    });
+                }
+                else
+                {
+                    double imageAspectRatio = (double)image.Width / image.Height;
+                    double containerAspectRatio = (double)width / height;
+
+                    int targetWidth, targetHeight;
+
+                    if (imageAspectRatio > containerAspectRatio)
+                    {
+                        // Image is wider relative to its height than the container
+                        // Fit to width, adjust height
+                        targetWidth = width;
+                        targetHeight = (int)Math.Ceiling(width / imageAspectRatio);
+                    }
+                    else
+                    {
+                        // Image is taller relative to its width than the container
+                        // Fit to height, adjust width
+                        targetWidth = (int)Math.Ceiling(height * imageAspectRatio);
+                        targetHeight = height;
+                    }
+
+                    image.AccessSK(targetWidth, targetHeight, bitmap =>
+                    {
+                        if (bitmap != null)
+                        {
+                            writeableBitmap = bitmap.ToWriteableBitmap();
+                            writeableBitmap.Freeze();
+                        }
+                    }, true, "MyImage");
+                }
+
+                if(image.Frames <= 1 && sender is Timer timer)
+                {
+                    timer.Stop();
+                }
+            }
+
+            this.Dispatcher.Invoke(() =>
+            {
+                this.Source = writeableBitmap;
+            });
         }
 
 

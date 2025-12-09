@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
@@ -11,40 +11,53 @@
 		<Platforms>x64</Platforms>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<AssemblyVersion>$(AssemblyVersion)</AssemblyVersion>
-		<Version>1.2.9.0</Version>
+		<Version>1.3.0.0</Version>
 		<UseWindowsForms>True</UseWindowsForms>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ApplicationManifest>Resources\app.manifest</ApplicationManifest>
-		<ExtrasOutputDir>..\InfoPanel.Extras\bin\$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)</ExtrasOutputDir>
+		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	</PropertyGroup>
 
-	<!-- Build InfoPanel.Extras -->
+	<!-- Build InfoPanel.Extras and get its output path -->
 	<Target Name="BuildExtras" BeforeTargets="Build">
-		<MSBuild Projects="..\InfoPanel.Extras\InfoPanel.Extras.csproj" Targets="Build" Properties="SelfContained=false" />
+		<MSBuild Projects="..\InfoPanel.Extras\InfoPanel.Extras.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform);TargetFramework=net8.0-windows;RuntimeIdentifier=win-x64;SelfContained=false" />
+		<!-- Get the output path after building -->
+		<MSBuild Projects="..\InfoPanel.Extras\InfoPanel.Extras.csproj" Targets="GetTargetPath" Properties="Configuration=$(Configuration);Platform=$(Platform);TargetFramework=net8.0-windows;RuntimeIdentifier=win-x64">
+			<Output TaskParameter="TargetOutputs" PropertyName="_ExtrasAssemblyPath" />
+		</MSBuild>
+		<PropertyGroup>
+			<ExtrasOutputDir>$([System.IO.Path]::GetDirectoryName('$(_ExtrasAssemblyPath)'))</ExtrasOutputDir>
+		</PropertyGroup>
+		<Message Text="InfoPanel.Extras output directory: $(ExtrasOutputDir)" Importance="High" />
 	</Target>
 
-	<!-- Copy InfoPanel.Extras to plugin dir -->
-	<Target Name="BuildCopyExtrasDll" AfterTargets="Build">
-		<Message Text="Executing BuildCopyExtrasDll target" Importance="High" />
+	<!-- Copy InfoPanel.Extras to build output plugin dir -->
+	<Target Name="CopyExtrasToBuildOutput" AfterTargets="BuildExtras">
 		<MakeDir Directories="$(OutputPath)plugins" />
 		<ItemGroup>
-			<FilesToCopy Include="$(ExtrasOutputDir)\**\*.*" />
+			<ExtrasFiles Include="$(ExtrasOutputDir)\**\*.*" />
 		</ItemGroup>
-		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(OutputPath)\plugins\InfoPanel.Extras" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(ExtrasFiles)" DestinationFolder="$(OutputPath)\plugins\InfoPanel.Extras" SkipUnchangedFiles="true" />
+	</Target>
+
+	<!-- Copy InfoPanel.Extras to publish dir -->
+	<Target Name="CopyExtrasToPublishOutput" AfterTargets="Publish">
+		<!-- Get the output path for copying -->
+		<MSBuild Projects="..\InfoPanel.Extras\InfoPanel.Extras.csproj" Targets="GetTargetPath" Properties="Configuration=$(Configuration);Platform=$(Platform);TargetFramework=net8.0-windows;RuntimeIdentifier=win-x64">
+			<Output TaskParameter="TargetOutputs" PropertyName="_ExtrasAssemblyPath" />
+		</MSBuild>
+		<PropertyGroup>
+			<ExtrasOutputDir>$([System.IO.Path]::GetDirectoryName('$(_ExtrasAssemblyPath)'))</ExtrasOutputDir>
+		</PropertyGroup>
+		<MakeDir Directories="$(PublishDir)\plugins\InfoPanel.Extras" />
+		<ItemGroup>
+			<ExtrasFiles Include="$(ExtrasOutputDir)\**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ExtrasFiles)" DestinationFolder="$(PublishDir)\plugins\InfoPanel.Extras" SkipUnchangedFiles="true" />
 	</Target>
 
 	<Target Name="CleanPluginsDirectory" BeforeTargets="Clean">
 		<RemoveDir Directories="$(OutputPath)\plugins" />
-	</Target>
-
-	<!-- Copy InfoPanel.Extras to publish dir -->
-	<Target Name="PublishCopyExtrasDll" AfterTargets="Publish">
-		<Message Text="Executing PublishCopyExtrasDll target" Importance="High" />
-		<MakeDir Directories="$(PublishDir)\plugins\InfoPanel.Extras" />
-		<ItemGroup>
-			<FilesToCopy Include="$(ExtrasOutputDir)\**\*.*" />
-		</ItemGroup>
-		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(PublishDir)\plugins\InfoPanel.Extras" SkipUnchangedFiles="true" />
 	</Target>
 
 	<Target Name="Sign" AfterTargets="Publish">
@@ -53,27 +66,23 @@
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<DebugType>full</DebugType>
+		<WarningLevel>6</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugType>none</DebugType>
+		<WarningLevel>6</WarningLevel>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="d2dlibexport">
-			<HintPath>Lib\d2dlibexport.dll</HintPath>
-		</Reference>
-		<Reference Include="d2dwinform">
-			<HintPath>Lib\d2dwinform.dll</HintPath>
-		</Reference>
 		<Reference Include="LibreHardwareMonitorLib">
 			<HintPath>Lib\LibreHardwareMonitorLib.dll</HintPath>
 		</Reference>
 		<Reference Include="TuringSmartScreenLib">
 			<HintPath>Lib\TuringSmartScreenLib.dll</HintPath>
 		</Reference>
-		<Reference Include="TuringSmartScreenLib.Helpers.GDI">
-			<HintPath>Lib\TuringSmartScreenLib.Helpers.GDI.dll</HintPath>
+		<Reference Include="TuringSmartScreenLib.Helpers.SkiaSharp">
+		  <HintPath>Lib\TuringSmartScreenLib.Helpers.SkiaSharp.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
@@ -91,6 +100,7 @@
 		<None Remove="index.html" />
 		<None Remove="Logo.png" />
 		<None Remove="logo_white.png" />
+		<None Remove="Resources\Binaries\ffmpeg.exe" />
 		<None Remove="Resources\Images\home.jpg" />
 		<None Remove="Resources\Images\hwinfo_icon.ico" />
 		<None Remove="Resources\Images\hwinfo_logo_white.png" />
@@ -186,24 +196,37 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="AutoMapper" Version="14.0.0" />
 		<PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
-		<PackageReference Include="HidSharp" Version="2.1.0" />
-		<PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
+		<PackageReference Include="FlyleafLib" Version="3.9.3" />
+		<PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
+		<PackageReference Include="HidSharp" Version="2.6.4" />
+		<PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
+		<PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre506" />
 		<PackageReference Include="LibUsbDotNet" Version="2.2.75" />
-		<PackageReference Include="MahApps.Metro" Version="2.4.10" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
+		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
 		<PackageReference Include="SecureStore" Version="1.2.2" />
-		<PackageReference Include="Sentry" Version="5.3.0" />
-		<PackageReference Include="SkiaSharp" Version="3.116.1" />
-		<PackageReference Include="System.Drawing.Common" Version="9.0.2" />
-		<PackageReference Include="System.IO.Ports" Version="9.0.2" />
-		<PackageReference Include="System.Management" Version="9.0.2" />
-		<PackageReference Include="TaskScheduler" Version="2.12.1" />
-		<PackageReference Include="WPF-UI" Version="2.1.0" />
+		<PackageReference Include="Sentry" Version="5.16.1" />
+		<PackageReference Include="Serilog" Version="4.3.0" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+		<PackageReference Include="SkiaSharp" Version="3.119.1" />
+		<PackageReference Include="SkiaSharp.Views.WPF" Version="3.119.1" />
+		<PackageReference Include="Svg.Skia" Version="3.2.1" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.10" />
+		<PackageReference Include="System.IO.Ports" Version="9.0.10" />
+		<PackageReference Include="TaskScheduler" Version="2.12.2" />
+		<PackageReference Include="Topten.RichTextKit" Version="0.4.167" />
+		<PackageReference Include="WPF-UI" Version="3.1.1" />
+		<PackageReference Include="WPF-UI.Tray" Version="3.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -253,12 +276,36 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+		<EmbeddedResource Include="Resources\PawnIO_setup.exe" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Lib\d2dlib64.dll">
+		<None Update="FFmpeg\avcodec-61.dll">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<TargetPath>d2dlib64.dll</TargetPath>
+		</None>
+		<None Update="FFmpeg\avdevice-61.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\avfilter-10.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\avformat-61.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\avutil-59.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\ffmpeg.exe">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\postproc-58.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\swresample-5.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="FFmpeg\swscale-8.dll">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="NunitoSans_7pt_Condensed-BlackItalic.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -284,10 +331,6 @@
 		<None Update="NunitoSans_7pt_Condensed-SemiBoldItalic.ttf">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Resources\Binaries\ffmpeg.exe">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<Link>ffmpeg.exe</Link>
-		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -306,12 +349,7 @@
 		</Page>
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<Content Include="$(SolutionDir)InfoPanel.VolumePlugin\bin\$(Platform)\$(ConfigurationName)\$(TargetFramework)\InfoPanel.VolumePlugin.dll">
-			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<TargetPath>plugins\InfoPanel.VolumePlugin.dll</TargetPath>
-		</Content>
-	</ItemGroup>-->
-
+	<ItemGroup>
+	  <Folder Include="Resources\Binaries\" />
+	</ItemGroup>
 </Project>

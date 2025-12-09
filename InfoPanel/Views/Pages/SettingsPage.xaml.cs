@@ -1,14 +1,15 @@
-﻿using InfoPanel.ViewModels;
+﻿using InfoPanel.Models;
+using InfoPanel.Monitors;
+using InfoPanel.Services;
+using InfoPanel.Utils;
+using InfoPanel.ViewModels;
 using System;
-using System.Diagnostics;
+using Serilog;
 using System.IO;
-using System.IO.Ports;
-using System.Linq;
-using System.Management;
 using System.Net.NetworkInformation;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace InfoPanel.Views.Pages
 {
@@ -17,16 +18,14 @@ namespace InfoPanel.Views.Pages
     /// </summary>
     public partial class SettingsPage : Page
     {
+        private static readonly ILogger Logger = Log.ForContext<SettingsPage>();
         public SettingsViewModel ViewModel { get; }
 
-        private static readonly Timer debounceTimer = new Timer(500);  // 500 ms debounce period
-        private static bool deviceInserted = false;
-        private static bool deviceRemoved = false;
 
         public SettingsPage(SettingsViewModel viewModel)
         {
             ViewModel = viewModel;
-
+            DataContext = this;
             InitializeComponent();
             ComboBoxListenIp.Items.Add("127.0.0.1");
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -66,91 +65,6 @@ namespace InfoPanel.Views.Pages
             ComboBoxRefreshRate.Items.Add(300);
             ComboBoxRefreshRate.Items.Add(500);
             ComboBoxRefreshRate.Items.Add(1000);
-
-            foreach (var name in SerialPort.GetPortNames())
-            {
-                ViewModel.ComPorts.Add(name);
-            }
-
-            Loaded += (sender, args) =>
-            {
-                if (ConfigModel.Instance.Settings.BeadaPanelProfile == Guid.Empty)
-                {
-                    ConfigModel.Instance.Settings.BeadaPanelProfile = ConfigModel.Instance.Profiles.First().Guid;
-                }
-
-                if (ConfigModel.Instance.Settings.TuringPanelAProfile == Guid.Empty)
-                {
-                    ConfigModel.Instance.Settings.TuringPanelAProfile = ConfigModel.Instance.Profiles.First().Guid;
-                }
-
-                if (ConfigModel.Instance.Settings.TuringPanelCProfile == Guid.Empty)
-                {
-                    ConfigModel.Instance.Settings.TuringPanelCProfile = ConfigModel.Instance.Profiles.First().Guid;
-                }
-
-                if (ConfigModel.Instance.Settings.TuringPanelEProfile == Guid.Empty)
-                {
-                    ConfigModel.Instance.Settings.TuringPanelEProfile = ConfigModel.Instance.Profiles.First().Guid;
-                }
-            };
-
-            debounceTimer.Elapsed += DebounceTimer_Elapsed;
-            debounceTimer.AutoReset = false;
-
-            var watcher = new ManagementEventWatcher();
-            var query = new WqlEventQuery("SELECT * FROM Win32_DeviceChangeEvent WHERE EventType = 2 OR EventType = 3");
-
-            watcher.EventArrived += new EventArrivedEventHandler(HandleEvent);
-            watcher.Query = query;
-            watcher.Start();
-        }
-
-        private void DebounceTimer_Elapsed(object? sender, ElapsedEventArgs e)
-        {
-            if (deviceInserted)
-            {
-                Trace.WriteLine("A USB device was inserted.");
-                deviceInserted = false;
-            }
-            if (deviceRemoved)
-            {
-                Trace.WriteLine("A USB device was removed.");
-                deviceRemoved = false;
-            }
-
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                ViewModel.ComPorts.Clear();
-                foreach (var name in SerialPort.GetPortNames())
-                {
-                    if(!ViewModel.ComPorts.Contains(name))
-                    {
-                        ViewModel.ComPorts.Add(name);
-                    }
-                }
-                ComboBoxTuringPanelAPort.SelectedValue = ConfigModel.Instance.Settings.TuringPanelAPort;
-                ComboBoxTuringPanelCPort.SelectedValue = ConfigModel.Instance.Settings.TuringPanelCPort;
-                ComboBoxTuringPanelEPort.SelectedValue = ConfigModel.Instance.Settings.TuringPanelEPort;
-            }));
-          
-        }
-
-        private void HandleEvent(object sender, EventArrivedEventArgs e)
-        {
-            switch ((UInt16)e.NewEvent.Properties["EventType"].Value)
-            {
-                case 2:
-                    deviceInserted = true;
-                    debounceTimer.Stop();
-                    debounceTimer.Start();
-                    break;
-                case 3:
-                    deviceRemoved = true;
-                    debounceTimer.Stop();
-                    debounceTimer.Start();
-                    break;
-            }
         }
 
         private void ButtonOpenDataFolder_Click(object sender, RoutedEventArgs e)
@@ -159,27 +73,81 @@ namespace InfoPanel.Views.Pages
             Process.Start(new ProcessStartInfo("explorer.exe", path));
         }
 
-        private void ComboBoxTuringPanelAPort_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ButtonCheckPawnIO_Click(object sender, RoutedEventArgs e)
         {
-            if (ComboBoxTuringPanelAPort.SelectedValue is string value)
+            try
             {
-                ConfigModel.Instance.Settings.TuringPanelAPort = value;
-            }
-        }
+                Logger.Information("Checking PawniO status from Settings page");
 
-        private void ComboBoxTuringPanelCPort_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(ComboBoxTuringPanelCPort.SelectedValue is string value)
-            {
-                ConfigModel.Instance.Settings.TuringPanelCPort = value;
-            }
-        }
+                // Refresh status
+                ViewModel.RefreshPawnIOStatus();
 
-        private void ComboBoxTuringPanelEPort_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ComboBoxTuringPanelEPort.SelectedValue is string value)
+                // If not installed or requires update, offer to install/update
+                if (!PawnIoHelper.IsInstalled || PawnIoHelper.RequiresUpdate)
+                {
+                    string message;
+                    if (PawnIoHelper.RequiresUpdate)
+                    {
+                        message = $"PawniO is outdated (v{PawnIoHelper.Version}).\n\n" +
+                                 $"LibreHardwareMonitor requires PawniO v2.0.0.0 or higher.\n\n" +
+                                 "Would you like to update it now?";
+                    }
+                    else
+                    {
+                        message = "PawniO is not installed.\n\n" +
+                                 "LibreHardwareMonitor requires PawniO for low-level hardware access.\n\n" +
+                                 "Would you like to install it now?";
+                    }
+
+                    var result = MessageBox.Show(
+                        message,
+                        "PawniO Driver",
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        bool success = PawnIoHelper.InstallOrUpdate();
+
+                        if (success && PawnIoHelper.IsInstalled)
+                        {
+                            ViewModel.RefreshPawnIOStatus();
+
+                            // Restart LibreMonitor if it's running to load the new driver
+                            if (ConfigModel.Instance.Settings.LibreHardwareMonitor)
+                            {
+                                Logger.Information("Restarting LibreMonitor to load PawniO driver");
+                                await LibreMonitor.Instance.StopAsync();
+                                await LibreMonitor.Instance.StartAsync();
+                                Logger.Information("LibreMonitor restarted successfully");
+                            }
+
+                            MessageBox.Show(
+                                $"PawniO v{PawnIoHelper.Version} has been installed successfully.\n\n" +
+                                "LibreHardwareMonitor has been restarted to load the driver.",
+                                "Installation Complete",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"PawniO v{PawnIoHelper.Version} is installed and up to date.",
+                        "PawniO Status",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
             {
-                ConfigModel.Instance.Settings.TuringPanelEPort = value;
+                Logger.Error(ex, "Error checking PawniO status");
+                MessageBox.Show(
+                    "An error occurred while checking PawniO status. See logs for details.",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

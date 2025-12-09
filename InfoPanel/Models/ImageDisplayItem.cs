@@ -1,15 +1,38 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using InfoPanel.Extensions;
+using SkiaSharp;
 using System;
-using System.Drawing;
 using System.IO;
-using System.Windows;
 
 namespace InfoPanel.Models
 {
     [Serializable]
     public partial class ImageDisplayItem : DisplayItem
     {
+        public enum ImageType
+        {
+            FILE, URL, RTSP
+        }
+
+        private ImageType _type = ImageType.FILE;
+        public ImageType Type
+        {
+            get { return _type; }
+            set
+            {
+                SetProperty(ref _type, value);
+                OnPropertyChanged(nameof(CalculatedPath));
+            }
+        }
+
+        public bool ReadOnly
+        {
+            get { return false; }
+            set { /* Do nothing, as this is always writable */ }
+        }
+
+        [ObservableProperty]
+        private bool _showPanel = false;
+
         private string? _filePath;
         public string? FilePath
         {
@@ -33,18 +56,77 @@ namespace InfoPanel.Models
             }
         }
 
+        [ObservableProperty]
+        private int _volume = 0;
+
+        private string? _rtspUrl;
+
+        public string? RtspUrl
+        {
+            get { return _rtspUrl; }
+            set
+            {
+                var previousValue = _rtspUrl;
+                if (string.IsNullOrEmpty(value) 
+                    || value.StartsWith("rtsp://", StringComparison.OrdinalIgnoreCase) 
+                    || value.StartsWith("rtsps://"))
+                {
+                    SetProperty(ref _rtspUrl, value);
+                    OnPropertyChanged(nameof(CalculatedPath));
+                    if (!string.IsNullOrEmpty(previousValue))
+                    {
+                        InfoPanel.Cache.InvalidateImage(previousValue);
+                    }
+                }
+            }
+        }
+
+        private string? _httpUrl;
+
+        public string? HttpUrl
+        {
+            get { return _httpUrl; }
+            set
+            {
+                var previousValue = _httpUrl;
+                if (string.IsNullOrEmpty(value)
+                     || value.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                     || value.StartsWith("https://"))
+                {
+                    SetProperty(ref _httpUrl, value);
+                    OnPropertyChanged(nameof(CalculatedPath));
+
+                    if (!string.IsNullOrEmpty(previousValue))
+                    {
+                        InfoPanel.Cache.InvalidateImage(previousValue);
+                    }
+                }
+            }
+        }
+
         public string? CalculatedPath
         {
             get
             {
-                if(RelativePath)
+                if (Type == ImageType.RTSP)
+                {
+                    return RtspUrl;
+                }
+
+                if (Type == ImageType.URL)
+                {
+                    return HttpUrl;
+                }
+
+                if (RelativePath)
                 {
                     if (FilePath != null)
                     {
                         return Path.Combine(
                             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                             "InfoPanel", "assets", ProfileGuid.ToString(), FilePath);
-                    } else
+                    }
+                    else
                     {
                         return null;
                     }
@@ -64,6 +146,17 @@ namespace InfoPanel.Models
             }
         }
 
+        private bool _persistentCache = false;
+        [System.Xml.Serialization.XmlIgnore]
+        public bool PersistentCache
+        {
+            get { return _persistentCache; }
+            set
+            {
+                SetProperty(ref _persistentCache, value);
+            }
+        }
+
         private int _scale = 100;
         public int Scale
         {
@@ -79,16 +172,6 @@ namespace InfoPanel.Models
 
         [ObservableProperty]
         private int _height = 0;
-
-        private int _rotation = 0;
-        public int Rotation
-        {
-            get { return _rotation; }
-            set
-            {
-                SetProperty(ref _rotation, value);
-            }
-        }
 
         private bool _layer = false;
         public bool Layer
@@ -111,14 +194,14 @@ namespace InfoPanel.Models
                     return;
                 }
 
-                if (!value.StartsWith("#"))
+                if (!value.StartsWith('#'))
                 {
                     value = "#" + value;
                 }
 
                 try
                 {
-                    ColorTranslator.FromHtml(value);
+                    SKColor.Parse(value);
                     SetProperty(ref _layerColor, value);
                 }
                 catch
@@ -130,13 +213,11 @@ namespace InfoPanel.Models
         public ImageDisplayItem()
         { }
 
-        public ImageDisplayItem(string name, Guid profileGuid): base()
+        public ImageDisplayItem(string name, Profile profile) : base(name, profile)
         {
-            this.Name = name;
-            this.ProfileGuid= profileGuid;
         }
 
-        public ImageDisplayItem(string name, Guid profileGuid, string filePath, bool relativePath) : base(name, profileGuid)
+        public ImageDisplayItem(string name, Profile profile, string filePath, bool relativePath) : base(name, profile)
         {
             this.FilePath = filePath;
             this.RelativePath = relativePath;
@@ -157,13 +238,13 @@ namespace InfoPanel.Models
             return (Name, "#000000");
         }
 
-        public override SizeF EvaluateSize()
+        public override SKSize EvaluateSize()
         {
-            var result = new SizeF(Width, Height);
+            var result = new SKSize(Width, Height);
 
             if (CalculatedPath != null)
             {
-                var cachedImage = InfoPanel.Cache.GetLocalImage(CalculatedPath);
+                var cachedImage = InfoPanel.Cache.GetLocalImage(this, false);
                 if (cachedImage != null)
                 {
                     if (result.Width == 0)
@@ -171,19 +252,19 @@ namespace InfoPanel.Models
                         result.Width = cachedImage.Width;
                     }
 
-                    if(result.Height == 0)
+                    if (result.Height == 0)
                     {
                         result.Height = cachedImage.Height;
                     }
                 }
             }
 
-            if(result.Width != 0)
+            if (result.Width != 0)
             {
                 result.Width *= Scale / 100.0f;
             }
 
-            if(result.Height != 0)
+            if (result.Height != 0)
             {
                 result.Height *= Scale / 100.0f;
             }
@@ -191,10 +272,10 @@ namespace InfoPanel.Models
             return result;
         }
 
-        public override Rect EvaluateBounds()
+        public override SKRect EvaluateBounds()
         {
             var size = EvaluateSize();
-            return new Rect(X, Y, size.Width, size.Height);
+            return new SKRect(X, Y, X + size.Width, Y + size.Height);
         }
 
         public override object Clone()
@@ -202,10 +283,6 @@ namespace InfoPanel.Models
             var clone = (DisplayItem)MemberwiseClone();
             clone.Guid = Guid.NewGuid();
             return clone;
-        }
-        public override void SetProfileGuid(Guid profileGuid)
-        {
-            ProfileGuid = profileGuid;
         }
     }
 }

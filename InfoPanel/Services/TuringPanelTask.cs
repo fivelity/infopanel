@@ -1,314 +1,180 @@
-﻿using InfoPanel.Extensions;
 using InfoPanel.Models;
 using InfoPanel.TuringPanel;
-using InfoPanel.Utils;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InfoPanel
+namespace InfoPanel.Services
 {
     public sealed class TuringPanelTask : BackgroundTask
     {
+        private static readonly ILogger Logger = Log.ForContext<TuringPanelTask>();
         private static readonly Lazy<TuringPanelTask> _instance = new(() => new TuringPanelTask());
 
-        private volatile int _panelWidth = 480;
-        private volatile int _panelHeight = 1920;
+        private readonly ConcurrentDictionary<string, BackgroundTask> _deviceTasks = new();
 
         public static TuringPanelTask Instance => _instance.Value;
 
         private TuringPanelTask() { }
 
-        private static int _maxSize = 1024 * 1024; // 1MB
-
-        public byte[]? GenerateLcdBuffer()
+        public async Task StartDevice(TuringPanelDevice device)
         {
-            var profileGuid = ConfigModel.Instance.Settings.TuringPanelProfile;
-
-            if (ConfigModel.Instance.GetProfile(profileGuid) is Profile profile)
+            if (_deviceTasks.TryGetValue(device.Id, out var task))
             {
-                using var bitmap = PanelDrawTask.Render(profile, false, videoBackgroundFallback: true, pixelFormat: PixelFormat.Format16bppRgb565, overrideDpi: true);
-                var rotation = ConfigModel.Instance.Settings.TuringPanelRotation;
-                if (rotation != ViewModels.LCD_ROTATION.RotateNone)
-                {
-                    var rotateFlipType = (RotateFlipType)Enum.ToObject(typeof(RotateFlipType), rotation);
-                    bitmap.RotateFlip(rotateFlipType);
-                }
-
-                using var resizedBitmap = (_panelWidth == 0 || _panelHeight == 0)
-                   ? BitmapExtensions.EnsureBitmapSize(bitmap, bitmap.Width, bitmap.Height)
-                   : BitmapExtensions.EnsureBitmapSize(bitmap, _panelWidth, _panelHeight);
-
-                return BlackOutEdgesUntilUnderSize(resizedBitmap, _maxSize);
-
+                await task.StopAsync();
+                _deviceTasks.TryRemove(device.Id, out _);
             }
 
-            return null;
+            var modelInfo = device.ModelInfo;
+
+            if (modelInfo != null)
+            {
+                BackgroundTask deviceTask;
+                switch (modelInfo.Model)
+                {
+                    case TuringPanelModel.REV_8INCH_USB:
+                        deviceTask = new TuringPanelUsbDeviceTask(device);
+                        break;
+                    case TuringPanelModel.TURING_3_5:
+                    case TuringPanelModel.REV_2INCH:
+                    case TuringPanelModel.REV_5INCH:
+                    case TuringPanelModel.REV_8INCH:
+                        deviceTask = new TuringPanelSerialTask(device);
+                        break;
+                    default:
+                        Logger.Error("TuringPanel: Unsupported model {Model} for device {DeviceId}", modelInfo.Model, device.Id);
+                        return;
+                }
+
+                if (_deviceTasks.TryAdd(device.Id, deviceTask))
+                {
+                    await deviceTask.StartAsync(CancellationToken);
+                    Logger.Information("Started TuringPanel device {Device}", device);
+                }
+            }
+            else
+            {
+                Logger.Error("TuringPanel: Unknown device model {Model} for device {DeviceId}",
+                    device.Model, device.Id);
+                return;
+            }
         }
 
-        public static byte[] BitmapToPngBytes(Bitmap bitmap)
+        public async Task StopDevice(string deviceId)
         {
-            //var sw = new Stopwatch();
-            //sw.Start();
-            using var ms = new MemoryStream();
-            bitmap.Save(ms, ImageFormat.Png);
-            //Trace.WriteLine($"BitmapToPngBytes: {sw.ElapsedMilliseconds}ms");
-            return ms.ToArray();
+            if (_deviceTasks.TryRemove(deviceId, out var deviceTask))
+            {
+                await deviceTask.StopAsync();
+                Logger.Information("Stopped TuringPanel device {DeviceId}", deviceId);
+            }
+        }
+
+        public async Task StopAllDevices()
+        {
+            var tasks = new List<Task>();
+
+            foreach (var kvp in _deviceTasks.ToList())
+            {
+                if (_deviceTasks.TryRemove(kvp.Key, out var deviceTask))
+                {
+                    tasks.Add(Task.Run(async () =>
+                    {
+                        await deviceTask.StopAsync();
+                    }));
+                }
+            }
+
+            await Task.WhenAll(tasks);
+            Logger.Information("Stopped all TuringPanel devices");
+        }
+
+        public bool IsDeviceRunning(string deviceId)
+        {
+            if (_deviceTasks.TryGetValue(deviceId, out var task))
+            {
+                return task.IsRunning;
+            }
+
+            return false;
         }
 
         protected override async Task DoWorkAsync(CancellationToken token)
         {
             await Task.Delay(300, token);
+
             try
             {
-                using var device = new TuringDevice();
+                var settings = ConfigModel.Instance.Settings;
 
-                if (!device.Initialize())
+                Logger.Debug("TuringPanel: DoWorkAsync starting - MultiDeviceMode: {MultiDeviceMode}",
+                    settings.TuringPanelMultiDeviceMode);
+
+                if (settings.TuringPanelMultiDeviceMode)
                 {
-                    Trace.WriteLine("Failed to initialize the device.");
-                    return;
+                    await RunMultiDeviceMode(token);
                 }
-
-                SharedModel.Instance.TuringPanelRunning = true;
-
-                try
+                else
                 {
-                    device.DelaySync();
-                    device.DelaySync();
-
-                    //set brightness
-                    var brightness = ConfigModel.Instance.Settings.TuringPanelBrightness;
-                    device.SendBrightnessCommand((byte)brightness);
-
-                    device.DelaySync();
-
-                    var fpsCounter = new FpsCounter();
-                    var stopwatch = new Stopwatch();
-
-                    var queue = new ConcurrentQueue<byte[]>();
-
-                    var renderTask = Task.Run(async () =>
-                    {
-                        var stopwatch1 = new Stopwatch();
-                        while (!token.IsCancellationRequested)
-                        {
-                            stopwatch1.Restart();
-                            var frame = GenerateLcdBuffer();
-                            //Trace.WriteLine($"GenerateBuffer {stopwatch1.ElapsedMilliseconds}ms");
-                            if (frame != null)
-                                queue.Enqueue(frame);
-
-                            // Remove oldest if over capacity
-                            while (queue.Count > 2)
-                            {
-                                queue.TryDequeue(out _);
-                            }
-
-                            var targetFrameTime = 1000.0 / ConfigModel.Instance.Settings.TargetFrameRate;
-                            if (stopwatch1.ElapsedMilliseconds < targetFrameTime)
-                            {
-                                var sleep = (int)(targetFrameTime - stopwatch1.ElapsedMilliseconds);
-                                //Trace.WriteLine($"Sleep {sleep}ms");
-                                await Task.Delay(sleep, token);
-                            }
-                        }
-                    }, token);
-
-                    var sendTask = Task.Run(async () =>
-                    {
-                        var stopwatch2 = new Stopwatch();
-                        while (!token.IsCancellationRequested)
-                        {
-                            if (brightness != ConfigModel.Instance.Settings.TuringPanelBrightness)
-                            {
-                                brightness = ConfigModel.Instance.Settings.TuringPanelBrightness;
-                                device.SendBrightnessCommand((byte)brightness);
-                                device.DelaySync();
-                            }
-
-                            if (queue.TryDequeue(out var frame))
-                            {
-                                stopwatch2.Restart();
-                                SendPngBytes(device, frame);
-                                //Trace.WriteLine($"Post render: {stopwatch2.ElapsedMilliseconds}ms.");
-                                device.ReadFlush();
-                                fpsCounter.Update();
-
-                                //Trace.WriteLine($"FPS: {fpsCounter.FramesPerSecond}");
-
-                                SharedModel.Instance.TuringPanelFrameRate = fpsCounter.FramesPerSecond;
-                                SharedModel.Instance.TuringPanelFrameTime = stopwatch2.ElapsedMilliseconds;
-
-                                var targetFrameTime = 1000.0 / ConfigModel.Instance.Settings.TargetFrameRate;
-                                if (stopwatch2.ElapsedMilliseconds < targetFrameTime)
-                                {
-                                    var sleep = (int)(targetFrameTime - stopwatch2.ElapsedMilliseconds);
-                                    //Trace.WriteLine($"Sleep {sleep}ms");
-                                    await Task.Delay(sleep, token);
-                                }
-                            }
-                            else
-                            {
-                                await Task.Delay(10);
-                            }
-                        }
-                    }, token);
-
-
-                    await Task.WhenAll(renderTask, sendTask);
-                }
-                catch (TaskCanceledException)
-                {
-                    Trace.WriteLine("Task cancelled");
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine($"Exception during work: {ex.Message}");
-                }
-                finally
-                {
-                    try
-                    {
-                        if (_shutdown)
-                        {
-                            device.SendBrightnessCommand(0);
-                        }
-                        else
-                        {
-                            //draw splash
-                            using var bitmap = PanelDrawTask.RenderSplash(_panelWidth, _panelHeight, pixelFormat: PixelFormat.Format16bppRgb565,
-                            rotateFlipType: (RotateFlipType)Enum.ToObject(typeof(RotateFlipType), ConfigModel.Instance.Settings.TuringPanelRotation));
-                            SendPngBytes(device, BitmapToPngBytes(bitmap));
-                            device.ReadFlush();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine($"Exception when sending ResetTag: {ex.Message}");
-                    }
-
+                    Logger.Debug("TuringPanel: Multi-device mode is disabled. No devices will be started.");
                 }
             }
             catch (Exception e)
             {
-                Trace.WriteLine("BeadaPanel: Init error");
-            }
-            finally
-            {
-                SharedModel.Instance.TuringPanelRunning = false;
+                Logger.Error(e, "TuringPanel: Error in DoWorkAsync");
             }
         }
 
-        public static byte[] BlackOutEdgesUntilUnderSize(Bitmap original, int maxSizeBytes)
+        private async Task RunMultiDeviceMode(CancellationToken token)
         {
-            byte[] pngBytes = BitmapToPngBytes(original);
+            Logger.Debug("TuringPanel: Starting multi-device mode");
 
-            if (pngBytes.Length <= maxSizeBytes)
+            while (!token.IsCancellationRequested)
             {
-                return pngBytes;
-            }
-
-            int width = original.Width;
-            int height = original.Height;
-
-            int border = 10;
-            int passCount = 0;
-            int totalBorder = 0;
-
-            using Graphics g = Graphics.FromImage(original);
-
-            int previousSize = pngBytes.Length;
-
-            while (true)
-            {
-                passCount++;
-                totalBorder += border;
-
-                if (totalBorder * 2 >= width || totalBorder * 2 >= height)
-                    throw new Exception("Cannot reduce image size under limit by blacking out edges.");
-
-                ApplyBlackBorder(g, width, height, totalBorder);
-                pngBytes = BitmapToPngBytes(original);
-                int newSize = pngBytes.Length;
-                int sizeDiff = previousSize - newSize;
-
-                Trace.WriteLine($"Pass {passCount}: PNG size = {newSize} bytes, reduced by {sizeDiff} bytes");
-
-                if (newSize <= maxSizeBytes)
+                try
                 {
-                    Trace.WriteLine($"Image reduced under size limit in {passCount} passes.");
-                    return pngBytes;
+                    var settings = ConfigModel.Instance.Settings;
+
+                    // Exit if multi-device mode was turned off
+                    if (!settings.TuringPanelMultiDeviceMode)
+                    {
+                        Logger.Debug("TuringPanel: Multi-device mode turned off, exiting loop");
+                        break;
+                    }
+
+                    // Start enabled devices that aren't running
+                    var enabledConfigs = settings.TuringPanelDevices.Where(d => d.Enabled).ToList();
+
+                    foreach (var config in enabledConfigs)
+                    {
+                        var configId = config.Id;
+                        if (!IsDeviceRunning(configId))
+                        {
+                            await StartDevice(config);
+                        }
+                    }
+
+                    // Stop devices that are no longer enabled
+                    var runningDeviceIds = _deviceTasks.Keys.ToList();
+                    foreach (var deviceId in runningDeviceIds)
+                    {
+                        if (!enabledConfigs.Any(c => c.Id == deviceId))
+                        {
+                            await StopDevice(deviceId);
+                        }
+                    }
+
+                    await Task.Delay(1000, token);
                 }
-
-                if (sizeDiff <= 0)
-                    throw new Exception("Blackout no longer reducing size. Cannot proceed.");
-
-                // Re-estimate how much more needs to be reduced
-                int bytesToReduce = newSize - maxSizeBytes;
-
-                // Estimate how many more passes needed at current effectiveness
-                int estimatedPasses = (int)Math.Ceiling((double)bytesToReduce / sizeDiff);
-
-                // Estimate next border increment
-                int baseBorder = Math.Max(10, (int)Math.Ceiling((double)(width + height) / 200));
-
-                // Cap estimated passes to avoid over-aggressive blackout
-                estimatedPasses = Math.Min(estimatedPasses, 3);
-
-                // Grow border more gradually
-                border = baseBorder + (estimatedPasses - 1) * (baseBorder / 2);
-
-                // Clamp to avoid over-blackout
-                int maxBorder = Math.Min(width, height) / 2 - totalBorder - 1;
-                border = Math.Min(border, maxBorder);
-
-                previousSize = newSize;
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "TuringPanel: Error in RunMultiDeviceMode");
+                    await Task.Delay(1000, token); // Wait longer on error
+                }
             }
-
-        }
-
-        private static void ApplyBlackBorder(Graphics g, int width, int height, int border)
-        {
-            // Fill top
-            g.FillRectangle(Brushes.Black, 0, 0, width, border);
-            // Fill bottom
-            g.FillRectangle(Brushes.Black, 0, height - border, width, border);
-            // Fill left
-            g.FillRectangle(Brushes.Black, 0, border, border, height - 2 * border);
-            // Fill right
-            g.FillRectangle(Brushes.Black, width - border, border, border, height - 2 * border);
-        }
-
-
-
-        private static bool SendPngBytes(TuringDevice device, byte[] pngData)
-        {
-            int imgSize = pngData.Length;
-            byte[] cmdPacket = device.BuildCommandPacketHeader(102);
-
-            // Set image size in the packet (big-endian)
-            cmdPacket[8] = (byte)((imgSize >> 24) & 0xFF);
-            cmdPacket[9] = (byte)((imgSize >> 16) & 0xFF);
-            cmdPacket[10] = (byte)((imgSize >> 8) & 0xFF);
-            cmdPacket[11] = (byte)(imgSize & 0xFF);
-
-            // Encrypt the command packet
-            byte[] encryptedPacket = device.EncryptCommandPacket(cmdPacket);
-
-            // Combine the encrypted packet with the image data
-            byte[] fullPayload = new byte[encryptedPacket.Length + pngData.Length];
-            Buffer.BlockCopy(encryptedPacket, 0, fullPayload, 0, encryptedPacket.Length);
-            Buffer.BlockCopy(pngData, 0, fullPayload, encryptedPacket.Length, pngData.Length);
-
-            // Write the payload to the device
-            return device.WriteToDevice(fullPayload);
         }
     }
-
-
 }

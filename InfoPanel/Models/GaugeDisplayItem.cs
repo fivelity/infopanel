@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using InfoPanel.Enums;
+using SkiaSharp;
 using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
-using System.Windows;
 
 namespace InfoPanel.Models
 {
@@ -143,7 +142,7 @@ namespace InfoPanel.Models
         private bool forward = true;
         private int counter = 0;
 
-        public string? DisplayImage
+        public ImageDisplayItem? DisplayImage
         {
             get
             {
@@ -166,7 +165,7 @@ namespace InfoPanel.Models
                     forward = true;
                 }
 
-                var result = _images.ElementAt(counter).CalculatedPath;
+                var result = _images.ElementAt(counter);
                 if (forward)
                 {
                     counter++;
@@ -190,19 +189,19 @@ namespace InfoPanel.Models
             Name = "Gauge";
         }
 
-        public GaugeDisplayItem(string name) : base(name)
+        public GaugeDisplayItem(string name, Profile profile) : base(name, profile)
         {
             SensorName = name;
         }
 
-        public GaugeDisplayItem(string name, string libreSensorId) : base(name)
+        public GaugeDisplayItem(string name, Profile profile, string libreSensorId) : base(name, profile)
         {
             SensorName = name;
             SensorType = SensorType.Libre;
             LibreSensorId = libreSensorId;
         }
 
-        public GaugeDisplayItem(string name, UInt32 id, UInt32 instance, UInt32 entryId) : base(name)
+        public GaugeDisplayItem(string name, Profile profile, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, profile)
         {
             SensorName = name;
             SensorType = SensorType.HwInfo;
@@ -294,28 +293,24 @@ namespace InfoPanel.Models
             return interpolatedValue;
         }
 
-        public override Rect EvaluateBounds()
+        public override SKRect EvaluateBounds()
         {
             var size = EvaluateSize();
-            return new Rect(X, Y, size.Width, size.Height);
+            return new SKRect(X, Y, X + size.Width, Y + size.Height);
         }
 
-        public override SizeF EvaluateSize()
+        public override SKSize EvaluateSize()
         {
             if(Width != 0 && Height != 0)
             {
-                return new SizeF(Width, Height);
+                return new SKSize(Width, Height);
             }
 
-            var result = new SizeF(0, 0);
+            var result = new SKSize(0, 0);
 
             if(CurrentImage != null)
             {
-                Cache.GetLocalImage(CurrentImage)?.Access(image =>
-                {
-                    result.Width = (int)(image.Width * Scale / 100.0f);
-                    result.Height = (int)(image.Height * Scale / 100.0f);
-                });
+                return CurrentImage.EvaluateSize();
             }
 
             return result;
@@ -336,13 +331,14 @@ namespace InfoPanel.Models
             return (Name, "#000000");
         }
 
-        public override void SetProfileGuid(Guid profileGuid)
+        public override void SetProfile(Profile profile)
         {
-            ProfileGuid = profileGuid;
+            base.SetProfile(profile);
 
             foreach (var imageDisplayItem in Images)
             {
-                imageDisplayItem.SetProfileGuid(profileGuid);
+                imageDisplayItem.SetProfile(profile);
+                imageDisplayItem.PersistentCache = true; // Ensure gauge images never expire
             }
         }
 
@@ -357,6 +353,7 @@ namespace InfoPanel.Models
             {
                 var cloneImage = (ImageDisplayItem) imageDisplayItem.Clone();
                 cloneImage.Guid = Guid.NewGuid();
+                cloneImage.PersistentCache = true; // Ensure gauge images never expire
                 clone.Images.Add(cloneImage);
             }
 

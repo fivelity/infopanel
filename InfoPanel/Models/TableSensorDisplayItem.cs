@@ -1,16 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using InfoPanel.Drawing;
-using InfoPanel.Views.Components;
-using Sentry;
+using SkiaSharp;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
 
 namespace InfoPanel.Models
 {
@@ -43,12 +35,12 @@ namespace InfoPanel.Models
             SensorName = string.Empty;
         }
 
-        public TableSensorDisplayItem(string name) : base(name)
+        public TableSensorDisplayItem(string name, Profile profile) : base(name, profile)
         {
             SensorName = name;
         }
 
-        public TableSensorDisplayItem(string name, string pluginSensorId) : base(name)
+        public TableSensorDisplayItem(string name, Profile profile, string pluginSensorId) : base(name, profile)
         {
             SensorName = name;
             SensorType = Enums.SensorType.Plugin;
@@ -60,17 +52,17 @@ namespace InfoPanel.Models
             return SensorReader.ReadPluginSensor(PluginSensorId);
         }
 
-        public override SizeF EvaluateSize()
+        public override SKSize EvaluateSize()
         {
-            using Bitmap bitmap = new(1, 1);
-            using Graphics g = Graphics.FromImage(bitmap);
-            using Font font = new(Font, FontSize);
-            var measuredSize = g.MeasureString("A", font, 0, StringFormat.GenericTypographic);
+
+            var skiaGraphics = SkiaGraphics.FromEmpty(Profile.FontScale);
+            var text = "A";
+            var (_, height) = skiaGraphics.MeasureString(text, Font, FontStyle, FontSize, Bold, Italic, Underline, Strikeout, Wrap, Ellipsis, Width, Height);
 
             if (GetValue() is SensorReading sensorReading && sensorReading.ValueTable is DataTable table)
             {
                 var formatParts = TableFormat.Split('|');
-                var sizeF = new SizeF(0, measuredSize.Height * (MaxRows + (ShowHeader ? 1: 0)));
+                var sizeF = new SKSize(0, height * (MaxRows + (ShowHeader ? 1: 0)));
 
                 for (int i = 0; i < formatParts.Length; i++)
                 {
@@ -99,22 +91,17 @@ namespace InfoPanel.Models
             return "Invalid sensor";
         }
 
-        public override Rect EvaluateBounds()
+        public override SKRect EvaluateBounds()
         {
             var size = EvaluateSize();
             if (GetValue() is SensorReading sensorReading && sensorReading.ValueTable is not null)
             {
-                return new Rect(X, Y, size.Width, size.Height);
-            }else
+                return new SKRect(X, Y, X + size.Width, Y + size.Height);
+            }
+            else
             {
-                if (RightAlign)
-                {
-                    return new Rect(X - size.Width, Y, size.Width, size.Height);
-                }
-                else
-                {
-                    return new Rect(X, Y, size.Width, size.Height);
-                }
+                int rectX = Width == 0 && RightAlign ? (int)(X - size.Width) : X;
+                return new SKRect(rectX, Y, rectX + size.Width, Y + size.Height);
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Drawing;
 
 namespace InfoPanel.Models
 {
@@ -113,13 +112,7 @@ namespace InfoPanel.Models
                     value = "#" + value;
                 }
 
-                try
-                {
-                    ColorTranslator.FromHtml(value);
-                    SetProperty(ref _threshold1Color, value);
-                }
-                catch
-                { }
+                SetProperty(ref _threshold1Color, value);
             }
         }
 
@@ -149,13 +142,7 @@ namespace InfoPanel.Models
                     value = "#" + value;
                 }
 
-                try
-                {
-                    ColorTranslator.FromHtml(value);
-                    SetProperty(ref _threshold2Color, value);
-                }
-                catch
-                { }
+                SetProperty(ref _threshold2Color, value);
             }
         }
 
@@ -257,19 +244,19 @@ namespace InfoPanel.Models
             SensorName = string.Empty;
         }
 
-        public SensorDisplayItem(string name) : base(name)
+        public SensorDisplayItem(string name, Profile profile) : base(name, profile)
         {
             SensorName = name;
         }
 
-        public SensorDisplayItem(string name, string libreSensorId) : base(name)
+        public SensorDisplayItem(string name, Profile profile, string libreSensorId) : base(name, profile)
         {
             SensorName = name;
             SensorType = Enums.SensorType.Libre;
             LibreSensorId = libreSensorId;
         }
 
-        public SensorDisplayItem(string name, uint id, uint instance, uint entryId) : base(name)
+        public SensorDisplayItem(string name, Profile profile, uint id, uint instance, uint entryId) : base(name, profile)
         {
             SensorName = name;
             SensorType = Enums.SensorType.HwInfo;

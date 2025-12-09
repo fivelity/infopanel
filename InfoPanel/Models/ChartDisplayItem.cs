@@ -1,7 +1,7 @@
-﻿using InfoPanel.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InfoPanel.Enums;
+using SkiaSharp;
 using System;
-using System.Drawing;
-using System.Windows;
 
 namespace InfoPanel.Models
 {
@@ -179,14 +179,14 @@ namespace InfoPanel.Models
                     return;
                 }
 
-                if (!value.StartsWith("#"))
+                if (!value.StartsWith('#'))
                 {
                     value = "#" + value;
                 }
 
                 try
                 {
-                    ColorTranslator.FromHtml(value);
+                    SKColor.Parse(value);
                     SetProperty(ref _frameColor, value);
                 }
                 catch
@@ -215,14 +215,14 @@ namespace InfoPanel.Models
                     return;
                 }
 
-                if (!value.StartsWith("#"))
+                if (!value.StartsWith('#'))
                 {
                     value = "#" + value;
                 }
 
                 try
                 {
-                    ColorTranslator.FromHtml(value);
+                    SKColor.Parse(value);
                     SetProperty(ref _backgroundColor, value);
                 }
                 catch
@@ -241,14 +241,14 @@ namespace InfoPanel.Models
                     return;
                 }
 
-                if (!value.StartsWith("#"))
+                if (!value.StartsWith('#'))
                 {
                     value = "#" + value;
                 }
 
                 try
                 {
-                    ColorTranslator.FromHtml(value);
+                    SKColor.Parse(value);
                     SetProperty(ref _color, value);
                 }
                 catch
@@ -259,24 +259,22 @@ namespace InfoPanel.Models
 
         public ChartDisplayItem() { }
 
-        public ChartDisplayItem(string name) : base(name)
+        public ChartDisplayItem(string name, Profile profile) : base(name, profile)
         {
             SensorName = name;
         }
 
-        public ChartDisplayItem(string name, string libreSensorId) : base(name)
+        public ChartDisplayItem(string name, Profile profile, string libreSensorId) : base(name, profile)
         {
             SensorName = name;
             SensorType = SensorType.Libre;
             LibreSensorId = libreSensorId;
         }
 
-        public ChartDisplayItem(string name, UInt32 id, UInt32 instance, UInt32 entryId)
+        public ChartDisplayItem(string name, Profile profile, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, profile)
         {
             SensorName = name;
             SensorType = SensorType.HwInfo;
-            Name = name;
-            SensorName = name;
             Id = id;
             Instance = instance;
             EntryId = entryId;
@@ -309,19 +307,14 @@ namespace InfoPanel.Models
             return (Name, Color);
         }
 
-        public override SizeF EvaluateSize()
+        public override SKSize EvaluateSize()
         {
-            return new SizeF(Width, Height);
+            return new SKSize(Width, Height);
         }
-        public override Rect EvaluateBounds()
+        public override SKRect EvaluateBounds()
         {
             var size = EvaluateSize();
-            return new Rect(X, Y, size.Width, size.Height);
-        }
-
-        public override void SetProfileGuid(Guid profileGuid)
-        {
-            ProfileGuid = profileGuid;
+            return new SKRect(X, Y, X + size.Width, Y + size.Height);
         }
     }
 
@@ -391,14 +384,14 @@ namespace InfoPanel.Models
                     return;
                 }
 
-                if (!value.StartsWith("#"))
+                if (!value.StartsWith('#'))
                 {
                     value = "#" + value;
                 }
 
                 try
                 {
-                    ColorTranslator.FromHtml(value);
+                    SKColor.Parse(value);
                     SetProperty(ref _fillColor, value);
                 }
                 catch
@@ -411,31 +404,34 @@ namespace InfoPanel.Models
             Name = "Graph";
         }
 
-        public GraphDisplayItem(string name, GraphType type) : base(name)
+        public GraphDisplayItem(string name, Profile profile, GraphType type) : base(name, profile)
         {
             Type = type;
         }
 
-        public GraphDisplayItem(string name, GraphType type, string libreSensorId) : base(name, libreSensorId)
+        public GraphDisplayItem(string name, Profile profile, GraphType type, string libreSensorId) : base(name, profile, libreSensorId)
         {
             Type = type;
         }
 
-        public GraphDisplayItem(string name, GraphType type, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, id, instance, entryId)
+        public GraphDisplayItem(string name, Profile profile, GraphType type, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, profile, id, instance, entryId)
         {
             Type = type;
         }
 
         public override object Clone()
         {
-            var clone = (DisplayItem)MemberwiseClone();
+            var clone = (GraphDisplayItem)MemberwiseClone(); 
             clone.Guid = Guid.NewGuid();
             return clone;
         }
     }
 
-    public class BarDisplayItem : ChartDisplayItem
+    public partial class BarDisplayItem : ChartDisplayItem
     {
+
+        [ObservableProperty]
+        private int _cornerRadius = 0;
 
         private bool _gradient = true;
         public bool Gradient
@@ -458,14 +454,14 @@ namespace InfoPanel.Models
                     return;
                 }
 
-                if (!value.StartsWith("#"))
+                if (!value.StartsWith('#'))
                 {
                     value = "#" + value;
                 }
 
                 try
                 {
-                    ColorTranslator.FromHtml(value);
+                    SKColor.Parse(value);
                     SetProperty(ref _gradientColor, value);
                 }
                 catch
@@ -478,18 +474,18 @@ namespace InfoPanel.Models
             Name = "Bar";
         }
 
-        public BarDisplayItem(string name) : base(name)
+        public BarDisplayItem(string name, Profile profile) : base(name, profile)
         { }
 
-        public BarDisplayItem(string name, string libreSensorId) : base(name, libreSensorId)
+        public BarDisplayItem(string name, Profile profile, string libreSensorId) : base(name, profile, libreSensorId)
         { }
 
-        public BarDisplayItem(string name, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, id, instance, entryId)
+        public BarDisplayItem(string name, Profile profile, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, profile, id, instance, entryId)
         { }
 
         public override object Clone()
         {
-            var clone = (DisplayItem)MemberwiseClone();
+            var clone = (BarDisplayItem)MemberwiseClone(); 
             clone.Guid = Guid.NewGuid();
             return clone;
         }
@@ -555,21 +551,21 @@ namespace InfoPanel.Models
             Name = "Donut";
         }
 
-        public DonutDisplayItem(string name) : base(name)
+        public DonutDisplayItem(string name, Profile profile) : base(name, profile)
         {
             Frame = false;
             BackgroundColor = "#FFDCDCDC";
             Width = 100; Height = 100;
         }
 
-        public DonutDisplayItem(string name, string libreSensorId) : base(name, libreSensorId)
+        public DonutDisplayItem(string name, Profile profile, string libreSensorId) : base(name, profile, libreSensorId)
         {
             Frame = false;
             BackgroundColor = "#FFDCDCDC";
             Width = 100; Height = 100;
         }
 
-        public DonutDisplayItem(string name, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, id, instance, entryId)
+        public DonutDisplayItem(string name, Profile profile, UInt32 id, UInt32 instance, UInt32 entryId) : base(name, profile, id, instance, entryId)
         {
             Frame = false;
             BackgroundColor = "#FFDCDCDC";
@@ -578,7 +574,7 @@ namespace InfoPanel.Models
 
         public override object Clone()
         {
-            var clone = (DisplayItem)MemberwiseClone();
+            var clone = (DonutDisplayItem)MemberwiseClone();
             clone.Guid = Guid.NewGuid();
             return clone;
         }

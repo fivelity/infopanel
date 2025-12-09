@@ -1,32 +1,47 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InfoPanel.Models;
+using InfoPanel.Utils;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Controls;
 
 namespace InfoPanel.ViewModels
 {
-    public enum LCD_ROTATION
+    public class UiScaleOption
     {
-        [Description("No rotation")]
-        RotateNone = 0,
-        [Description("Rotate 90°")]
-        Rotate90FlipNone = 1,
-        [Description("Rotate 180°")]
-        Rotate180FlipNone = 2,
-        [Description("Rotate 270°")]
-        Rotate270FlipNone = 3,
+        public string Display { get; set; } = string.Empty;
+        public float Value { get; set; }
     }
 
-    public class SettingsViewModel : ObservableObject, INavigationAware
+    public partial class SettingsViewModel : ObservableObject, INavigationAware
     {
-        private ObservableCollection<string> _comPorts = new();
-        public ObservableCollection<LCD_ROTATION> RotationValues { get; set; }
+        private ObservableCollection<string> _comPorts = [];
+
+        [ObservableProperty]
+        private ObservableCollection<UiScaleOption> _scaleOptions = [
+                new UiScaleOption { Display = "80%", Value = 0.8f },
+                new UiScaleOption { Display = "90%", Value = 0.9f },
+                new UiScaleOption { Display = "100%", Value = 1.0f },
+                new UiScaleOption { Display = "110%", Value = 1.1f },
+                new UiScaleOption { Display = "120%", Value = 1.2f }
+            ];
+
+        [ObservableProperty]
+        private string _pawnIOStatus = "Click to check";
 
         public SettingsViewModel()
         {
-            RotationValues = new ObservableCollection<LCD_ROTATION>(Enum.GetValues(typeof(LCD_ROTATION)).Cast<LCD_ROTATION>());
+        }
+
+        /// <summary>
+        /// Refreshes the PawniO installation status.
+        /// </summary>
+        public void RefreshPawnIOStatus()
+        {
+            PawnIoHelper.RefreshStatus();
+            PawnIOStatus = PawnIoHelper.StatusMessage;
         }
 
         public ObservableCollection<string> ComPorts

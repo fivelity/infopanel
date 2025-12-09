@@ -16,49 +16,82 @@ namespace InfoPanel.Views.Components
 
         private void ButtonNewText_Click(object sender, RoutedEventArgs e)
         {
-            var item = new TextDisplayItem("Custom Text")
+            if (SharedModel.Instance.SelectedProfile is Profile selectedProfile)
             {
-                Font = SharedModel.Instance.SelectedProfile!.Font,
-                FontSize = SharedModel.Instance.SelectedProfile!.FontSize,
-                Color = SharedModel.Instance.SelectedProfile!.Color
-            };
-            SharedModel.Instance.AddDisplayItem(item);
+                var item = new TextDisplayItem("Custom Text", selectedProfile)
+                {
+                    Font = selectedProfile.Font,
+                    FontSize = selectedProfile.FontSize,
+                    Color = selectedProfile.Color
+                };
+                SharedModel.Instance.AddDisplayItem(item);
+            }
         }
 
         private void ButtonNewImage_Click(object sender, RoutedEventArgs e)
         {
-            if (SharedModel.Instance.SelectedProfile != null)
+            if (SharedModel.Instance.SelectedProfile is Profile selectedProfile)
             {
-                var item = new ImageDisplayItem("Image", SharedModel.Instance.SelectedProfile.Guid)
-                {
-                    Width = 100,
-                    Height = 100
-                };
+                var item = new ImageDisplayItem("Image", selectedProfile);
                 SharedModel.Instance.AddDisplayItem(item);
             }
         }
 
         private void ButtonNewClock_Click(object sender, RoutedEventArgs e)
         {
-            var item = new ClockDisplayItem("Clock")
+            if (SharedModel.Instance.SelectedProfile is Profile selectedProfile)
             {
-                Font = SharedModel.Instance.SelectedProfile!.Font,
-                FontSize = SharedModel.Instance.SelectedProfile!.FontSize,
-                Color = SharedModel.Instance.SelectedProfile!.Color
+                var item = new ClockDisplayItem("Clock", selectedProfile)
+                {
+                    Font = selectedProfile.Font,
+                    FontSize = selectedProfile.FontSize,
+                    Color = selectedProfile.Color,
+                    Uppercase = true
 
-            };
-            SharedModel.Instance.AddDisplayItem(item);
+                };
+                SharedModel.Instance.AddDisplayItem(item);
+            }
         }
 
         private void ButtonNewCalendar_Click(object sender, RoutedEventArgs e)
         {
-            var item = new CalendarDisplayItem("Calendar")
+            if (SharedModel.Instance.SelectedProfile is Profile selectedProfile)
             {
-                Font = SharedModel.Instance.SelectedProfile!.Font,
-                FontSize = SharedModel.Instance.SelectedProfile!.FontSize,
-                Color = SharedModel.Instance.SelectedProfile!.Color
+                var item = new CalendarDisplayItem("Calendar", selectedProfile)
+                {
+                    Font = selectedProfile.Font,
+                    FontSize = selectedProfile.FontSize,
+                    Color = selectedProfile.Color,
+                    Uppercase = true
+                };
+                SharedModel.Instance.AddDisplayItem(item);
+            }
+        }
+
+        private void ButtonNewShape_Click(object sender, RoutedEventArgs e)
+        {
+            if (SharedModel.Instance.SelectedProfile is Profile selectedProfile)
+            {
+                var item = new ShapeDisplayItem("Shape", selectedProfile);
+                SharedModel.Instance.AddDisplayItem(item);
+            }
+        }
+
+        private void ButtonGroup_Click(object sender, RoutedEventArgs e)
+        {
+            var groupDisplayItem = new GroupDisplayItem
+            {
+                Name = "New Group",
             };
-            SharedModel.Instance.AddDisplayItem(item);
+
+            var selectedItem = SharedModel.Instance.SelectedItem;
+
+            SharedModel.Instance.AddDisplayItem(groupDisplayItem);
+
+            if (selectedItem is not null)
+            {
+                SharedModel.Instance.PushDisplayItemTo(groupDisplayItem, selectedItem);
+            }
         }
     }
 }

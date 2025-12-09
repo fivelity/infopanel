@@ -1,7 +1,7 @@
 ﻿using InfoPanel.Models;
 using InfoPanel.Views.Components.Custom;
 using System;
-using System.Diagnostics;
+using Serilog;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
@@ -14,6 +14,7 @@ namespace InfoPanel.Views.Components
     /// </summary>
     public partial class CustomProperties : System.Windows.Controls.UserControl
     {
+        private static readonly ILogger Logger = Log.ForContext<CustomProperties>();
         public static readonly DependencyProperty ItemProperty =
       DependencyProperty.Register("GaugeDisplayItem", typeof(GaugeDisplayItem), typeof(CustomProperties));
 
@@ -35,7 +36,7 @@ namespace InfoPanel.Views.Components
             InitializeComponent();
             Unloaded += CustomProperties_Unloaded;
 
-            UpdateTimer = new() { Interval = TimeSpan.FromMilliseconds(300) };
+            UpdateTimer = new(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(100) };
             UpdateTimer.Tick += Timer_Tick;
             UpdateTimer.Start();
         }
@@ -98,13 +99,16 @@ namespace InfoPanel.Views.Components
                             {
                                 var fileName = Path.GetFileName(file);
                                 File.Copy(file, Path.Combine(imageFolder, fileName), true);
-                                var imageDisplayItem = new ImageDisplayItem(fileName, profile.Guid, fileName, true);
+                                var imageDisplayItem = new ImageDisplayItem(fileName, profile, fileName, true)
+                                {
+                                    PersistentCache = true // Gauge images should not expire
+                                };
 
                                 customDisplayItem.Images.Add(imageDisplayItem);
                             }
                             catch (Exception ex)
                             {
-                                Trace.WriteLine(ex.ToString());
+                                Logger.Error(ex, "Error copying file to assets folder");
                             }
                         }
                     }

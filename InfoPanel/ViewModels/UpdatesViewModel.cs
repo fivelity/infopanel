@@ -92,11 +92,58 @@ namespace InfoPanel.ViewModels
                 ]
             };
 
+            var version130 =
+                new UpdateVersion
+                {
+                    Version = "v1.3.0",
+                    Expanded = true,
+                    Title = "Video streaming, multiple panel support, and new design tools",
+                    Items = [
+                            new UpdateVersionItem() { Title = "Videos & Live Streams",
+                            Description = [
+                                "Play videos and live streams with full audio support.",
+                                "Perfect for security cameras, media players, or any video content.",
+                                "Volume control and professional video playback."
+                                ] },
+                            new UpdateVersionItem() { Title = "Multiple USB Panel Support",
+                            Description = [
+                                "Connect multiple BeadaPanel AND Turing displays simultaneously.",
+                                "Support for latest Turing 8.8\" Rev 1.1 models.",
+                                "Each panel works independently with automatic detection."
+                                ] },
+                            new UpdateVersionItem() { Title = "Creative Design Tools",
+                            Description = [
+                                "Custom shapes with animated gradients and rounded bar charts.",
+                                "SVG support for crisp icons and a design grid for alignment.",
+                                "Animated live bars for dynamic visualizations."
+                                ] },
+                            new UpdateVersionItem() { Title = "Smart Text & Organization",
+                            Description = [
+                                "Scrolling marquee text, wrapping, and ellipsis options.",
+                                "Group items together, lock them, and clone entire groups.",
+                                "Search to find items quickly and drag & drop positioning."
+                                ] },
+                            new UpdateVersionItem() { Title = "Modern Windows 11 Interface",
+                            Description = [
+                                "Fresh new look with system tray support.",
+                                "Window size saves automatically.",
+                                "Consistent font scaling across all profiles."
+                                ] },
+                            new UpdateVersionItem() { Title = "Performance & Reliability",
+                            Description = [
+                                "New high-performance graphics engine for smoother animations.",
+                                "Auto-start delay option and better plugin support.",
+                                "Installer preserves your settings and plugin configurations.",
+                                "Updated LibreHardwareMonitor to resolve WinRing0 compatibility issues."
+                                ] }
+                            ]
+                };
+
             var version129 =
                 new UpdateVersion
                 {
                     Version = "v1.2.9",
-                    Expanded = true,
+                    Expanded = false,
                     Title = "Plugins, additional features and bug fixes.",
                     Items = [
                             new UpdateVersionItem() { Title = "Plugin Support",
@@ -139,6 +186,7 @@ namespace InfoPanel.ViewModels
                             ]
                 };
 
+            UpdateVersions.Add(version130);
             UpdateVersions.Add(version129);
             UpdateVersions.Add(version128);
         }

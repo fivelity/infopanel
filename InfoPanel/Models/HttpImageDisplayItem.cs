@@ -1,18 +1,14 @@
-﻿using InfoPanel.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using InfoPanel.Enums;
 using InfoPanel.Extensions;
+using SkiaSharp;
 using System;
-using System.Drawing;
 
 namespace InfoPanel.Models
 {
     [Serializable]
     public class HttpImageDisplayItem : ImageDisplayItem, ISensorItem
     {
-        public bool ReadOnlyFile
-        {
-            get { return true; }
-        }
-
         private string _sensorName = string.Empty;
         public string SensorName
         {
@@ -93,14 +89,46 @@ namespace InfoPanel.Models
             }
         }
 
+        public new ImageType Type
+        {
+            get { return ImageType.URL; }
+            set { /* Do nothing, as this is always URL */  }
+        }
+
+        public new bool ReadOnly
+        {
+            get { return true; }
+        }
+
+        public new string? HttpUrl
+        {
+            get { return CalculatedPath; }
+            set { }
+        }
+
+        public new string? CalculatedPath
+        {
+            get
+            {
+                var sensorReading = GetValue();
+
+                if (sensorReading.HasValue && sensorReading.Value.ValueText != null)
+                {
+                    return sensorReading.Value.ValueText;
+                }
+
+                return null;
+            }
+        }
+
         public HttpImageDisplayItem(): base()
         { }
 
-        public HttpImageDisplayItem(string name, Guid profileGuid) : base(name, profileGuid)
+        public HttpImageDisplayItem(string name, Profile profile) : base(name, profile)
         {
             SensorName = name;
         }
-        public HttpImageDisplayItem(string name, Guid profileGuid, uint id, uint instance, uint entryId) : base(name, profileGuid)
+        public HttpImageDisplayItem(string name, Profile profile, uint id, uint instance, uint entryId) : base(name, profile)
         {
             SensorName = name;
             SensorType = SensorType.HwInfo;
@@ -109,7 +137,7 @@ namespace InfoPanel.Models
             EntryId = entryId;
         }
 
-        public HttpImageDisplayItem(string name, Guid profileGuid, string libreSensorId) : base(name, profileGuid)
+        public HttpImageDisplayItem(string name, Profile profile, string libreSensorId) : base(name, profile)
         {
             SensorName = name;
             SensorType = SensorType.Libre;
@@ -127,7 +155,7 @@ namespace InfoPanel.Models
             };
         }
 
-        public override SizeF EvaluateSize()
+        public override SKSize EvaluateSize()
         {
             var result = base.EvaluateSize();
 
@@ -137,7 +165,7 @@ namespace InfoPanel.Models
 
                 if (sensorReading.HasValue && sensorReading.Value.ValueText != null && sensorReading.Value.ValueText.IsUrl())
                 {
-                    var cachedImage = InfoPanel.Cache.GetLocalImage(sensorReading.Value.ValueText);
+                    var cachedImage = InfoPanel.Cache.GetLocalImage(this);
                     if (cachedImage != null)
                     {
                         if (result.Width == 0)

@@ -1,10 +1,13 @@
-﻿using System.Diagnostics;
+﻿using Serilog;
+using System.Diagnostics;
+using System.Threading;
 using System.Reflection;
 
 namespace InfoPanel.Plugins.Loader
 {
     public class PluginWrapper(PluginDescriptor pluginDescriptor, IPlugin plugin)
     {
+        private static readonly ILogger Logger = Log.ForContext<PluginWrapper>();
         public PluginDescriptor PluginDescriptor { get; } = pluginDescriptor;
         public IPlugin Plugin { get; } = plugin;
         public List<IPluginContainer> PluginContainers { get; } = [];
@@ -24,6 +27,8 @@ namespace InfoPanel.Plugins.Loader
 
         private CancellationTokenSource? _cts;
         private Task? _task;
+
+        public bool IsLoaded { get; private set; } = false;
 
         public bool IsRunning => _task is not null && !_task.IsCompleted && _cts is not null && !_cts.IsCancellationRequested;
 
@@ -51,6 +56,7 @@ namespace InfoPanel.Plugins.Loader
             {
                 Plugin.Initialize();
                 Plugin.Load(PluginContainers);
+                IsLoaded = true;
 
                 // If the plugin is running or the interval is not set to >0, we don't want to start it
                 if (IsRunning || Plugin.UpdateInterval.TotalMilliseconds <= 0) return;
@@ -82,7 +88,7 @@ namespace InfoPanel.Plugins.Loader
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Exception during task stop: {ex.Message}");
+                    Logger.Error(ex, "Exception during plugin task stop for {PluginName}", Name);
                 }
                 finally
                 {
@@ -99,7 +105,7 @@ namespace InfoPanel.Plugins.Loader
         {
             await Task.Delay(300, cancellationToken);
 
-            Trace.WriteLine($"Plugin {Name} task started");
+            Logger.Debug("Plugin {PluginName} task started", Name);
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -112,7 +118,7 @@ namespace InfoPanel.Plugins.Loader
                     }
                     catch (Exception ex)
                     {
-                        Trace.WriteLine($"Exception during task execution: {ex.Message}");
+                        Logger.Error(ex, "Exception during task execution for plugin {PluginName}", Name);
                     }
 
                     await Task.Delay(Plugin.UpdateInterval, cancellationToken);

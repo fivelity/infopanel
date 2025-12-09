@@ -1,139 +1,108 @@
-﻿using InfoPanel.Utils;
-using System;
-using System.Diagnostics;
-using System.Timers;
-using System.Windows;
-using System.Windows.Interop;
-using unvell.D2DLib;
+﻿//using System;
+//using Serilog;
+//using System.Timers;
+//using System.Windows;
+//using System.Windows.Interop;
+//using unvell.D2DLib;
 
-namespace InfoPanel.Views.Common
-{
-    public class D2DWindow : Window
-    {
-        internal IntPtr Handle;
-        private D2DDevice? Device;
-        private D2DGraphics? Graphics;
+//namespace InfoPanel.Views.Common
+//{
+//    public class D2DWindow : Window
+//    {
+//        internal IntPtr Handle;
+//        private D2DDevice? Device;
+//        private D2DGraphics? Graphics;
 
-        private readonly Timer Timer = new (TimeSpan.FromMilliseconds(16));
+//        internal readonly bool D2DDraw;
 
-        internal bool ShowFps = false;
-        private readonly FpsCounter FpsCounter = new();
+//        private float _width;
 
-        internal readonly bool D2DDraw;
+//        public D2DWindow(bool d2dDraw)
+//        {
+//            D2DDraw = d2dDraw;
 
-        private float _width;
+//            if (D2DDraw)
+//            {
+//                AllowsTransparency = false;
+//                Loaded += D2DWindow_Loaded;
+//                Closed += D2DWindow_Closed;
+//            } else
+//            {
+//                AllowsTransparency = true;
+//            }
+//        }
 
-        public D2DWindow(bool d2dDraw)
-        {
-            D2DDraw = d2dDraw;
+//        private void D2DWindow_Closed(object? sender, EventArgs e)
+//        {
+//            SizeChanged -= D2DWindow_SizeChanged;
 
-            if (D2DDraw)
-            {
-                AllowsTransparency = false;
-                //WindowStyle = WindowStyle.None;
-                Loaded += D2DWindow_Loaded;
-                Closed += D2DWindow_Closed;
-            } else
-            {
-                AllowsTransparency = true;
-            }
-        }
+//            lock(_syncObj)
+//            {
+//                Device?.Dispose();
+//                Device = null;
+//                Graphics = null;
+//            }
 
-        private void D2DWindow_Closed(object? sender, EventArgs e)
-        {
-            SizeChanged -= D2DWindow_SizeChanged;
+//            Log.Debug("D2DWindow closed");
+//        }
 
-            Timer.Stop();
-            Timer.Elapsed -= Timer_Tick;
-            Timer.Dispose();
+//        private void D2DWindow_Loaded(object sender, RoutedEventArgs e)
+//        {
+//            Handle = new WindowInteropHelper(this).Handle;
 
-            lock(_syncObj)
-            {
-                Device?.Dispose();
-                Device = null;
-                Graphics = null;
-            }
-            Trace.WriteLine("D2DWindow closed");
-        }
+//            if (this.Device == null)
+//            {
+//                this.Device = D2DDevice.FromHwnd(Handle);
+//                this.Device.Resize();
+//                this.Graphics = new D2DGraphics(this.Device);
+//            }
 
-        private void D2DWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            Handle = new WindowInteropHelper(this).Handle;
+//            this._width = (float)this.Width;
+//            this.SizeChanged += D2DWindow_SizeChanged;
+//        }
 
-            if (this.Device == null)
-            {
-                this.Device = D2DDevice.FromHwnd(Handle);
-                this.Device.Resize();
-                this.Graphics = new D2DGraphics(this.Device);
-                //this.Graphics.SetDPI(96, 96);
-            }
+//        private void D2DWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+//        {
+//            lock (_syncObj)
+//            {
+//                this._width = (float)this.Width;
+//                this.Device?.Resize();
+//            }
+//        }
 
-            this._width = (float)this.Width;
-            this.SizeChanged += D2DWindow_SizeChanged;
-            
-            Timer.Elapsed += Timer_Tick;
-            Timer.Start();
-        }
+//        private readonly object _syncObj = new();
+//        private volatile bool _isProcessing = false; // Flag to prevent overlapping
 
-        private void D2DWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            lock (_syncObj)
-            {
-                this._width = (float)this.Width;
-                this.Device?.Resize();
-            }
-        }
+//        protected void D2DRender()
+//        {
+//            if (_isProcessing)
+//                return;
 
-        private static readonly object _syncObj = new();
-        private static volatile bool _isProcessing = false; // Flag to prevent overlapping
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-           if(!Timer.Enabled)
-            {
-                return;
-            }
+//            lock (_syncObj)
+//            {
+//                if (this.Graphics == null)
+//                {
+//                    return;
+//                }
 
-            lock (_syncObj)
-            {
-                if (this.Graphics == null)
-                {
-                    return;
-                }
+//                _isProcessing = true;
 
-                if (_isProcessing)
-                    return;
+//                try
+//                {
+//                    this.Graphics.BeginRender(D2DColor.Transparent);
+//                    this.OnRender(this.Graphics);
+//                    this.Graphics.EndRender();
+//                }
+//                finally
+//                {
+//                    _isProcessing = false;
+//                }
+//            }
+//        }
 
-                _isProcessing = true;
-
-
-                try
-                {
-                    this.Graphics.BeginRender(D2DColor.Transparent);
-                    this.OnRender(this.Graphics);
-
-                    if (ShowFps)
-                    {
-                        FpsCounter.Update();
-                        var rect = new D2DRect(this._width - 40, 0, 40, 30);
-                        this.Graphics.FillRectangle(rect, D2DColor.FromGDIColor(System.Drawing.Color.FromArgb(100, 0, 0, 0)));
-                        this.Graphics.DrawTextCenter($"{FpsCounter.FramesPerSecond}", D2DColor.FromGDIColor(System.Drawing.Color.FromArgb(255, 0, 255, 0)),
-                            "Arial", 18, rect);
-                    }
-
-                    this.Graphics.EndRender();
-                }
-                finally
-                {
-                    // After work is done, reset flag
-                    //lock (_syncObj) { _isProcessing = false; }
-                    _isProcessing = false;
-                }
-            }
-        }
-
-        protected virtual void OnRender(D2DGraphics d2dGraphics)
-        {
+//        protected virtual void OnRender(D2DGraphics d2dGraphics)
+//        {
           
-        }
-    }
-}
+//        }
+//    }
+//}

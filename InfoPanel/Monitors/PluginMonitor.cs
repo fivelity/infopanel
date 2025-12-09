@@ -1,13 +1,10 @@
-﻿using Flurl.Http;
-using InfoPanel.Plugins;
+﻿using InfoPanel.Plugins;
 using InfoPanel.Plugins.Loader;
 using InfoPanel.Utils;
-using InfoPanel.ViewModels;
-using Microsoft.Win32.TaskScheduler.Fluent;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -20,14 +17,13 @@ namespace InfoPanel.Monitors
 {
     internal class PluginMonitor : BackgroundTask
     {
+        private static readonly ILogger Logger = Log.ForContext<PluginMonitor>();
         private static readonly Lazy<PluginMonitor> _instance = new(() => new PluginMonitor());
         public static PluginMonitor Instance => _instance.Value;
 
         public static readonly ConcurrentDictionary<string, PluginReading> SENSORHASH = new();
 
         public List<PluginDescriptor> Plugins { get; private set; } = [];
-
-        public readonly Dictionary<string, PluginWrapper> _loadedPlugins = [];
 
         private PluginMonitor() {
             if(!Directory.Exists(FileUtil.GetExternalPluginFolder()))
@@ -114,21 +110,28 @@ namespace InfoPanel.Monitors
                     await StartPluginModulesAsync(descriptor);
                 }
 
-
                 stopwatch.Stop();
-                Trace.WriteLine($"Plugins loaded: {stopwatch.ElapsedMilliseconds}ms");
+                Logger.Information("Plugins loaded in {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
 
                 while (!token.IsCancellationRequested)
                 {
                     stopwatch.Restart();
-                    foreach (var plugin in _loadedPlugins.Values)
+
+                    foreach(var pluginDescriptor in Plugins)
                     {
-                        try
+                        foreach(var wrapper in pluginDescriptor.PluginWrappers.Values)
                         {
-                            //plugin.Update();
+                            if (wrapper.IsLoaded)
+                            {
+                                try
+                                {
+                                    wrapper.Update();
+                                }
+                                catch { }
+                            }
                         }
-                        catch { }
                     }
+                   
                     stopwatch.Stop();
                     //Trace.WriteLine($"Plugins updated: {stopwatch.ElapsedMilliseconds}ms");
                     await Task.Delay(100, token);
@@ -136,30 +139,26 @@ namespace InfoPanel.Monitors
             }
             catch (TaskCanceledException)
             {
-                Trace.WriteLine("Task cancelled");
+                Logger.Debug("PluginMonitor task cancelled");
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"Exception during work: {ex.Message}");
-            }
-            finally
-            {
-                foreach (var loadedPluginWrapper in _loadedPlugins.Values)
-                {
-                    await loadedPluginWrapper.StopAsync();
-                }
-
-                _loadedPlugins.Clear();
+                Logger.Error(ex, "Exception during PluginMonitor work");
             }
         }
 
+        private static readonly string[] _bundledPlugins = ["plugins\\InfoPanel.Extras"];
         internal void FindPlugins()
         {
             UnzipPluginArchives();
             //bundled plugins
             foreach (var directory in Directory.GetDirectories(FileUtil.GetBundledPluginFolder()))
             {
-                Plugins.Add(CreatePluginDescriptor(directory));
+                //whitelist plugins
+                if (_bundledPlugins.Contains(directory))
+                {
+                    Plugins.Add(CreatePluginDescriptor(directory));
+                }
             }
 
             //external plugins
@@ -195,7 +194,7 @@ namespace InfoPanel.Monitors
                 {
                     foreach (var entry in container.Entries)
                     {
-                        var id = $"/{wrapper.Id}/{container.Id}/{entry.Id}";
+                        var id = BuildEntryId(wrapper, container, entry);
                         SENSORHASH.TryRemove(id, out _);
                     }
                 }
@@ -211,14 +210,14 @@ namespace InfoPanel.Monitors
                 try
                 {
                     await wrapper.Initialize();
-                    Console.WriteLine($"Plugin {wrapper.Name} loaded successfully");
+                    Log.Information("Plugin {PluginName} loaded successfully", wrapper.Name);
 
                     int indexOrder = 0;
                     foreach (var container in wrapper.PluginContainers)
                     {
                         foreach (var entry in container.Entries)
                         {
-                            var id = $"/{wrapper.Id}/{container.Id}/{entry.Id}";
+                            var id = BuildEntryId(wrapper, container, entry);
                             SENSORHASH[id] = new()
                             {
                                 Id = id,
@@ -235,7 +234,7 @@ namespace InfoPanel.Monitors
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Plugin {wrapper.Name} failed to load: {ex.Message}");
+                    Log.Error(ex, "Plugin {PluginName} failed to load", wrapper.Name);
                 }
             }
         }
@@ -248,7 +247,7 @@ namespace InfoPanel.Monitors
             {
                 foreach (var entry in container.Entries)
                 {
-                    var id = $"/{wrapper.Id}/{container.Id}/{entry.Id}";
+                    var id = BuildEntryId(wrapper, container, entry);
                     SENSORHASH.TryRemove(id, out _);
                 }
             }
@@ -258,14 +257,14 @@ namespace InfoPanel.Monitors
             try
             {
                 await wrapper.Initialize();
-                Console.WriteLine($"Plugin {wrapper.Name} loaded successfully");
+                Log.Information("Plugin {PluginName} reloaded successfully", wrapper.Name);
 
                 int indexOrder = 0;
                 foreach (var container in wrapper.PluginContainers)
                 {
                     foreach (var entry in container.Entries)
                     {
-                        var id = $"/{wrapper.Id}/{container.Id}/{entry.Id}";
+                        var id = BuildEntryId(wrapper, container, entry);
                         SENSORHASH[id] = new()
                         {
                             Id = id,
@@ -282,41 +281,18 @@ namespace InfoPanel.Monitors
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Plugin {wrapper.Name} failed to load: {ex.Message}");
+                Log.Error(ex, "Plugin {PluginName} failed to load", wrapper.Name);
             }
         }
 
-        private async Task LoadPlugin(PluginWrapper wrapper)
+        private static string BuildEntryId(PluginWrapper wrapper, IPluginContainer container, IPluginData entry)
         {
-            try
+            if(container.IsEphemeralPath)
             {
-                await wrapper.Initialize();
-                Console.WriteLine($"Plugin {wrapper.Name} loaded successfully");
+                return $"/{wrapper.Id}/{entry.Id}";
+            }
 
-                int indexOrder = 0;
-                foreach (var container in wrapper.PluginContainers)
-                {
-                    foreach (var entry in container.Entries)
-                    {
-                        var id = $"/{wrapper.Id}/{container.Id}/{entry.Id}";
-                        SENSORHASH[id] = new()
-                        {
-                            Id = id,
-                            Name = entry.Name,
-                            ContainerId = container.Id,
-                            ContainerName = container.Name,
-                            PluginId = wrapper.Id,
-                            PluginName = wrapper.Name,
-                            Data = entry,
-                            IndexOrder = indexOrder++
-                        };
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Plugin {wrapper.Name} failed to load: {ex.Message}");
-            }
+            return $"/{wrapper.Id}/{container.Id}/{entry.Id}";
         }
 
         public static List<PluginReading> GetOrderedList()
