@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui;
+using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -76,7 +77,7 @@ namespace InfoPanel
            services.AddSingleton<IContentDialogService, ContentDialogService>();
 
            //// Page resolver service
-           services.AddSingleton<IPageService, PageService>();
+           services.AddSingleton<INavigationViewPageProvider, PageService>();
 
            //// Page resolver service
            //services.AddSingleton<ITestWindowService, TestWindowService>();

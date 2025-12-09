@@ -2,6 +2,7 @@ using System.Reflection;
 using System;
 using System.Windows;
 using Wpf.Ui;
+using Wpf.Ui.Abstractions;
 using System.Windows.Controls;
 using Wpf.Ui.Controls;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace InfoPanel.Views.Windows
     {
         private readonly ITaskBarService _taskBarService;
 
-        public MainWindow(INavigationService navigationService, IPageService pageService, ITaskBarService taskBarService, ISnackbarService snackbarService, IContentDialogService contentDialogService)
+        public MainWindow(INavigationService navigationService, INavigationViewPageProvider pageProvider, ITaskBarService taskBarService, ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             // Assign the view model
             //ViewModel = viewModel;
@@ -29,7 +30,7 @@ namespace InfoPanel.Views.Windows
             InitializeComponent();
 
             // We define a page provider for navigation
-            SetPageService(pageService);
+            SetPageService(pageProvider);
 
             // If you want to use INavigationService instead of INavigationWindow you can define its navigation here.
             navigationService.SetNavigationControl(RootNavigation);
@@ -178,8 +179,8 @@ namespace InfoPanel.Views.Windows
         public bool Navigate(Type pageType)
             => RootNavigation.Navigate(pageType);
 
-        public void SetPageService(IPageService pageService)
-            => RootNavigation.SetPageService(pageService);
+        public void SetPageService(INavigationViewPageProvider pageProvider)
+            => RootNavigation.SetPageProviderService(pageProvider);
 
         public void ShowWindow()
             => Show();

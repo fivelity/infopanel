@@ -61,19 +61,19 @@ namespace InfoPanel.Models
         {
             get
             {
-                if (_backgroundVideoPlayer?.Audio != null && _config?.Player != null)
+                if (_backgroundVideoPlayer?.Audio != null)
                 {
-                    return (float)_backgroundVideoPlayer.Audio.Volume / _config.Player.VolumeMax;
+                    return (float)_backgroundVideoPlayer.Audio.Volume / 100f;
                 }
                 return 0f;
             }
             set
             {
-                if (_backgroundVideoPlayer?.Audio != null && _config?.Player != null)
+                if (_backgroundVideoPlayer?.Audio != null)
                 {
                     // Clamp value between 0 and 1
                     value = Math.Clamp(value, 0f, 1f);
-                    _backgroundVideoPlayer.Audio.Volume = (int)Math.Round(value * _config.Player.VolumeMax);
+                    _backgroundVideoPlayer.Audio.Volume = (int)Math.Round(value * 100f);
                 }
             }
         }
@@ -591,7 +591,7 @@ namespace InfoPanel.Models
                 {
                     if (_backgroundVideoPlayer != null)
                     {
-                        using var bitmap = _backgroundVideoPlayer.renderer.GetBitmap(targetWidth, targetHeight);
+                        using var bitmap = _backgroundVideoPlayer.TakeSnapshotToBitmap((uint)targetWidth, (uint)targetHeight);
                         if (bitmap != null)
                         {
                             using var image = ConvertToSKImage(bitmap);

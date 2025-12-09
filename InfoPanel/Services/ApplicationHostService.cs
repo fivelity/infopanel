@@ -6,6 +6,7 @@ using System.Windows;
 using InfoPanel.Views.Windows;
 using Microsoft.Extensions.Hosting;
 using Wpf.Ui;
+using Wpf.Ui.Abstractions;
 
 namespace InfoPanel.Services;
 
@@ -16,7 +17,7 @@ public class ApplicationHostService : IHostedService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
-    private readonly IPageService _pageService;
+    private readonly INavigationViewPageProvider _pageProvider;
     private readonly ThemeProvider _themeProvider;
     private readonly LayoutProvider _layoutProvider;
     private readonly WorkspaceManager _workspaceManager;
@@ -24,12 +25,12 @@ public class ApplicationHostService : IHostedService
     private INavigationWindow? _navigationWindow;
 
     public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService,
-        IPageService pageService, ThemeProvider themeProvider, LayoutProvider layoutProvider, WorkspaceManager workspaceManager)
+        INavigationViewPageProvider pageProvider, ThemeProvider themeProvider, LayoutProvider layoutProvider, WorkspaceManager workspaceManager)
     {
         // If you want, you can do something with these services at the beginning of loading the application.
         _serviceProvider = serviceProvider;
         _navigationService = navigationService;
-        _pageService = pageService;
+        _pageProvider = pageProvider;
         _themeProvider = themeProvider;
         _layoutProvider = layoutProvider;
         _workspaceManager = workspaceManager;
@@ -88,6 +89,7 @@ public class ApplicationHostService : IHostedService
 
     private void PrepareNavigation()
     {
-        _navigationService.SetPageService(_pageService);
+        // Page provider is set directly on NavigationView in MainWindow constructor
+        // No additional setup needed here for WPF-UI 4.x
     }
 }

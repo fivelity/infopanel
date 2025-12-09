@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Wpf.Ui;
-using Wpf.Ui.Controls;
+using Wpf.Ui.Abstractions.Controls;
 using MessageBox = System.Windows.MessageBox;
 using MessageBoxButton = System.Windows.MessageBoxButton;
 using MessageBoxResult = System.Windows.MessageBoxResult;
@@ -525,17 +525,19 @@ namespace InfoPanel.ViewModels
 
         #endregion
 
-        public void OnNavigatedTo()
+        public Task OnNavigatedToAsync()
         {
             // Refresh data when navigating to this page
             LoadThemes();
             LoadLayouts();
             LoadWorkspaces();
+            return Task.CompletedTask;
         }
 
-        public void OnNavigatedFrom()
+        public Task OnNavigatedFromAsync()
         {
             // Cleanup if needed
+            return Task.CompletedTask;
         }
     }
 

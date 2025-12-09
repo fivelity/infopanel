@@ -1,7 +1,6 @@
 using InfoPanel.ViewModels;
 using System.Windows.Controls;
-using Wpf.Ui;
-using Wpf.Ui.Controls;
+using Wpf.Ui.Abstractions.Controls;
 
 namespace InfoPanel.Views.Pages
 {
