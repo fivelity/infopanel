@@ -1,4 +1,4 @@
-﻿using Flurl;
+using Flurl;
 using Flurl.Http;
 using InfoPanel.Models;
 using InfoPanel.ViewModels;
@@ -146,9 +146,9 @@ namespace InfoPanel.Views.Pages
                 memStream.Position = 0;
                 return memStream;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 

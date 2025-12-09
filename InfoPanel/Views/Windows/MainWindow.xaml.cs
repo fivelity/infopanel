@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System;
 using System.Windows;
 using Wpf.Ui;
@@ -176,7 +176,7 @@ namespace InfoPanel.Views.Windows
             => RootNavigation;
 
         public bool Navigate(Type pageType)
-            => RootNavigation.Navigate(pageType) != null;
+            => RootNavigation.Navigate(pageType);
 
         public void SetPageService(IPageService pageService)
             => RootNavigation.SetPageService(pageService);

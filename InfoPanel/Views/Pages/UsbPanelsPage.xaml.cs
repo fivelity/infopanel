@@ -24,9 +24,6 @@ public partial class UsbPanelsPage : Page
     private static readonly ILogger Logger = Log.ForContext<UsbPanelsPage>();
     public UsbPanelsViewModel ViewModel { get; }
 
-    private static bool deviceInserted = false;
-    private static bool deviceRemoved = false;
-
     public UsbPanelsPage(UsbPanelsViewModel viewModel)
     {
         ViewModel = viewModel;
