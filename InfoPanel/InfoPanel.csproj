@@ -5,7 +5,7 @@
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<Nullable>enable</Nullable>
-		<NoWarn>CS8600;CS8601;CS8602;CS8603;CS8604;CS8605;CS8618;CS8622</NoWarn>
+		<NoWarn>CS8600;CS8601;CS8602;CS8603;CS8604;CS8605;CS8618;CS8622;WFAC010</NoWarn>
 		<UseWPF>true</UseWPF>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ApplicationIcon>Resources\Images\favicon.ico</ApplicationIcon>
