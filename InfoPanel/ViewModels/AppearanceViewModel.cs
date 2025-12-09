@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InfoPanel.Models;
+using InfoPanel.Plugins;
 using InfoPanel.Services;
 using Microsoft.Win32;
 using System;
@@ -11,7 +12,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui;
+using Wpf.Ui.Abstractions.Controls;
+using MessageBox = System.Windows.MessageBox;
+using MessageBoxButton = System.Windows.MessageBoxButton;
+using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace InfoPanel.ViewModels
 {
@@ -64,11 +69,11 @@ namespace InfoPanel.ViewModels
         public ICommand ImportWorkspaceCommand { get; }
         public ICommand DuplicateWorkspaceCommand { get; }
 
-        public AppearanceViewModel()
+        public AppearanceViewModel(ThemeProvider themeProvider, LayoutProvider layoutProvider, WorkspaceManager workspaceManager)
         {
-            _themeProvider = ThemeProvider.Instance;
-            _layoutProvider = LayoutProvider.Instance;
-            _workspaceManager = WorkspaceManager.Instance;
+            _themeProvider = themeProvider;
+            _layoutProvider = layoutProvider;
+            _workspaceManager = workspaceManager;
 
             // Initialize commands
             SelectThemeCommand = new RelayCommand<string>(SelectTheme);
@@ -520,17 +525,19 @@ namespace InfoPanel.ViewModels
 
         #endregion
 
-        public void OnNavigatedTo()
+        public Task OnNavigatedToAsync()
         {
             // Refresh data when navigating to this page
             LoadThemes();
             LoadLayouts();
             LoadWorkspaces();
+            return Task.CompletedTask;
         }
 
-        public void OnNavigatedFrom()
+        public Task OnNavigatedFromAsync()
         {
             // Cleanup if needed
+            return Task.CompletedTask;
         }
     }
 

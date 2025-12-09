@@ -1,8 +1,8 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System;
 using System.Windows;
 using Wpf.Ui;
-using System.Windows.Controls;
+using Wpf.Ui.Abstractions;
 using Wpf.Ui.Controls;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace InfoPanel.Views.Windows
     {
         private readonly ITaskBarService _taskBarService;
 
-        public MainWindow(INavigationService navigationService, IPageService pageService, ITaskBarService taskBarService, ISnackbarService snackbarService, IContentDialogService contentDialogService)
+        public MainWindow(INavigationService navigationService, INavigationViewPageProvider pageProvider, ITaskBarService taskBarService, ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             // Assign the view model
             //ViewModel = viewModel;
@@ -29,7 +29,7 @@ namespace InfoPanel.Views.Windows
             InitializeComponent();
 
             // We define a page provider for navigation
-            SetPageService(pageService);
+            SetPageService(pageProvider);
 
             // If you want to use INavigationService instead of INavigationWindow you can define its navigation here.
             navigationService.SetNavigationControl(RootNavigation);
@@ -159,27 +159,14 @@ namespace InfoPanel.Views.Windows
 
         #region INavigationWindow methods
 
-        public Frame GetFrame()
-        {
-            // In WPF-UI v3, NavigationView manages its own internal frame
-            // We need to return a Frame for compatibility, so we'll create one if needed
-            if (_navigationFrame == null)
-            {
-                _navigationFrame = new Frame();
-            }
-            return _navigationFrame;
-        }
-        
-        private Frame? _navigationFrame;
-
         public INavigationView GetNavigation()
             => RootNavigation;
 
         public bool Navigate(Type pageType)
-            => RootNavigation.Navigate(pageType) != null;
+            => RootNavigation.Navigate(pageType);
 
-        public void SetPageService(IPageService pageService)
-            => RootNavigation.SetPageService(pageService);
+        public void SetPageService(INavigationViewPageProvider pageProvider)
+            => RootNavigation.SetPageProviderService(pageProvider);
 
         public void ShowWindow()
             => Show();

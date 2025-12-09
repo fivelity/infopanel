@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui;
+using Wpf.Ui.Abstractions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -76,7 +77,7 @@ namespace InfoPanel
            services.AddSingleton<IContentDialogService, ContentDialogService>();
 
            //// Page resolver service
-           services.AddSingleton<IPageService, PageService>();
+           services.AddSingleton<INavigationViewPageProvider, PageService>();
 
            //// Page resolver service
            //services.AddSingleton<ITestWindowService, TestWindowService>();
@@ -84,8 +85,14 @@ namespace InfoPanel
            // Service containing navigation, same as INavigationWindow... but without window
            services.AddSingleton<INavigationService, NavigationService>();
 
+           // Theme and Layout providers
+           services.AddSingleton<ThemeProvider>();
+           services.AddSingleton<LayoutProvider>();
+           services.AddSingleton<WorkspaceManager>();
+
            // Main window container with navigation
-           services.AddScoped<INavigationWindow, MainWindow>();
+           // Use transient to avoid singleton creation on background thread
+           services.AddTransient<INavigationWindow, MainWindow>();
            //services.AddScoped<ContainerViewModel>();
 
            // Views and ViewModels

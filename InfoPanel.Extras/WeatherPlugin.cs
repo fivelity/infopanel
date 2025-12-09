@@ -1,4 +1,4 @@
-﻿using InfoPanel.Plugins;
+using InfoPanel.Plugins;
 using IniParser;
 using IniParser.Model;
 using OpenWeatherMap.Standard;
@@ -136,7 +136,11 @@ namespace InfoPanel.Extras
                     _rain.Value = result.Rain.LastHour;
                     _snow.Value = result.Snow.LastHour;
                 }
-            }catch(Exception e) { }
+            }
+            catch (Exception)
+            {
+                // Silently catch weather API exceptions
+            }
         }
     }
 }

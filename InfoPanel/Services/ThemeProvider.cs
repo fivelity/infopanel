@@ -1,4 +1,5 @@
-using InfoPanel.Models;
+using InfoPanel.Plugins;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -72,8 +73,53 @@ namespace InfoPanel.Services
 
             // Load built-in default themes
             LoadDefaultThemes();
+            Log.Information("ThemeProvider: Loaded {Count} built-in themes", _themes.Count);
 
-            // Load custom themes from directory
+            // Load themes from application directory (bundled themes)
+            var appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var appThemesDirectory = Path.Combine(appDirectory, "Themes");
+            Log.Information("ThemeProvider: Checking for themes in {Directory}", appThemesDirectory);
+            
+            if (Directory.Exists(appThemesDirectory))
+            {
+                var themeFiles = Directory.GetFiles(appThemesDirectory, "*.json", SearchOption.AllDirectories);
+                Log.Information("ThemeProvider: Found {Count} theme files", themeFiles.Length);
+                
+                foreach (var file in themeFiles)
+                {
+                    try
+                    {
+                        Log.Debug("ThemeProvider: Loading theme from {File}", file);
+                        System.Diagnostics.Debug.WriteLine($"ThemeProvider: About to read file {file}");
+                        // Use synchronous read to avoid async context issues during startup
+                        var json = File.ReadAllText(file);
+                        System.Diagnostics.Debug.WriteLine($"ThemeProvider: File read complete, length={json.Length}");
+                        Log.Debug("ThemeProvider: Read JSON file, deserializing...");
+                        var theme = JsonSerializer.Deserialize<ThemeModel>(json);
+                        Log.Debug("ThemeProvider: Deserialized theme, checking validity...");
+                        if (theme != null && !string.IsNullOrEmpty(theme.Id))
+                        {
+                            _themes[theme.Id] = theme;
+                            Log.Information("ThemeProvider: Successfully loaded theme '{ThemeId}' from {File}", theme.Id, Path.GetFileName(file));
+                        }
+                        else
+                        {
+                            Log.Warning("ThemeProvider: Theme from {File} is null or has no ID", file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "ThemeProvider: Error loading theme from {File}", file);
+                    }
+                }
+                Log.Information("ThemeProvider: Finished loading app themes");
+            }
+            else
+            {
+                Log.Warning("ThemeProvider: Themes directory does not exist: {Directory}", appThemesDirectory);
+            }
+
+            // Load custom themes from AppData directory
             if (Directory.Exists(_themesDirectory))
             {
                 var themeFiles = Directory.GetFiles(_themesDirectory, "*.json", SearchOption.AllDirectories);
@@ -81,7 +127,7 @@ namespace InfoPanel.Services
                 {
                     try
                     {
-                        var json = await File.ReadAllTextAsync(file);
+                        var json = File.ReadAllText(file);
                         var theme = JsonSerializer.Deserialize<ThemeModel>(json);
                         if (theme != null && !string.IsNullOrEmpty(theme.Id))
                         {
@@ -90,11 +136,12 @@ namespace InfoPanel.Services
                     }
                     catch (Exception ex)
                     {
-                        // Log error (could integrate with existing logging system)
-                        Console.WriteLine($"Error loading theme from {file}: {ex.Message}");
+                        Log.Error(ex, "ThemeProvider: Error loading custom theme from {File}", file);
                     }
                 }
             }
+            
+            await Task.CompletedTask; // Keep method async-compatible
         }
 
         /// <summary>

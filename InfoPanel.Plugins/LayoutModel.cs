@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace InfoPanel.Models
+namespace InfoPanel.Plugins
 {
     /// <summary>
     /// Represents a layout with structural placement rules (grid, regions, docking).
@@ -44,6 +44,7 @@ namespace InfoPanel.Models
         /// Layout type (Grid, Canvas, Dock, etc.)
         /// </summary>
         [JsonPropertyName("type")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public LayoutType Type { get; set; } = LayoutType.Grid;
 
         /// <summary>

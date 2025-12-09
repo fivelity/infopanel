@@ -1,10 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<Nullable>enable</Nullable>
+		<NoWarn>CS8600;CS8601;CS8602;CS8603;CS8604;CS8605;CS8618;CS8622;WFAC010</NoWarn>
 		<UseWPF>true</UseWPF>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ApplicationIcon>Resources\Images\favicon.ico</ApplicationIcon>
@@ -15,6 +16,7 @@
 		<UseWindowsForms>True</UseWindowsForms>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ApplicationManifest>Resources\app.manifest</ApplicationManifest>
+		<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	</PropertyGroup>
 
@@ -191,29 +193,35 @@
 		<Content Include="index.html">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<Content Include="Themes\*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Layouts\*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-		<PackageReference Include="AutoMapper" Version="14.0.0" />
+		<PackageReference Include="AutoMapper" Version="16.0.0" />
 		<PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
-		<PackageReference Include="FlyleafLib" Version="3.9.3" />
+		<PackageReference Include="FlyleafLib" Version="3.10.1" />
 		<PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
 		<PackageReference Include="HidSharp" Version="2.6.4" />
 		<PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
 		<PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre506" />
 		<PackageReference Include="LibUsbDotNet" Version="2.2.75" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.10" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
 		<PackageReference Include="SecureStore" Version="1.2.2" />
-		<PackageReference Include="Sentry" Version="5.16.1" />
+		<PackageReference Include="Sentry" Version="5.16.2" />
 		<PackageReference Include="Serilog" Version="4.3.0" />
-		<PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="10.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
 		<PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
@@ -221,12 +229,13 @@
 		<PackageReference Include="SkiaSharp" Version="3.119.1" />
 		<PackageReference Include="SkiaSharp.Views.WPF" Version="3.119.1" />
 		<PackageReference Include="Svg.Skia" Version="3.2.1" />
-		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.10" />
-		<PackageReference Include="System.IO.Ports" Version="9.0.10" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.0" />
+		<PackageReference Include="System.IO.Ports" Version="10.0.0" />
 		<PackageReference Include="TaskScheduler" Version="2.12.2" />
 		<PackageReference Include="Topten.RichTextKit" Version="0.4.167" />
-		<PackageReference Include="WPF-UI" Version="3.1.1" />
-		<PackageReference Include="WPF-UI.Tray" Version="3.1.1" />
+		<PackageReference Include="WPF-UI" Version="4.1.0" />
+		<PackageReference Include="WPF-UI.DependencyInjection" Version="4.1.0" />
+		<PackageReference Include="WPF-UI.Tray" Version="4.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

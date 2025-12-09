@@ -1,4 +1,4 @@
-﻿using InfoPanel.Plugins;
+using InfoPanel.Plugins;
 using InfoPanel.Plugins.Loader;
 using InfoPanel.Utils;
 using Serilog;
@@ -66,7 +66,10 @@ namespace InfoPanel.Monitors
                     File.Delete(file);
                 }
             }
-            catch (Exception e) { }
+            catch (Exception)
+            {
+                // Silently catch plugin extraction exceptions
+            }
         }
 
         private static bool UnzipPluginArchive(string filePath)

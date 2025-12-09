@@ -50,7 +50,7 @@ dlldata.c
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
+
 *.vspscc
 *.vssscc
 .builds
@@ -197,3 +197,4 @@ InnoSetup/Output/
 .vs
 /.claude
 /.serena
+VERIFICATION_COMPLETE.md

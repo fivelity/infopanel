@@ -1,4 +1,3 @@
-using InfoPanel.Models;
 using System.Threading.Tasks;
 
 namespace InfoPanel.Plugins

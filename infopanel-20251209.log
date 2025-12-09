@@ -1,0 +1,738 @@
+2025-12-09 00:22:43.135 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+2025-12-09 00:22:43.155 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Hosting environment: Production
+2025-12-09 00:22:43.157 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Content root path: C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64
+2025-12-09 00:22:43.399 -08:00 [DBG] [8] [.NET TP Worker] - [InfoPanel.ConfigModel] Saving settings...
+2025-12-09 00:22:45.301 -08:00 [INF] [1] [] - [InfoPanel.Utils.PawnIoHelper] PawniO detected: version 2.0.1.0
+2025-12-09 00:22:45.382 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor starting initialization
+2025-12-09 00:22:45.417 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor starting initialization
+2025-12-09 00:22:45.604 -08:00 [DBG] [13] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:46.152 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Clock loaded successfully
+2025-12-09 00:22:46.155 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Drive Info loaded successfully
+2025-12-09 00:22:46.208 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin HWiNFO Registry loaded successfully
+2025-12-09 00:22:46.296 -08:00 [DBG] [28] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png
+2025-12-09 00:22:46.296 -08:00 [DBG] [12] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png
+2025-12-09 00:22:46.305 -08:00 [DBG] [28] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png' loaded successfully (Persistent: true)
+2025-12-09 00:22:46.305 -08:00 [DBG] [12] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png' loaded successfully (Persistent: false)
+2025-12-09 00:22:46.336 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Network Info loaded successfully
+2025-12-09 00:22:46.393 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin System Info loaded successfully
+2025-12-09 00:22:46.455 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Drive Info task started
+2025-12-09 00:22:46.511 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin HWiNFO Registry task started
+2025-12-09 00:22:46.635 -08:00 [DBG] [13] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Network Info task started
+2025-12-09 00:22:46.693 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin System Info task started
+2025-12-09 00:22:46.916 -08:00 [DBG] [35] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:46.944 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Volume Info loaded successfully
+2025-12-09 00:22:46.946 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Weather Info - OpenWeatherMap loaded successfully
+2025-12-09 00:22:46.948 -08:00 [INF] [27] [.NET TP Worker] - [InfoPanel.Monitors.PluginMonitor] Plugins loaded in 1149ms
+2025-12-09 00:22:47.244 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Volume Info task started
+2025-12-09 00:22:47.246 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Weather Info - OpenWeatherMap task started
+2025-12-09 00:22:47.364 -08:00 [INF] [11] [.NET TP Worker] - [InfoPanel.Monitors.LibreMonitor] LibreHardwareMonitor computer opened in 1670ms
+2025-12-09 00:22:47.581 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png
+2025-12-09 00:22:47.583 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png' loaded successfully (Persistent: true)
+2025-12-09 00:22:48.226 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:49.535 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:50.845 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:50.871 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png
+2025-12-09 00:22:50.873 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png' loaded successfully (Persistent: true)
+2025-12-09 00:22:52.156 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:53.466 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:54.776 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:56.086 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:56.548 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png
+2025-12-09 00:22:56.549 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png' loaded successfully (Persistent: true)
+2025-12-09 00:22:57.396 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:58.704 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:22:58.792 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress8.png
+2025-12-09 00:22:58.793 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress8.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:00.020 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:01.327 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:02.644 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:03.952 -08:00 [DBG] [35] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:05.260 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:06.573 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:07.848 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:23:07.881 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:09.023 -08:00 [DBG] [36] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:09.189 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:10.143 -08:00 [DBG] [35] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:10.499 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:11.815 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:13.128 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:13.509 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png
+2025-12-09 00:23:13.511 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:14.437 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:14.631 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:15.744 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:15.932 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] BeadaPanelTask stopping
+2025-12-09 00:23:15.934 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] TuringPanelTask stopping
+2025-12-09 00:23:15.935 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor stopping
+2025-12-09 00:23:15.944 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Monitors.LibreMonitor] LibreMonitor task cancelled
+2025-12-09 00:23:16.015 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] Disposing resources for LibreMonitor
+2025-12-09 00:23:16.016 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor stopped
+2025-12-09 00:23:16.017 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor stopping
+2025-12-09 00:23:16.025 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Monitors.PluginMonitor] PluginMonitor task cancelled
+2025-12-09 00:23:16.027 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] Disposing resources for PluginMonitor
+2025-12-09 00:23:16.028 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor stopped
+2025-12-09 00:23:35.596 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+2025-12-09 00:23:35.615 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Hosting environment: Production
+2025-12-09 00:23:35.617 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Content root path: C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64
+2025-12-09 00:23:35.757 -08:00 [INF] [1] [] - [InfoPanel.Utils.PawnIoHelper] PawniO detected: version 2.0.1.0
+2025-12-09 00:23:35.770 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor starting initialization
+2025-12-09 00:23:35.779 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor starting initialization
+2025-12-09 00:23:36.065 -08:00 [DBG] [11] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:36.247 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin Clock loaded successfully
+2025-12-09 00:23:36.250 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin Drive Info loaded successfully
+2025-12-09 00:23:36.252 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin HWiNFO Registry loaded successfully
+2025-12-09 00:23:36.294 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin Network Info loaded successfully
+2025-12-09 00:23:36.305 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin System Info loaded successfully
+2025-12-09 00:23:36.383 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png
+2025-12-09 00:23:36.384 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png
+2025-12-09 00:23:36.391 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png' loaded successfully (Persistent: false)
+2025-12-09 00:23:36.391 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:36.553 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin HWiNFO Registry task started
+2025-12-09 00:23:36.553 -08:00 [DBG] [27] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Drive Info task started
+2025-12-09 00:23:36.594 -08:00 [DBG] [27] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Network Info task started
+2025-12-09 00:23:36.605 -08:00 [DBG] [27] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin System Info task started
+2025-12-09 00:23:36.865 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin Volume Info loaded successfully
+2025-12-09 00:23:36.868 -08:00 [INF] [26] [.NET TP Worker] - [] Plugin Weather Info - OpenWeatherMap loaded successfully
+2025-12-09 00:23:36.870 -08:00 [INF] [26] [.NET TP Worker] - [InfoPanel.Monitors.PluginMonitor] Plugins loaded in 783ms
+2025-12-09 00:23:37.165 -08:00 [DBG] [27] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Volume Info task started
+2025-12-09 00:23:37.167 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Weather Info - OpenWeatherMap task started
+2025-12-09 00:23:37.376 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:37.441 -08:00 [INF] [8] [.NET TP Worker] - [InfoPanel.Monitors.LibreMonitor] LibreHardwareMonitor computer opened in 1360ms
+2025-12-09 00:23:37.618 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png
+2025-12-09 00:23:37.619 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:38.686 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:39.341 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:23:39.792 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png
+2025-12-09 00:23:39.794 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:39.998 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:40.981 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png
+2025-12-09 00:23:40.985 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:41.310 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:42.623 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:43.223 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png
+2025-12-09 00:23:43.225 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png' loaded successfully (Persistent: true)
+2025-12-09 00:23:43.933 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:45.249 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:46.565 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:47.875 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:49.184 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:50.496 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:51.144 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:51.808 -08:00 [DBG] [28] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:53.117 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:53.387 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:54.428 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:55.737 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:57.049 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:57.875 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:58.362 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:23:58.998 -08:00 [DBG] [29] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:23:59.677 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:00.186 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress8.png
+2025-12-09 00:24:00.188 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress8.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:00.985 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:02.292 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:03.600 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:04.907 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:06.215 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:07.533 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:08.842 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:09.161 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:10.153 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:11.461 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:12.527 -08:00 [DBG] [36] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:12.769 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:14.078 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:14.783 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:15.387 -08:00 [DBG] [27] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:16.694 -08:00 [DBG] [27] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:18.004 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:19.313 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:20.446 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:20.623 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:21.569 -08:00 [DBG] [36] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:21.569 -08:00 [DBG] [29] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:21.932 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:23.240 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:23.813 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:24.547 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:24.934 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:24.934 -08:00 [DBG] [29] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:25.856 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:26.668 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:24:26.671 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:24:26.673 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:24:27.165 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:28.473 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:28.855 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:24:28.859 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:24:28.860 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:24:29.489 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:29.489 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:29.683 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:24:29.684 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:24:29.686 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:24:29.754 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:29.758 -08:00 [DBG] [10] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress4.png
+2025-12-09 00:24:29.758 -08:00 [DBG] [26] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress5.png
+2025-12-09 00:24:29.759 -08:00 [DBG] [10] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress4.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.760 -08:00 [DBG] [8] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress3.png
+2025-12-09 00:24:29.760 -08:00 [DBG] [26] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress5.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.766 -08:00 [DBG] [8] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress3.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.758 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress2.png
+2025-12-09 00:24:29.771 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress2.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.773 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress11.png
+2025-12-09 00:24:29.776 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress11.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.778 -08:00 [DBG] [10] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress16.png
+2025-12-09 00:24:29.779 -08:00 [DBG] [36] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:29.780 -08:00 [DBG] [27] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress14.png
+2025-12-09 00:24:29.780 -08:00 [DBG] [10] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress16.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.785 -08:00 [DBG] [27] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress14.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.785 -08:00 [DBG] [28] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress15.png
+2025-12-09 00:24:29.781 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress13.png
+2025-12-09 00:24:29.811 -08:00 [DBG] [28] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress15.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.812 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress13.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.781 -08:00 [DBG] [36] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:29.785 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress12.png
+2025-12-09 00:24:29.780 -08:00 [DBG] [40] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:29.820 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress12.png' loaded successfully (Persistent: true)
+2025-12-09 00:24:29.785 -08:00 [DBG] [41] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:30.865 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:24:30.868 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:24:30.870 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:24:31.130 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:31.610 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:32.441 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:33.749 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:33.976 -08:00 [DBG] [42] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:35.056 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:36.364 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:36.626 -08:00 [DBG] [41] [.NET TP Worker] - [] Cache entry 'MyImage' evicted due to "Expired".
+2025-12-09 00:24:37.348 -08:00 [DBG] [42] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:37.348 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'MyImage' evicted due to "Expired".
+2025-12-09 00:24:37.674 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:38.987 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:39.653 -08:00 [DBG] [41] [.NET TP Worker] - [] Cache entry 'MyImage' evicted due to "Expired".
+2025-12-09 00:24:40.297 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:41.609 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:42.917 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:44.229 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:45.538 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:46.849 -08:00 [DBG] [41] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:48.158 -08:00 [DBG] [41] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:48.642 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:48.642 -08:00 [DBG] [40] [.NET TP Worker] - [] Cache entry 'MyImage' evicted due to "Expired".
+2025-12-09 00:24:49.466 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:50.783 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:52.093 -08:00 [DBG] [10] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:53.402 -08:00 [DBG] [10] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:54.715 -08:00 [DBG] [10] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:55.418 -08:00 [DBG] [41] [.NET TP Worker] - [InfoPanel.ConfigModel] Saving settings...
+2025-12-09 00:24:56.025 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:57.055 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 0 SelectedItems
+2025-12-09 00:24:57.063 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:24:57.065 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:24:57.066 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:24:57.334 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:58.645 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:24:58.798 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:58.798 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'PREVIEW-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:24:58.798 -08:00 [DBG] [41] [.NET TP Worker] - [] Cache entry 'MyImage' evicted due to "Expired".
+2025-12-09 00:24:59.953 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:01.104 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:25:01.106 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:01.108 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:01.264 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:01.680 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:25:01.681 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:01.683 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:02.228 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:25:02.231 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:02.233 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:02.576 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:02.760 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:25:02.761 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:02.762 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:02.778 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.TextProperties] OnCurrentFontChanged newValue: Arial
+2025-12-09 00:25:02.780 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.TextProperties] OnCurrentFontStyleChanged newValue: Italic
+2025-12-09 00:25:03.590 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:25:03.592 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:03.594 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:03.595 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.TextProperties] OnCurrentFontChanged newValue: null
+2025-12-09 00:25:03.596 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.TextProperties] OnCurrentFontStyleChanged newValue: null
+2025-12-09 00:25:03.884 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:04.457 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 1 SelectedItems
+2025-12-09 00:25:04.458 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:04.459 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:05.192 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:05.591 -08:00 [DBG] [41] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:25:06.500 -08:00 [DBG] [25] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:07.811 -08:00 [DBG] [25] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:07.845 -08:00 [DBG] [43] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:25:09.126 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:10.434 -08:00 [DBG] [41] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:11.729 -08:00 [DBG] [43] [.NET TP Worker] - [] Cache entry 'MyImage' evicted due to "Expired".
+2025-12-09 00:25:11.742 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:13.051 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:13.521 -08:00 [DBG] [36] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:25:14.366 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:15.674 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:16.984 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:18.294 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:19.603 -08:00 [DBG] [25] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:20.477 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - 0 SelectedItems
+2025-12-09 00:25:20.486 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:20.488 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] ListViewItems_SelectionChanged - finally
+2025-12-09 00:25:20.490 -08:00 [DBG] [1] [] - [InfoPanel.Views.Components.DisplayItems] SelectedItem changed
+2025-12-09 00:25:20.912 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:20.976 -08:00 [DBG] [25] [.NET TP Worker] - [InfoPanel.ConfigModel] Saving settings...
+2025-12-09 00:25:21.379 -08:00 [DBG] [25] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:25:22.219 -08:00 [DBG] [41] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:23.529 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:24.837 -08:00 [DBG] [43] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:26.144 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:25:27.453 -08:00 [DBG] [42] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:44.713 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+2025-12-09 00:34:44.736 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Hosting environment: Production
+2025-12-09 00:34:44.738 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Content root path: C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64
+2025-12-09 00:34:44.962 -08:00 [DBG] [12] [.NET TP Worker] - [InfoPanel.ConfigModel] Saving settings...
+2025-12-09 00:34:46.313 -08:00 [INF] [1] [] - [InfoPanel.Utils.PawnIoHelper] PawniO detected: version 2.0.1.0
+2025-12-09 00:34:46.328 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor starting initialization
+2025-12-09 00:34:46.378 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor starting initialization
+2025-12-09 00:34:46.617 -08:00 [DBG] [8] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:46.899 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Clock loaded successfully
+2025-12-09 00:34:46.903 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Drive Info loaded successfully
+2025-12-09 00:34:46.906 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin HWiNFO Registry loaded successfully
+2025-12-09 00:34:46.952 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Network Info loaded successfully
+2025-12-09 00:34:46.963 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin System Info loaded successfully
+2025-12-09 00:34:47.022 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png
+2025-12-09 00:34:47.022 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png
+2025-12-09 00:34:47.030 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png' loaded successfully (Persistent: false)
+2025-12-09 00:34:47.030 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png' loaded successfully (Persistent: true)
+2025-12-09 00:34:47.205 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin HWiNFO Registry task started
+2025-12-09 00:34:47.205 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Drive Info task started
+2025-12-09 00:34:47.253 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Network Info task started
+2025-12-09 00:34:47.264 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin System Info task started
+2025-12-09 00:34:47.497 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Volume Info loaded successfully
+2025-12-09 00:34:47.500 -08:00 [INF] [27] [.NET TP Worker] - [] Plugin Weather Info - OpenWeatherMap loaded successfully
+2025-12-09 00:34:47.502 -08:00 [INF] [27] [.NET TP Worker] - [InfoPanel.Monitors.PluginMonitor] Plugins loaded in 792ms
+2025-12-09 00:34:47.799 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Volume Info task started
+2025-12-09 00:34:47.804 -08:00 [DBG] [28] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Weather Info - OpenWeatherMap task started
+2025-12-09 00:34:47.931 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:48.220 -08:00 [INF] [12] [.NET TP Worker] - [InfoPanel.Monitors.LibreMonitor] LibreHardwareMonitor computer opened in 1574ms
+2025-12-09 00:34:48.383 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png
+2025-12-09 00:34:48.385 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png' loaded successfully (Persistent: true)
+2025-12-09 00:34:49.240 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:50.551 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:51.680 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png
+2025-12-09 00:34:51.681 -08:00 [DBG] [35] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png' loaded successfully (Persistent: true)
+2025-12-09 00:34:51.860 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:53.169 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:53.990 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png
+2025-12-09 00:34:53.992 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png' loaded successfully (Persistent: true)
+2025-12-09 00:34:54.477 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:55.787 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:57.097 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:57.356 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png
+2025-12-09 00:34:57.357 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png' loaded successfully (Persistent: true)
+2025-12-09 00:34:58.406 -08:00 [DBG] [11] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:34:59.716 -08:00 [DBG] [11] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:01.025 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:02.333 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:03.642 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:04.952 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:06.262 -08:00 [DBG] [36] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:07.570 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:08.880 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:09.979 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] BeadaPanelTask stopping
+2025-12-09 00:35:09.980 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] TuringPanelTask stopping
+2025-12-09 00:35:09.981 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor stopping
+2025-12-09 00:35:10.093 -08:00 [DBG] [36] [.NET TP Worker] - [InfoPanel.Monitors.LibreMonitor] LibreMonitor task cancelled
+2025-12-09 00:35:10.112 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] Disposing resources for LibreMonitor
+2025-12-09 00:35:10.113 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor stopped
+2025-12-09 00:35:10.114 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor stopping
+2025-12-09 00:35:10.123 -08:00 [DBG] [37] [.NET TP Worker] - [InfoPanel.Monitors.PluginMonitor] PluginMonitor task cancelled
+2025-12-09 00:35:10.124 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] Disposing resources for PluginMonitor
+2025-12-09 00:35:10.125 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor stopped
+2025-12-09 00:35:33.578 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+2025-12-09 00:35:33.598 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Hosting environment: Production
+2025-12-09 00:35:33.599 -08:00 [INF] [1] [] - [Microsoft.Hosting.Lifetime] Content root path: C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64
+2025-12-09 00:35:33.738 -08:00 [INF] [1] [] - [InfoPanel.Utils.PawnIoHelper] PawniO detected: version 2.0.1.0
+2025-12-09 00:35:33.752 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] LibreMonitor starting initialization
+2025-12-09 00:35:33.762 -08:00 [DBG] [1] [] - [InfoPanel.BackgroundTask] PluginMonitor starting initialization
+2025-12-09 00:35:34.041 -08:00 [DBG] [12] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:34.224 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin Clock loaded successfully
+2025-12-09 00:35:34.228 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin Drive Info loaded successfully
+2025-12-09 00:35:34.230 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin HWiNFO Registry loaded successfully
+2025-12-09 00:35:34.271 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin Network Info loaded successfully
+2025-12-09 00:35:34.283 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin System Info loaded successfully
+2025-12-09 00:35:34.356 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png
+2025-12-09 00:35:34.356 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png
+2025-12-09 00:35:34.363 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\card.png' loaded successfully (Persistent: false)
+2025-12-09 00:35:34.363 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress1.png' loaded successfully (Persistent: true)
+2025-12-09 00:35:34.531 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin HWiNFO Registry task started
+2025-12-09 00:35:34.531 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Drive Info task started
+2025-12-09 00:35:34.570 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Network Info task started
+2025-12-09 00:35:34.587 -08:00 [DBG] [29] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin System Info task started
+2025-12-09 00:35:34.832 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin Volume Info loaded successfully
+2025-12-09 00:35:34.836 -08:00 [INF] [10] [.NET TP Worker] - [] Plugin Weather Info - OpenWeatherMap loaded successfully
+2025-12-09 00:35:34.838 -08:00 [INF] [10] [.NET TP Worker] - [InfoPanel.Monitors.PluginMonitor] Plugins loaded in 768ms
+2025-12-09 00:35:35.131 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Volume Info task started
+2025-12-09 00:35:35.137 -08:00 [DBG] [39] [.NET TP Worker] - [InfoPanel.Plugins.Loader.PluginWrapper] Plugin Weather Info - OpenWeatherMap task started
+2025-12-09 00:35:35.352 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:35.420 -08:00 [INF] [8] [.NET TP Worker] - [InfoPanel.Monitors.LibreMonitor] LibreHardwareMonitor computer opened in 1350ms
+2025-12-09 00:35:35.595 -08:00 [DBG] [8] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png
+2025-12-09 00:35:35.597 -08:00 [DBG] [8] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress10.png' loaded successfully (Persistent: true)
+2025-12-09 00:35:36.662 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:37.770 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png
+2025-12-09 00:35:37.771 -08:00 [DBG] [30] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress7.png' loaded successfully (Persistent: true)
+2025-12-09 00:35:37.972 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:39.281 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:40.595 -08:00 [DBG] [27] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:41.202 -08:00 [DBG] [39] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress8.png
+2025-12-09 00:35:41.203 -08:00 [DBG] [39] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress8.png' loaded successfully (Persistent: true)
+2025-12-09 00:35:41.904 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:43.213 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:44.522 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:45.831 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:47.142 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:48.455 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:49.785 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:50.784 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png
+2025-12-09 00:35:50.787 -08:00 [DBG] [38] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress6.png' loaded successfully (Persistent: true)
+2025-12-09 00:35:51.109 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:52.441 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:53.685 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:35:53.762 -08:00 [DBG] [11] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:55.096 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:56.431 -08:00 [DBG] [11] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:57.751 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:59.072 -08:00 [DBG] [28] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:35:59.290 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:00.391 -08:00 [DBG] [28] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:01.715 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:03.023 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:04.333 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:05.159 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:05.641 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:06.949 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:08.257 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:09.566 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:09.714 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:10.874 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:11.957 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:12.185 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:13.502 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:14.267 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:14.811 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:16.118 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:17.427 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:18.737 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:20.046 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:21.355 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:22.667 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:23.309 -08:00 [DBG] [31] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:23.982 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:25.290 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:25.619 -08:00 [DBG] [29] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:26.609 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:27.916 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:29.224 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:30.536 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:31.850 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:32.353 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Models.LockedImage] Image loaded from file: C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png
+2025-12-09 00:36:32.354 -08:00 [DBG] [31] [.NET TP Worker] - [InfoPanel.Cache] Image 'C:\Users\jpfive\AppData\Local\InfoPanel\assets\a73359c0-d5fd-4278-9a88-d884d99ee634\progress=progress9.png' loaded successfully (Persistent: true)
+2025-12-09 00:36:33.168 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:33.473 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:34.479 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:35.787 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:36.905 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:37.094 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:38.403 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:39.149 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:39.710 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:41.018 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:42.328 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:43.645 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:44.825 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:44.958 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:46.266 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:47.579 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:48.887 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:50.202 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:51.515 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:51.689 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:52.822 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:53.932 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:36:54.132 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:55.442 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:56.750 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:58.058 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:36:59.366 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:00.676 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:00.731 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:01.983 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:03.291 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:04.600 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:05.912 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:06.407 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:07.220 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:08.528 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:09.773 -08:00 [DBG] [26] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:09.838 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:11.146 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:12.454 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:13.765 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:14.326 -08:00 [DBG] [26] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:15.077 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:16.385 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:17.693 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:19.002 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:20.314 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:21.623 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:22.931 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:24.239 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:25.547 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:25.614 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:26.802 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:26.854 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:28.165 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:29.472 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:30.167 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:30.787 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:32.096 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:33.403 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:33.599 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:34.712 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:36.019 -08:00 [DBG] [29] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:37.329 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:38.641 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:39.949 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:40.397 -08:00 [DBG] [31] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:41.259 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:41.519 -08:00 [DBG] [29] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:42.569 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:43.878 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:45.186 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:46.074 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:37:46.494 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:47.802 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:49.112 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:50.425 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:51.735 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:53.046 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:54.355 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:55.664 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:56.972 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:58.281 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:37:59.589 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:00.896 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:00.989 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:02.208 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:03.517 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:04.825 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:05.543 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:06.133 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:07.443 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:08.756 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:10.031 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:10.067 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:11.154 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:11.374 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:12.682 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:13.989 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:15.297 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:15.707 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:16.604 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:17.912 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:19.221 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:20.261 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:20.532 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:21.843 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:22.571 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:23.153 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:24.461 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:25.768 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:27.081 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:28.247 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:28.389 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:29.696 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:31.005 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:32.313 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:33.622 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:34.928 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:36.237 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:37.545 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:38.411 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:38.855 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:40.162 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:41.474 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:41.844 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:42.783 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:42.965 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:44.093 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:45.401 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:46.709 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:48.018 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:49.327 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:50.641 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:51.949 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:53.261 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:54.571 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:55.887 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:56.561 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:38:57.197 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:58.504 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:59.813 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:38:59.993 -08:00 [DBG] [26] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:01.125 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:02.237 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:02.432 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:03.740 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:04.548 -08:00 [DBG] [30] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:05.052 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:05.669 -08:00 [DBG] [39] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:06.359 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:07.666 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:08.975 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:10.282 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:11.344 -08:00 [DBG] [26] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:11.593 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:12.903 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:14.210 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:15.518 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:15.833 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:16.825 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:18.132 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:19.440 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:20.387 -08:00 [DBG] [37] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:20.755 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:22.065 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:23.374 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:24.682 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:26.001 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:27.312 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:28.620 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:29.928 -08:00 [DBG] [38] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:31.236 -08:00 [DBG] [26] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:31.740 -08:00 [DBG] [38] [.NET TP Worker] - [] Cache entry 'DISPLAY-a73359c0-d5fd-4278-9a88-d884d99ee634' evicted due to "Expired".
+2025-12-09 00:39:32.556 -08:00 [DBG] [39] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:33.865 -08:00 [DBG] [31] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:35.178 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:36.501 -08:00 [DBG] [37] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:37.839 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:39:39.164 -08:00 [DBG] [30] [.NET TP Worker] - [HWHash] Reading HWiNFO shared memory
+2025-12-09 00:46:03.588 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 00:46:03.604 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 00:46:03.606 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 00:46:03.607 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 00:46:38.008 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 00:46:38.023 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 00:46:38.024 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 00:46:38.025 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 00:46:47.018 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 00:46:47.034 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 00:46:47.035 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 00:46:47.036 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:12:58.196 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:12:58.213 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:12:58.215 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:12:58.216 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:14:08.459 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:14:08.474 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:14:08.476 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:14:08.477 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:15:05.759 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:15:05.775 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:15:05.775 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:15:05.775 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:47:28.469 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:47:28.485 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:47:28.487 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:47:28.488 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:48:36.792 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:48:36.808 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:48:36.809 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:48:36.810 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:51:10.325 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:51:10.340 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:51:10.342 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:51:10.343 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 01:57:57.808 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 01:57:57.825 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 01:57:57.826 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 01:57:57.827 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 02:02:23.681 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 02:02:23.694 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 02:02:23.694 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 02:02:23.694 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 02:19:37.682 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 02:19:37.704 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 02:19:37.705 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 02:19:37.706 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 02:31:24.202 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 02:31:24.218 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 02:31:24.220 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 02:31:24.221 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 02:37:06.261 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 02:37:06.276 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 02:37:06.277 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 02:37:06.278 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 02:41:12.042 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 02:41:12.056 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 02:41:12.058 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 02:41:12.059 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 02:41:22.212 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 02:41:22.228 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 02:41:22.229 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 02:41:22.230 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 03:15:12.441 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 03:15:12.456 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 03:15:12.457 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 03:15:12.458 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 03:16:56.076 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 03:16:56.090 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 03:16:56.092 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 03:16:56.093 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 03:32:01.677 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 03:32:01.696 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 03:32:01.697 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 03:32:01.698 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 03:47:09.516 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 03:47:09.530 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 03:47:09.531 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 03:47:09.532 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 03:47:55.976 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 03:47:55.990 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 03:47:55.991 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 03:47:55.992 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:22:21.726 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:22:21.742 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:22:21.743 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:22:21.744 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:33:59.158 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:33:59.173 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:33:59.175 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:33:59.176 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:33:59.177 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:36:37.426 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:36:37.441 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:36:37.443 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:36:37.444 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:36:37.445 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:39:16.971 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:39:16.990 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:39:16.992 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:39:16.993 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:39:16.993 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:39:50.296 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:39:50.311 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:39:50.313 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:39:50.314 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:39:50.315 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json
+2025-12-09 04:41:43.137 -08:00 [INF] [1] [] - [] ApplicationHostService: Initializing providers...
+2025-12-09 04:41:43.152 -08:00 [INF] [1] [] - [] ThemeProvider: Loaded 2 built-in themes
+2025-12-09 04:41:43.154 -08:00 [INF] [1] [] - [] ThemeProvider: Checking for themes in C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes
+2025-12-09 04:41:43.155 -08:00 [INF] [1] [] - [] ThemeProvider: Found 1 theme files
+2025-12-09 04:41:43.156 -08:00 [DBG] [1] [] - [] ThemeProvider: Loading theme from C:\Users\jpfive\source\repos\infopanel\InfoPanel\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Themes\dark-blue-ultrawide.json

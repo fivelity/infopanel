@@ -1,4 +1,5 @@
 using InfoPanel.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,7 +81,8 @@ namespace InfoPanel.Services
             {
                 try
                 {
-                    var json = await File.ReadAllTextAsync(_workspacesFile);
+                    // Use synchronous read to avoid async context issues during startup
+                    var json = File.ReadAllText(_workspacesFile);
                     var collection = JsonSerializer.Deserialize<WorkspaceCollection>(json);
                     if (collection != null)
                     {
@@ -89,7 +91,7 @@ namespace InfoPanel.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error loading workspaces: {ex.Message}");
+                    Log.Error(ex, "WorkspaceManager: Error loading workspaces");
                     CreateDefaultWorkspace();
                 }
             }
@@ -99,6 +101,7 @@ namespace InfoPanel.Services
             }
 
             WorkspacesLoaded?.Invoke(this, new WorkspacesLoadedEventArgs(_workspaceCollection.Workspaces));
+            await Task.CompletedTask; // Keep method async-compatible
         }
 
         /// <summary>

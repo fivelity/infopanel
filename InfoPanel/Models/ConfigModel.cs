@@ -541,7 +541,7 @@ namespace InfoPanel
                 var config = new AutoMapper.MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<Profile, Profile>();
-                });
+                }, null);
 
                 var mapper = config.CreateMapper();
 

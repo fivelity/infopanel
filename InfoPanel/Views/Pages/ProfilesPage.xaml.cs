@@ -6,8 +6,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using Wpf.Ui.Controls;
+using Wpf.Ui.Abstractions.Controls;
 using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace InfoPanel.Views.Pages
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using InfoPanel.Views.Windows;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Wpf.Ui;
+using Wpf.Ui.Abstractions;
 
 namespace InfoPanel.Services;
 
@@ -18,17 +19,23 @@ public class ApplicationHostService : IHostedService
     private static readonly ILogger Logger = Log.ForContext<ApplicationHostService>();
     private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
-    private readonly IPageService _pageService;
+    private readonly INavigationViewPageProvider _pageProvider;
+    private readonly ThemeProvider _themeProvider;
+    private readonly LayoutProvider _layoutProvider;
+    private readonly WorkspaceManager _workspaceManager;
 
     private INavigationWindow? _navigationWindow;
 
     public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService,
-        IPageService pageService)
+        INavigationViewPageProvider pageProvider, ThemeProvider themeProvider, LayoutProvider layoutProvider, WorkspaceManager workspaceManager)
     {
         // If you want, you can do something with these services at the beginning of loading the application.
         _serviceProvider = serviceProvider;
         _navigationService = navigationService;
-        _pageService = pageService;
+        _pageProvider = pageProvider;
+        _themeProvider = themeProvider;
+        _layoutProvider = layoutProvider;
+        _workspaceManager = workspaceManager;
     }
 
     /// <summary>
@@ -37,13 +44,33 @@ public class ApplicationHostService : IHostedService
     /// <param name="cancellationToken">Indicates that the start process has been aborted.</param>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        Logger.Information("StartAsync: Application host service starting");
-        PrepareNavigation();
-        Logger.Information("StartAsync: Navigation prepared, calling HandleActivationAsync");
+        try
+        {
+            Logger.Information("StartAsync: Application host service starting");
 
-        await HandleActivationAsync();
+            // Initialize theme and layout providers
+            Logger.Information("StartAsync: Initializing providers...");
+            await _themeProvider.LoadThemesAsync();
+            Logger.Information("StartAsync: LoadThemesAsync completed, loaded {Count} themes", _themeProvider.Themes.Count);
 
-        Logger.Information("StartAsync: Application host service started successfully");
+            await _layoutProvider.LoadLayoutsAsync();
+            Logger.Information("StartAsync: LoadLayoutsAsync completed, loaded {Count} layouts", _layoutProvider.Layouts.Count);
+
+            await _workspaceManager.LoadWorkspacesAsync();
+            Logger.Information("StartAsync: Provider initialization complete");
+
+            PrepareNavigation();
+            Logger.Information("StartAsync: Navigation prepared, calling HandleActivationAsync");
+
+            await HandleActivationAsync();
+
+            Logger.Information("StartAsync: Application host service started successfully");
+        }
+        catch (Exception ex)
+        {
+            Logger.Fatal(ex, "StartAsync: Critical error during application startup");
+            throw;
+        }
     }
 
     /// <summary>
@@ -60,44 +87,49 @@ public class ApplicationHostService : IHostedService
     /// </summary>
     private async Task HandleActivationAsync()
     {
-        await Task.CompletedTask;
-
         try
         {
-            Logger.Information("HandleActivationAsync: Checking for existing MainWindow");
-            if (!Application.Current.Windows.OfType<MainWindow>().Any())
+            Logger.Information("HandleActivationAsync: Starting window activation");
+
+            // Must create window on UI thread
+            await Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Logger.Information("HandleActivationAsync: No existing MainWindow found, creating new one");
-
-                Logger.Debug("HandleActivationAsync: Requesting INavigationWindow from service provider");
-                _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
-
-                if (_navigationWindow == null)
+                Logger.Debug("HandleActivationAsync: Checking for existing MainWindow");
+                if (!Application.Current.Windows.OfType<MainWindow>().Any())
                 {
-                    Logger.Error("HandleActivationAsync: Failed to get INavigationWindow from service provider");
-                    throw new InvalidOperationException("Failed to resolve INavigationWindow from service provider");
-                }
+                    Logger.Information("HandleActivationAsync: No existing MainWindow found, creating new one on UI thread");
 
-                Logger.Information("HandleActivationAsync: MainWindow created successfully, calling ShowWindow()");
-                _navigationWindow.ShowWindow();
-                Logger.Information("HandleActivationAsync: ShowWindow() completed");
-            }
-            else
-            {
-                Logger.Information("HandleActivationAsync: MainWindow already exists");
-            }
+                    Logger.Debug("HandleActivationAsync: Requesting INavigationWindow from service provider");
+                    _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
+
+                    if (_navigationWindow == null)
+                    {
+                        Logger.Error("HandleActivationAsync: Failed to resolve INavigationWindow from service provider");
+                        throw new InvalidOperationException("Failed to resolve INavigationWindow from service provider");
+                    }
+
+                    Logger.Information("HandleActivationAsync: MainWindow created successfully, calling ShowWindow()");
+                    _navigationWindow.ShowWindow();
+                    Logger.Information("HandleActivationAsync: ShowWindow() completed");
+                }
+                else
+                {
+                    Logger.Information("HandleActivationAsync: MainWindow already exists");
+                }
+            });
+
+            Logger.Information("HandleActivationAsync: Window activation completed successfully");
         }
         catch (Exception ex)
         {
             Logger.Fatal(ex, "HandleActivationAsync: Critical error during window activation");
             throw;
         }
-
-        await Task.CompletedTask;
     }
 
     private void PrepareNavigation()
     {
-        _navigationService.SetPageService(_pageService);
+        // Page provider is set directly on NavigationView in MainWindow constructor
+        // No additional setup needed here for WPF-UI 4.x
     }
 }

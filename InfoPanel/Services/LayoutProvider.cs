@@ -1,10 +1,12 @@
 using InfoPanel.Models;
+using InfoPanel.Plugins;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace InfoPanel.Services
 {
@@ -79,8 +81,48 @@ namespace InfoPanel.Services
 
             // Load built-in default layouts
             LoadDefaultLayouts();
+            Log.Information("LayoutProvider: Loaded {Count} built-in layouts", _layouts.Count);
 
-            // Load custom layouts from directory
+            // Load layouts from application directory (bundled layouts)
+            var appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var appLayoutsDirectory = Path.Combine(appDirectory, "Layouts");
+            Log.Information("LayoutProvider: Checking for layouts in {Directory}", appLayoutsDirectory);
+            
+            if (Directory.Exists(appLayoutsDirectory))
+            {
+                var layoutFiles = Directory.GetFiles(appLayoutsDirectory, "*.json", SearchOption.AllDirectories);
+                Log.Information("LayoutProvider: Found {Count} layout files", layoutFiles.Length);
+                
+                foreach (var file in layoutFiles)
+                {
+                    try
+                    {
+                        Log.Debug("LayoutProvider: Loading layout from {File}", file);
+                        // Use synchronous read to avoid async context issues during startup
+                        var json = File.ReadAllText(file);
+                        var layout = JsonSerializer.Deserialize<LayoutModel>(json);
+                        if (layout != null && !string.IsNullOrEmpty(layout.Id))
+                        {
+                            _layouts[layout.Id] = layout;
+                            Log.Information("LayoutProvider: Successfully loaded layout '{LayoutId}' from {File}", layout.Id, Path.GetFileName(file));
+                        }
+                        else
+                        {
+                            Log.Warning("LayoutProvider: Layout from {File} is null or has no ID", file);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "LayoutProvider: Error loading layout from {File}", file);
+                    }
+                }
+            }
+            else
+            {
+                Log.Warning("LayoutProvider: Layouts directory does not exist: {Directory}", appLayoutsDirectory);
+            }
+
+            // Load custom layouts from AppData directory
             if (Directory.Exists(_layoutsDirectory))
             {
                 var layoutFiles = Directory.GetFiles(_layoutsDirectory, "*.json", SearchOption.AllDirectories);
@@ -88,7 +130,7 @@ namespace InfoPanel.Services
                 {
                     try
                     {
-                        var json = await File.ReadAllTextAsync(file);
+                        var json = File.ReadAllText(file);
                         var layout = JsonSerializer.Deserialize<LayoutModel>(json);
                         if (layout != null && !string.IsNullOrEmpty(layout.Id))
                         {
@@ -97,10 +139,12 @@ namespace InfoPanel.Services
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error loading layout from {file}: {ex.Message}");
+                        Log.Error(ex, "LayoutProvider: Error loading custom layout from {File}", file);
                     }
                 }
             }
+            
+            await Task.CompletedTask; // Keep method async-compatible
         }
 
         /// <summary>

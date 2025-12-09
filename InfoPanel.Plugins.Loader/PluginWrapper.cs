@@ -1,4 +1,4 @@
-﻿using Serilog;
+using Serilog;
 using System.Diagnostics;
 using System.Threading;
 using System.Reflection;
@@ -43,9 +43,9 @@ namespace InfoPanel.Plugins.Loader
                 Plugin.Update();
                 _updateTimeMilliseconds = _stopwatch.ElapsedMilliseconds;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                
+                // Silently catch exceptions during manual update
             }
         }
 

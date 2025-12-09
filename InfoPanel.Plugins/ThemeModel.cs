@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace InfoPanel.Models
+namespace InfoPanel.Plugins
 {
     /// <summary>
     /// Represents a theme with visual tokens (colors, typography, spacing, elevation, motion).

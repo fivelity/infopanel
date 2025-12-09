@@ -1,0 +1,109 @@
+{
+  "id": "ultrawide-fullscreen",
+  "name": "Ultrawide Fullscreen",
+  "description": "Optimized layout for ultrawide displays (21:9, 32:9) with oversized controls and efficient use of horizontal space",
+  "author": "InfoPanel",
+  "version": "1.0.0",
+  "type": "Grid",
+  "grid": {
+    "columns": 6,
+    "rows": 3,
+    "columnDefinitions": [
+      "1.5*",
+      "1*",
+      "1*",
+      "1*",
+      "1*",
+      "1.5*"
+    ],
+    "rowDefinitions": [
+      "1*",
+      "1*",
+      "1*"
+    ],
+    "gap": 16,
+    "padding": 28
+  },
+  "regions": [
+    {
+      "id": "hero-left",
+      "name": "Hero Panel Left",
+      "column": 0,
+      "row": 0,
+      "columnSpan": 2,
+      "rowSpan": 2
+    },
+    {
+      "id": "center-top-1",
+      "name": "Center Top 1",
+      "column": 2,
+      "row": 0,
+      "columnSpan": 1,
+      "rowSpan": 1
+    },
+    {
+      "id": "center-top-2",
+      "name": "Center Top 2",
+      "column": 3,
+      "row": 0,
+      "columnSpan": 1,
+      "rowSpan": 1
+    },
+    {
+      "id": "hero-right",
+      "name": "Hero Panel Right",
+      "column": 4,
+      "row": 0,
+      "columnSpan": 2,
+      "rowSpan": 2
+    },
+    {
+      "id": "center-middle-1",
+      "name": "Center Middle 1",
+      "column": 2,
+      "row": 1,
+      "columnSpan": 1,
+      "rowSpan": 1
+    },
+    {
+      "id": "center-middle-2",
+      "name": "Center Middle 2",
+      "column": 3,
+      "row": 1,
+      "columnSpan": 1,
+      "rowSpan": 1
+    },
+    {
+      "id": "bottom-left",
+      "name": "Bottom Left",
+      "column": 0,
+      "row": 2,
+      "columnSpan": 2,
+      "rowSpan": 1
+    },
+    {
+      "id": "bottom-center-1",
+      "name": "Bottom Center 1",
+      "column": 2,
+      "row": 2,
+      "columnSpan": 1,
+      "rowSpan": 1
+    },
+    {
+      "id": "bottom-center-2",
+      "name": "Bottom Center 2",
+      "column": 3,
+      "row": 2,
+      "columnSpan": 1,
+      "rowSpan": 1
+    },
+    {
+      "id": "bottom-right",
+      "name": "Bottom Right",
+      "column": 4,
+      "row": 2,
+      "columnSpan": 2,
+      "rowSpan": 1
+    }
+  ]
+}
