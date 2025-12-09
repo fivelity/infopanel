@@ -73,7 +73,32 @@ namespace InfoPanel.Services
             // Load built-in default themes
             LoadDefaultThemes();
 
-            // Load custom themes from directory
+            // Load themes from application directory (bundled themes)
+            var appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var appThemesDirectory = Path.Combine(appDirectory, "Themes");
+            if (Directory.Exists(appThemesDirectory))
+            {
+                var themeFiles = Directory.GetFiles(appThemesDirectory, "*.json", SearchOption.AllDirectories);
+                foreach (var file in themeFiles)
+                {
+                    try
+                    {
+                        var json = await File.ReadAllTextAsync(file);
+                        var theme = JsonSerializer.Deserialize<ThemeModel>(json);
+                        if (theme != null && !string.IsNullOrEmpty(theme.Id))
+                        {
+                            _themes[theme.Id] = theme;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log error (could integrate with existing logging system)
+                        Console.WriteLine($"Error loading theme from {file}: {ex.Message}");
+                    }
+                }
+            }
+
+            // Load custom themes from AppData directory
             if (Directory.Exists(_themesDirectory))
             {
                 var themeFiles = Directory.GetFiles(_themesDirectory, "*.json", SearchOption.AllDirectories);

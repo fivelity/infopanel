@@ -13,11 +13,14 @@
     DataContext="{Binding RelativeSource={RelativeSource self}}"
     mc:Ignorable="d">
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20" MaxWidth="1600">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
         <!--  Header  -->
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
@@ -103,7 +106,9 @@
                                 ItemsSource="{Binding ViewModel.AvailableThemes}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
+                                        <WrapPanel
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -294,7 +299,9 @@
                                 ItemsSource="{Binding ViewModel.AvailableLayouts}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
+                                        <WrapPanel
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
@@ -549,5 +556,6 @@
                 </TabItem>
             </TabControl>
         </Border>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

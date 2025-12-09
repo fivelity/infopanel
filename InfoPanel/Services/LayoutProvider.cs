@@ -81,7 +81,31 @@ namespace InfoPanel.Services
             // Load built-in default layouts
             LoadDefaultLayouts();
 
-            // Load custom layouts from directory
+            // Load layouts from application directory (bundled layouts)
+            var appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var appLayoutsDirectory = Path.Combine(appDirectory, "Layouts");
+            if (Directory.Exists(appLayoutsDirectory))
+            {
+                var layoutFiles = Directory.GetFiles(appLayoutsDirectory, "*.json", SearchOption.AllDirectories);
+                foreach (var file in layoutFiles)
+                {
+                    try
+                    {
+                        var json = await File.ReadAllTextAsync(file);
+                        var layout = JsonSerializer.Deserialize<LayoutModel>(json);
+                        if (layout != null && !string.IsNullOrEmpty(layout.Id))
+                        {
+                            _layouts[layout.Id] = layout;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error loading layout from {file}: {ex.Message}");
+                    }
+                }
+            }
+
+            // Load custom layouts from AppData directory
             if (Directory.Exists(_layoutsDirectory))
             {
                 var layoutFiles = Directory.GetFiles(_layoutsDirectory, "*.json", SearchOption.AllDirectories);
