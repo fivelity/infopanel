@@ -16,6 +16,7 @@
 		<UseWindowsForms>True</UseWindowsForms>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ApplicationManifest>Resources\app.manifest</ApplicationManifest>
+		<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	</PropertyGroup>
 

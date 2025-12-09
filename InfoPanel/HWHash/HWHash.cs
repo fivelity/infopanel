@@ -55,7 +55,9 @@ using System.Timers;
         /// Note: Not currently used
         /// </summary>
         // ReSharper disable once NotAccessedField.Local
+#pragma warning disable CS0414 // Field is assigned but its value is never used
         private static bool RoundMS = false;
+#pragma warning restore CS0414 // Field is assigned but its value is never used
         /// <summary>
         /// Delay in milliseconds (ms) between each update. Default is 1000 [ms], minimum is 100 [ms], maximum is 60000 [ms]. Make sure you configure HWInfo interval too so it will pull at the same rate.
         /// </summary>
