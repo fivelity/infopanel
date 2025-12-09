@@ -17,16 +17,22 @@ public class ApplicationHostService : IHostedService
     private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
     private readonly IPageService _pageService;
+    private readonly ThemeProvider _themeProvider;
+    private readonly LayoutProvider _layoutProvider;
+    private readonly WorkspaceManager _workspaceManager;
 
     private INavigationWindow? _navigationWindow;
 
     public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService,
-        IPageService pageService)
+        IPageService pageService, ThemeProvider themeProvider, LayoutProvider layoutProvider, WorkspaceManager workspaceManager)
     {
         // If you want, you can do something with these services at the beginning of loading the application.
         _serviceProvider = serviceProvider;
         _navigationService = navigationService;
         _pageService = pageService;
+        _themeProvider = themeProvider;
+        _layoutProvider = layoutProvider;
+        _workspaceManager = workspaceManager;
     }
 
     /// <summary>
@@ -35,6 +41,15 @@ public class ApplicationHostService : IHostedService
     /// <param name="cancellationToken">Indicates that the start process has been aborted.</param>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        // Initialize theme and layout providers
+        Console.WriteLine("ApplicationHostService: Initializing providers...");
+        await _themeProvider.LoadThemesAsync();
+        Console.WriteLine($"ApplicationHostService: Loaded {_themeProvider.Themes.Count} themes");
+        await _layoutProvider.LoadLayoutsAsync();
+        Console.WriteLine($"ApplicationHostService: Loaded {_layoutProvider.Layouts.Count} layouts");
+        await _workspaceManager.LoadWorkspacesAsync();
+        Console.WriteLine("ApplicationHostService: Provider initialization complete");
+
         PrepareNavigation();
 
         await HandleActivationAsync();

@@ -69,11 +69,11 @@ namespace InfoPanel.ViewModels
         public ICommand ImportWorkspaceCommand { get; }
         public ICommand DuplicateWorkspaceCommand { get; }
 
-        public AppearanceViewModel()
+        public AppearanceViewModel(ThemeProvider themeProvider, LayoutProvider layoutProvider, WorkspaceManager workspaceManager)
         {
-            _themeProvider = ThemeProvider.Instance;
-            _layoutProvider = LayoutProvider.Instance;
-            _workspaceManager = WorkspaceManager.Instance;
+            _themeProvider = themeProvider;
+            _layoutProvider = layoutProvider;
+            _workspaceManager = workspaceManager;
 
             // Initialize commands
             SelectThemeCommand = new RelayCommand<string>(SelectTheme);

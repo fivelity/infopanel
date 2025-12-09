@@ -84,6 +84,11 @@ namespace InfoPanel
            // Service containing navigation, same as INavigationWindow... but without window
            services.AddSingleton<INavigationService, NavigationService>();
 
+           // Theme and Layout providers
+           services.AddSingleton<ThemeProvider>();
+           services.AddSingleton<LayoutProvider>();
+           services.AddSingleton<WorkspaceManager>();
+
            // Main window container with navigation
            services.AddScoped<INavigationWindow, MainWindow>();
            //services.AddScoped<ContainerViewModel>();
