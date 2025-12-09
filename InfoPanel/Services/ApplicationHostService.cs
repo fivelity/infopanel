@@ -57,6 +57,13 @@ public class ApplicationHostService : IHostedService
             Logger.Information("StartAsync: LoadLayoutsAsync completed, loaded {Count} layouts", _layoutProvider.Layouts.Count);
 
             await _workspaceManager.LoadWorkspacesAsync();
+            Logger.Information("StartAsync: WorkspaceManager initialized, loaded {Count} workspaces", _workspaceManager.Workspaces.Count);
+
+            // Apply default theme on startup
+            Logger.Information("StartAsync: Applying default theme '{ThemeId}'", _themeProvider.CurrentThemeId);
+            _themeProvider.ApplyTheme(_themeProvider.CurrentThemeId);
+            Logger.Information("StartAsync: Default theme applied");
+
             Logger.Information("StartAsync: Provider initialization complete");
 
             PrepareNavigation();
