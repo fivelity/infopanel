@@ -1,21 +1,17 @@
 ﻿using InfoPanel.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Wpf.Ui.Controls;
 using static InfoPanel.Models.SensorDisplayItem;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for SensorProperties.xaml
-    /// </summary>
-    public partial class SensorProperties : UserControl
+    public sealed partial class SensorProperties : UserControl
     {
         public static readonly DependencyProperty ItemProperty =
-       DependencyProperty.Register("SensorDisplayItem", typeof(SensorDisplayItem), typeof(SensorProperties));
+            DependencyProperty.Register("SensorDisplayItem", typeof(SensorDisplayItem), typeof(SensorProperties));
 
         public SensorDisplayItem SensorDisplayItem
         {
@@ -25,9 +21,8 @@ namespace InfoPanel.Views.Components
 
         public SensorProperties()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             ComboBoxValueType.ItemsSource = Enum.GetValues(typeof(SensorValueType)).Cast<SensorValueType>();
-            //Masking.SetMask(TextBoxMultiplier, "^\\$?\\-?([1-9]{1}[0-9]{0,3}(\\,\\d{3})*(\\.\\d{0,3})?|[1-9]{1}\\d{0,}(\\.\\d{0,3})?|0(\\.\\d{0,3})?|(\\.\\d{1,3}))$|^\\-?\\$?([1-9]{1}\\d{0,3}(\\,\\d{3})*(\\.\\d{0,3})?|[1-9]{1}\\d{0,}(\\.\\d{0,3})?|0(\\.\\d{0,3})?|(\\.\\d{1,3}))$|^\\(\\$?([1-9]{1}\\d{0,3}(\\,\\d{3})*(\\.\\d{0,2})?|[1-9]{1}\\d{0,}(\\.\\d{0,3})?|0(\\.\\d{0,3})?|(\\.\\d{1,3}))\\)$");
         }
 
         private void NumberBoxPrecision_TextChanged(object sender, TextChangedEventArgs e)

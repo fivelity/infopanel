@@ -5,24 +5,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
-using Wpf.Ui.Controls;
-using Wpf.Ui;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Profile = InfoPanel.Models.Profile;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for ProfilePageItem.xaml
-    /// </summary>
-    public partial class ProfilePageItemView : UserControl
+    public sealed partial class ProfilePageItemView : UserControl
     {
-        private readonly IContentDialogService _contentDialogService;
-        private readonly ISnackbarService _snackbarService;
-
-        private DispatcherTimer? timer;
+        private Microsoft.UI.Xaml.DispatcherTimer? timer;
         private TaskCompletionSource<bool>? _paintCompletionSource;
         private CancellationTokenSource? _cancellationTokenSource;
         private readonly SemaphoreSlim _updateSemaphore = new(1, 1);

@@ -2,29 +2,25 @@
 using InfoPanel.Monitors;
 using InfoPanel.ViewModels.Components;
 using LibreHardwareMonitor.Hardware;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for HWiNFOSensors.xaml
-    /// </summary>
-    public partial class LibreSensors : System.Windows.Controls.UserControl
+    public sealed partial class LibreSensors : UserControl
     {
         private LibreSensorsVM ViewModel { get; set; }
 
-        private readonly DispatcherTimer UpdateTimer = new() { Interval = TimeSpan.FromSeconds(1) };
+        private readonly Microsoft.UI.Xaml.DispatcherTimer UpdateTimer = new() { Interval = TimeSpan.FromSeconds(1) };
 
         public LibreSensors()
         {
             ViewModel = new LibreSensorsVM();
             DataContext = ViewModel;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             Loaded += LibreSensors_Loaded;
             Unloaded += LibreSensors_Unloaded;

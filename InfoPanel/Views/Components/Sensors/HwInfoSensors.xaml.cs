@@ -1,29 +1,25 @@
 ﻿using InfoPanel.Models;
 using InfoPanel.ViewModels.Components;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for HWiNFOSensors.xaml
-    /// </summary>
-    public partial class HwInfoSensors : System.Windows.Controls.UserControl
+    public sealed partial class HwInfoSensors : UserControl
     {
         private HwInfoSensorsVM ViewModel { get; set; }
 
-        private readonly DispatcherTimer UpdateTimer = new() { Interval = TimeSpan.FromSeconds(1) };
+        private readonly Microsoft.UI.Xaml.DispatcherTimer UpdateTimer = new() { Interval = TimeSpan.FromSeconds(1) };
 
         public HwInfoSensors()
         {
             ViewModel = new HwInfoSensorsVM();
             DataContext = ViewModel;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             Loaded += HwInfoSensors_Loaded;
             Unloaded += HwInfoSensors_Unloaded;

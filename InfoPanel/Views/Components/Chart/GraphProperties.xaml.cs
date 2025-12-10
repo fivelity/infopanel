@@ -1,19 +1,16 @@
 ﻿using InfoPanel.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using static InfoPanel.Models.GraphDisplayItem;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for GraphProperties.xaml
-    /// </summary>
-    public partial class GraphProperties : UserControl
+    public sealed partial class GraphProperties : UserControl
     {
         public static readonly DependencyProperty ItemProperty =
-       DependencyProperty.Register("GraphDisplayItem", typeof(GraphDisplayItem), typeof(GraphProperties));
+            DependencyProperty.Register("GraphDisplayItem", typeof(GraphDisplayItem), typeof(GraphProperties));
 
         public GraphDisplayItem GraphDisplayItem
         {
@@ -23,7 +20,7 @@ namespace InfoPanel.Views.Components
 
         public GraphProperties()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             ComboBoxType.ItemsSource = Enum.GetValues(typeof(GraphType)).Cast<GraphType>();
         }
 

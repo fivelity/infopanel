@@ -1,20 +1,13 @@
 ﻿using InfoPanel.Models;
-using System.Windows;
-using System.Windows.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for TextProperties.xaml
-    /// </summary>
-    /// 
-
-
-    public partial class TableSensorProperties : UserControl
+    public sealed partial class TableSensorProperties : UserControl
     {
         public static readonly DependencyProperty ItemProperty =
-        DependencyProperty.Register("TableSensorDisplayItem", typeof(TableSensorDisplayItem), typeof(TableSensorProperties));
-
+            DependencyProperty.Register("TableSensorDisplayItem", typeof(TableSensorDisplayItem), typeof(TableSensorProperties));
 
         public TableSensorDisplayItem TableSensorDisplayItem
         {
@@ -24,7 +17,7 @@ namespace InfoPanel.Views.Components
 
         public TableSensorProperties()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

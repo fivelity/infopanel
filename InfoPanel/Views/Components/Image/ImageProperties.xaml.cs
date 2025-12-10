@@ -1,38 +1,44 @@
 ﻿using InfoPanel.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+using Windows.Storage.Pickers;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for ImageProperties.xaml
-    /// </summary>
-    public partial class ImageProperties : UserControl
+    public sealed partial class ImageProperties : UserControl
     {
         public ImageProperties()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             ComboBoxType.ItemsSource = Enum.GetValues(typeof(ImageDisplayItem.ImageType)).Cast<ImageDisplayItem.ImageType>();
         }
 
-        private void ButtonSelect_Click(object sender, RoutedEventArgs e)
+        private async void ButtonSelect_Click(object sender, RoutedEventArgs e)
         {
             if (SharedModel.Instance.SelectedItem is ImageDisplayItem imageDisplayItem)
             {
-                Microsoft.Win32.OpenFileDialog openFileDialog = new()
+                var fileOpenPicker = new FileOpenPicker
                 {
-                    Multiselect = false,
-                    Filter =
-                    "All supported files|*.jpg;*.jpeg;*.png;*.svg;*.gif;*.webp;*.mp4;*.mkv;*.webm;*.avi;*.mov" +
-                    "|Image files (*.jpg, *.jpeg, *.png, *.svg)|*.jpg;*.jpeg;*.png;*.svg" +
-                    "|Animated files (*.gif, *.webp)|*.gif;*.webp" +
-                    "|Video files (*.mp4, *.mkv, *.webm, *.avi, *.mov)|*.mp4;*.mkv;*.webm;*.avi;*.mov",
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)
+                    ViewMode = PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = PickerLocationId.ComputerFolder
                 };
-                if (openFileDialog.ShowDialog() == true)
+                fileOpenPicker.FileTypeFilter.Add(".jpg");
+                fileOpenPicker.FileTypeFilter.Add(".jpeg");
+                fileOpenPicker.FileTypeFilter.Add(".png");
+                fileOpenPicker.FileTypeFilter.Add(".svg");
+                fileOpenPicker.FileTypeFilter.Add(".gif");
+                fileOpenPicker.FileTypeFilter.Add(".webp");
+                fileOpenPicker.FileTypeFilter.Add(".mp4");
+                fileOpenPicker.FileTypeFilter.Add(".mkv");
+                fileOpenPicker.FileTypeFilter.Add(".webm");
+                fileOpenPicker.FileTypeFilter.Add(".avi");
+                fileOpenPicker.FileTypeFilter.Add(".mov");
+
+                var file = await fileOpenPicker.PickSingleFileAsync();
+                if (file != null)
                 {
                     var profile = SharedModel.Instance.SelectedProfile;
 

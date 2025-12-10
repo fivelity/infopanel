@@ -2,14 +2,13 @@
     x:Class="InfoPanel.Views.Components.LibreSensors"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:app="clr-namespace:InfoPanel"
-    xmlns:components="clr-namespace:InfoPanel.Views.Components"
+    xmlns:app="using:InfoPanel"
+    xmlns:components="using:InfoPanel.Views.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:InfoPanel"
+    xmlns:local="using:InfoPanel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:InfoPanel.Models"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+    xmlns:models="using:InfoPanel.Models"
+    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
     mc:Ignorable="d">
 
     <Grid Margin="0,0,0,0">

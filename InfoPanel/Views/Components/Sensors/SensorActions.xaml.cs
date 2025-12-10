@@ -1,15 +1,15 @@
 ﻿using InfoPanel.Enums;
 using InfoPanel.Models;
 using InfoPanel.ViewModels.Components;
-using System.Windows;
-using System.Windows.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace InfoPanel.Views.Components
 {
     /// <summary>
     /// Interaction logic for SensorActions.xaml
     /// </summary>
-    public partial class SensorActions : UserControl
+    public sealed partial class SensorActions : UserControl
     {
         public static readonly DependencyProperty SelectedSensorItemProperty =
             DependencyProperty.Register(nameof(SelectedSensorItem), typeof(SensorTreeItem), typeof(SensorActions), new PropertyMetadata(null));

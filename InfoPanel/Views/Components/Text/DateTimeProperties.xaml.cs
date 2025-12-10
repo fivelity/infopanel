@@ -1,10 +1,9 @@
 ﻿using InfoPanel.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace InfoPanel.Views.Components
 {
@@ -20,9 +19,9 @@ namespace InfoPanel.Views.Components
     /// <summary>
     /// Interaction logic for DateTimeProperties.xaml
     /// </summary>
-    public partial class DateTimeProperties : UserControl
+    public sealed partial class DateTimeProperties : UserControl
     {
-        private readonly DispatcherTimer _previewTimer;
+        private readonly Microsoft.UI.Xaml.DispatcherTimer _previewTimer;
         private bool _isUpdatingFromTemplate = false;
 
         public static readonly DependencyProperty IsDateVisibleProperty =

@@ -1,34 +1,27 @@
 ﻿using InfoPanel.Drawing;
 using InfoPanel.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Serilog;
 using SkiaSharp;
 using System.Collections.ObjectModel;
-using Serilog;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using Wpf.Ui.Controls;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for TextProperties.xaml
-    /// </summary>
-    /// 
-
-
-    public partial class TextProperties : UserControl
+    public sealed partial class TextProperties : UserControl
     {
         private static readonly ILogger Logger = Log.ForContext<TextProperties>();
         public static readonly DependencyProperty ItemProperty =
-        DependencyProperty.Register("TextDisplayItem", typeof(TextDisplayItem), typeof(TextProperties));
+            DependencyProperty.Register("TextDisplayItem", typeof(TextDisplayItem), typeof(TextProperties));
 
         public static readonly DependencyProperty CurrentFontProperty =
-        DependencyProperty.Register("CurrentFont", typeof(string), typeof(TextProperties),
+            DependencyProperty.Register("CurrentFont", typeof(string), typeof(TextProperties),
             new PropertyMetadata(null, OnCurrentFontChanged));
 
         public static readonly DependencyProperty CurrentFontStyleProperty =
-        DependencyProperty.Register("CurrentFontStyle", typeof(string), typeof(TextProperties),
+            DependencyProperty.Register("CurrentFontStyle", typeof(string), typeof(TextProperties),
             new PropertyMetadata(null, OnCurrentFontStyleChanged));
 
         public ObservableCollection<string> InstalledFonts { get; } = [];
@@ -46,32 +39,49 @@ namespace InfoPanel.Views.Components
             get { return (string)GetValue(CurrentFontProperty); }
             set { SetValue(CurrentFontProperty, value); }
         }
+        
         public string CurrentFontStyle
         {
             get { return (string)GetValue(CurrentFontStyleProperty); }
             set { SetValue(CurrentFontStyleProperty, value); }
         }
 
+        // Properties for x:Bind
+        public string Name => TextDisplayItem?.Name ?? string.Empty;
+        public bool Underline => TextDisplayItem?.Underline ?? false;
+        public bool Strikeout => TextDisplayItem?.Strikeout ?? false;
+        public bool RightAlign => TextDisplayItem?.RightAlign ?? false;
+        public bool Uppercase => TextDisplayItem?.Uppercase ?? false;
+        public bool Wrap => TextDisplayItem?.Wrap ?? false;
+        public bool Ellipsis => TextDisplayItem?.Ellipsis ?? false;
+        public bool CenterAlign => TextDisplayItem?.CenterAlign ?? false;
+        public bool Marquee => TextDisplayItem?.Marquee ?? false;
+        public int Width => TextDisplayItem?.Width ?? 0;
+        public int MarqueeSpacing => TextDisplayItem?.MarqueeSpacing ?? 0;
+        public double MarqueeSpeed => TextDisplayItem?.MarqueeSpeed ?? 0;
+        public Windows.UI.Color Color => TextDisplayItem?.Color ?? Windows.UI.Color.FromArgb(255, 255, 255, 255);
+        public int FontSize => TextDisplayItem?.FontSize ?? 12;
+        public string Font => TextDisplayItem?.Font ?? string.Empty;
+        public string FontStyle => TextDisplayItem?.FontStyle ?? string.Empty;
 
         public TextProperties()
         {
             LoadAllFonts();
-            InitializeComponent();
+            this.InitializeComponent();
 
-            SetBinding(CurrentFontProperty, new Binding
+            this.SetBinding(CurrentFontProperty, new Binding
             {
                 Path = new PropertyPath("TextDisplayItem.Font"),
                 Source = this,
                 Mode = BindingMode.OneWay
             });
 
-            SetBinding(CurrentFontStyleProperty, new Binding
+            this.SetBinding(CurrentFontStyleProperty, new Binding
             {
                 Path = new PropertyPath("TextDisplayItem.FontStyle"),
                 Source = this,
                 Mode = BindingMode.OneWay
             });
-
         }
 
         private static void OnCurrentFontChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -210,20 +220,14 @@ namespace InfoPanel.Views.Components
             }
         }
 
-        private void NumberBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void NumberBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
             if (TextDisplayItem == null)
             {
                 return;
             }
 
-            var numBox = ((NumberBox)sender);
-            double newValue;
-            if (double.TryParse(numBox.Text, out newValue))
-            {
-                numBox.Value = newValue;
-                TextDisplayItem.FontSize = (int)newValue;
-            }
+            TextDisplayItem.FontSize = (int)args.NewValue;
         }
     }
 }

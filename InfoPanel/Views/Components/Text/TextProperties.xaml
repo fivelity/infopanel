@@ -2,24 +2,22 @@
     x:Class="InfoPanel.Views.Components.TextProperties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:app="clr-namespace:InfoPanel"
+    xmlns:app="using:InfoPanel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:InfoPanel.Views.Components"
+    xmlns:local="using:InfoPanel.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:models="clr-namespace:InfoPanel.Models"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:models="using:InfoPanel.Models"
     d:DataContext="{d:DesignInstance Type=models:TextDisplayItem}"
     mc:Ignorable="d">
 
     <Grid Margin="10,10,10,0">
         <StackPanel Grid.Column="1">
             <StackPanel>
-                <TextBox x:Name="TextBoxName" Text="{Binding Name}" />
+                <TextBox x:Name="TextBoxName" Text="{x:Bind Name, Mode=TwoWay}" />
                 <TextBlock
                     Margin="5,0,0,0"
                     FontSize="12"
-                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                    Foreground="{ThemeResource TextFillColorDisabledBrush}"
                     Text="Text" />
             </StackPanel>
 
@@ -27,30 +25,31 @@
                 Grid.Row="2"
                 Margin="0,-2,0,0"
                 HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding Underline}">
-                    <ui:SymbolIcon Symbol="TextUnderline20" ToolTip="Underline" />
+                Orientation="Horizontal"
+                Spacing="5">
+                <ToggleButton IsChecked="{x:Bind Underline, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8DD;" ToolTipService.ToolTip="Underline" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding Strikeout}">
-                    <ui:SymbolIcon Symbol="TextStrikethrough20" ToolTip="Strikethrough" />
+                <ToggleButton IsChecked="{x:Bind Strikeout, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8DE;" ToolTipService.ToolTip="Strikethrough" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding RightAlign}">
-                    <ui:SymbolIcon Symbol="AlignRight20" ToolTip="Right align" />
+                <ToggleButton IsChecked="{x:Bind RightAlign, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8E2;" ToolTipService.ToolTip="Right align" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding Uppercase}">
-                    <ui:SymbolIcon Symbol="TextCaseUppercase20" ToolTip="Uppercase" />
+                <ToggleButton IsChecked="{x:Bind Uppercase, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8E1;" ToolTipService.ToolTip="Uppercase" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding Wrap}">
-                    <ui:SymbolIcon Symbol="TextWrap20" ToolTip="Wrap Text (fixed width required)" />
+                <ToggleButton IsChecked="{x:Bind Wrap, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8A4;" ToolTipService.ToolTip="Wrap Text (fixed width required)" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding Ellipsis}">
-                    <ui:SymbolIcon Symbol="TextWholeWord20" ToolTip="Ellipsis (fixed width required)" />
+                <ToggleButton IsChecked="{x:Bind Ellipsis, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8E3;" ToolTipService.ToolTip="Ellipsis (fixed width required)" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding CenterAlign}">
-                    <ui:SymbolIcon Symbol="AlignCenterHorizontal20" ToolTip="Center align (fixed width required)" />
+                <ToggleButton IsChecked="{x:Bind CenterAlign, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8E0;" ToolTipService.ToolTip="Center align (fixed width required)" />
                 </ToggleButton>
-                <ToggleButton Margin="5,0,0,0" IsChecked="{Binding Marquee}">
-                    <ui:SymbolIcon Symbol="TextContinuous20" ToolTip="Marquee (fixed width required)" />
+                <ToggleButton IsChecked="{x:Bind Marquee, Mode=TwoWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8E4;" ToolTipService.ToolTip="Marquee (fixed width required)" />
                 </ToggleButton>
             </StackPanel>
 
@@ -62,32 +61,28 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Margin="0,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
-                        MaxDecimalPlaces="0"
                         Minimum="0"
                         SmallChange="1"
-                        Text="{Binding Width}"
-                        Value="{Binding Width}" />
+                        Value="{x:Bind Width, Mode=TwoWay}" />
                     <TextBlock
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Fixed Width" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
-                        MaxDecimalPlaces="0"
                         Minimum="0"
                         SmallChange="1"
-                        Text="{Binding MarqueeSpacing}"
-                        Value="{Binding MarqueeSpacing}" />
+                        Value="{x:Bind MarqueeSpacing, Mode=TwoWay}" />
                     <TextBlock
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Marquee spacing" />
                 </StackPanel>
 
@@ -95,30 +90,30 @@
                     Grid.Column="2"
                     Margin="10,0,0,0"
                     VerticalAlignment="Bottom"
-                    IsEnabled="{Binding Marquee}">
+                    IsEnabled="{x:Bind Marquee, Mode=OneWay}">
                     <Slider
                         Margin="0,0,0,0"
                         Maximum="1000"
                         Minimum="1"
-                        Value="{Binding MarqueeSpeed}" />
+                        Value="{x:Bind MarqueeSpeed, Mode=TwoWay}" />
 
                     <Grid Margin="5,0,5,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock
                             Grid.Column="0"
                             Margin="0,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="Marquee speed" />
                         <TextBlock
                             Grid.Column="1"
                             Margin="0,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
-                            Text="{Binding MarqueeSpeed, Mode=OneWay}" />
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                            Text="{x:Bind MarqueeSpeed, Mode=OneWay}" />
                     </Grid>
                 </StackPanel>
             </Grid>
@@ -130,31 +125,28 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Margin="0,0,0,0">
-                    <metro:ColorPicker
+                    <ColorPicker
                         Height="35"
-                        metro:TextBoxHelper.UseFloatingWatermark="False"
                         Background="Transparent"
                         BorderThickness="1"
-                        SelectedColor="{Binding Color}" />
+                        Color="{x:Bind Color, Mode=TwoWay}" />
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Font Color" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
-                        MaxDecimalPlaces="0"
                         SmallChange="1"
-                        Text="{Binding FontSize}"
-                        TextChanged="NumberBox_TextChanged"
-                        Value="{Binding FontSize}" />
+                        Value="{x:Bind FontSize, Mode=TwoWay}"
+                        ValueChanged="NumberBox_ValueChanged" />
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Font Size" />
                 </StackPanel>
             </Grid>
@@ -167,9 +159,9 @@
                 <StackPanel Margin="0,0,5,0">
                     <ComboBox
                         Grid.Column="1"
-                        ItemsSource="{Binding InstalledFonts, RelativeSource={RelativeSource AncestorType=local:TextProperties}}"
+                        ItemsSource="{x:Bind InstalledFonts}"
                         ScrollViewer.VerticalScrollBarVisibility="Visible"
-                        SelectedValue="{Binding TextDisplayItem.Font, RelativeSource={RelativeSource AncestorType=local:TextProperties}}">
+                        SelectedValue="{x:Bind Font}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock FontFamily="{Binding Converter={StaticResource FontFamilyConverter}}" Text="{Binding}" />
@@ -179,25 +171,19 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Font Family" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="5,0,0,0">
                     <ComboBox
                         Grid.Column="1"
-                        ItemsSource="{Binding FontStyles, RelativeSource={RelativeSource AncestorType=local:TextProperties}}"
+                        ItemsSource="{x:Bind FontStyles}"
                         ScrollViewer.VerticalScrollBarVisibility="Visible"
-                        SelectedValue="{Binding TextDisplayItem.FontStyle, RelativeSource={RelativeSource AncestorType=local:TextProperties}}">
-                        <!--<ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock FontFamily="{Binding Converter={StaticResource FontFamilyConverter}}" Text="{Binding}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>-->
-                    </ComboBox>
+                        SelectedValue="{x:Bind FontStyle}" />
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Font Style" />
                 </StackPanel>
             </Grid>

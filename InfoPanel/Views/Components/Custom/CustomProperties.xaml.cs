@@ -1,22 +1,18 @@
 ﻿using InfoPanel.Models;
 using InfoPanel.Views.Components.Custom;
-using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Serilog;
+using System;
 using System.IO;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Threading;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for CustomProperties.xaml
-    /// </summary>
-    public partial class CustomProperties : System.Windows.Controls.UserControl
+    public sealed partial class CustomProperties : UserControl
     {
         private static readonly ILogger Logger = Log.ForContext<CustomProperties>();
         public static readonly DependencyProperty ItemProperty =
-      DependencyProperty.Register("GaugeDisplayItem", typeof(GaugeDisplayItem), typeof(CustomProperties));
+            DependencyProperty.Register("GaugeDisplayItem", typeof(GaugeDisplayItem), typeof(CustomProperties));
 
         public GaugeDisplayItem GaugeDisplayItem
         {
@@ -27,7 +23,7 @@ namespace InfoPanel.Views.Components
         //to fix swapping view not refreshing when items empty etc
         public GaugePropertiesVM ViewModel { get; set; }
 
-        private DispatcherTimer UpdateTimer;
+        private Microsoft.UI.Xaml.DispatcherTimer UpdateTimer;
 
         public CustomProperties()
         {

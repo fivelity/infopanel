@@ -1,17 +1,14 @@
 ﻿using InfoPanel.Models;
-using System.Windows;
-using System.Windows.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for CommonActions.xaml
-    /// </summary>
-    public partial class CommonActions : UserControl
+    public sealed partial class CommonActions : UserControl
     {
         public CommonActions()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void ButtonNewText_Click(object sender, RoutedEventArgs e)
@@ -47,7 +44,6 @@ namespace InfoPanel.Views.Components
                     FontSize = selectedProfile.FontSize,
                     Color = selectedProfile.Color,
                     Uppercase = true
-
                 };
                 SharedModel.Instance.AddDisplayItem(item);
             }
