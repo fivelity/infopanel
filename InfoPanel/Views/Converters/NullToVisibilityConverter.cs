@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 
 namespace InfoPanel
 {
-    [ValueConversion(typeof(object), typeof(Visibility))]
-    public class NullToVisibilityConverter: IValueConverter
+    public class NullToVisibilityConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value == null)
             {
@@ -18,7 +16,6 @@ namespace InfoPanel
 
             if (value is IEnumerable enumerable)
             {
-                // Check if the collection is empty
                 var enumerator = enumerable.GetEnumerator();
                 if (!enumerator.MoveNext())
                 {
@@ -29,8 +26,7 @@ namespace InfoPanel
             return Visibility.Visible;
         }
 
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
         }

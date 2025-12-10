@@ -5,17 +5,19 @@
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<Nullable>enable</Nullable>
-		<UseWPF>true</UseWPF>
+		<UseWinUI>true</UseWinUI>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ApplicationIcon>Resources\Images\favicon.ico</ApplicationIcon>
 		<Platforms>x64</Platforms>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<AssemblyVersion>$(AssemblyVersion)</AssemblyVersion>
 		<Version>1.3.0.0</Version>
-		<UseWindowsForms>True</UseWindowsForms>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ApplicationManifest>Resources\app.manifest</ApplicationManifest>
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+		<WindowsPackageType>None</WindowsPackageType>
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<PublishProfile>win-x64</PublishProfile>
 	</PropertyGroup>
 
 	<!-- Build InfoPanel.Extras and get its output path -->
@@ -198,16 +200,17 @@
 		<PackageReference Include="AutoMapper" Version="14.0.0" />
 		<PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
-		<PackageReference Include="FlyleafLib" Version="3.9.3" />
-		<PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
 		<PackageReference Include="HidSharp" Version="2.6.4" />
 		<PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
 		<PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre506" />
 		<PackageReference Include="LibUsbDotNet" Version="2.2.75" />
-		<PackageReference Include="MahApps.Metro" Version="2.4.11" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
 		<PackageReference Include="SecureStore" Version="1.2.2" />
 		<PackageReference Include="Sentry" Version="5.16.1" />
 		<PackageReference Include="Serilog" Version="4.3.0" />
@@ -218,14 +221,13 @@
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
 		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
 		<PackageReference Include="SkiaSharp" Version="3.119.1" />
-		<PackageReference Include="SkiaSharp.Views.WPF" Version="3.119.1" />
+		<PackageReference Include="SkiaSharp.Views.WinUI" Version="3.119.1" />
 		<PackageReference Include="Svg.Skia" Version="3.2.1" />
 		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.10" />
 		<PackageReference Include="System.IO.Ports" Version="9.0.10" />
 		<PackageReference Include="TaskScheduler" Version="2.12.2" />
 		<PackageReference Include="Topten.RichTextKit" Version="0.4.167" />
-		<PackageReference Include="WPF-UI" Version="3.1.1" />
-		<PackageReference Include="WPF-UI.Tray" Version="3.1.1" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.3" />
 	</ItemGroup>
 
 	<ItemGroup>

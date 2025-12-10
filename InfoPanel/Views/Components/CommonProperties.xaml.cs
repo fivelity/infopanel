@@ -1,134 +1,116 @@
 ﻿using InfoPanel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Wpf.Ui.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for CommonProperties.xaml
-    /// </summary>
-    public partial class CommonProperties : UserControl
+    public sealed partial class CommonProperties : UserControl
     {
-
         public CommonProperties()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            this.Loaded += CommonProperties_Loaded;
+        }
+
+        private void CommonProperties_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateVisibility();
+            UpdateMoveValueText();
+
+            SharedModel.Instance.PropertyChanged += (s, args) =>
+            {
+                if (args.PropertyName == nameof(SharedModel.IsSelectedItemsMovable))
+                {
+                    UpdateVisibility();
+                }
+                else if (args.PropertyName == nameof(SharedModel.SelectedItem))
+                {
+                    UpdatePositionValues();
+                }
+            };
+        }
+
+        private void UpdateVisibility()
+        {
+            GridMain.Visibility = SharedModel.Instance.IsSelectedItemsMovable ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void UpdatePositionValues()
+        {
+            if (SharedModel.Instance.SelectedItem is DisplayItem item)
+            {
+                NumberBoxX.Value = item.X;
+                NumberBoxY.Value = item.Y;
+            }
+        }
+
+        private void UpdateMoveValueText()
+        {
+            TextBlockMoveValue.Text = $"{SharedModel.Instance.MoveValue} px";
         }
 
         private void ButtonUp_Click(object sender, RoutedEventArgs e)
         {
-            //if (SharedModel.Instance.SelectedItem is DisplayItem displayItem)
-            //{
-            //    displayItem.Y -= SharedModel.Instance.MoveValue;
-            //}
-
             foreach (var item in SharedModel.Instance.SelectedItems)
             {
                 item.Y -= SharedModel.Instance.MoveValue;
             }
+            UpdatePositionValues();
         }
 
         private void ButtonDown_Click(object sender, RoutedEventArgs e)
         {
-            //if (SharedModel.Instance.SelectedItem is DisplayItem displayItem)
-            //{
-            //    displayItem.Y += SharedModel.Instance.MoveValue;
-            //}
-
             foreach (var item in SharedModel.Instance.SelectedItems)
             {
                 item.Y += SharedModel.Instance.MoveValue;
             }
+            UpdatePositionValues();
         }
 
         private void ButtonLeft_Click(object sender, RoutedEventArgs e)
         {
-            //if (SharedModel.Instance.SelectedItem is DisplayItem displayItem)
-            //{
-            //    displayItem.X -= SharedModel.Instance.MoveValue;
-            //}
-
             foreach (var item in SharedModel.Instance.SelectedItems)
             {
                 item.X -= SharedModel.Instance.MoveValue;
             }
+            UpdatePositionValues();
         }
 
         private void ButtonRight_Click(object sender, RoutedEventArgs e)
         {
-            //if (SharedModel.Instance.SelectedItem is DisplayItem displayItem)
-            //{
-            //    displayItem.X += SharedModel.Instance.MoveValue;
-            //}
-
             foreach (var item in SharedModel.Instance.SelectedItems)
             {
                 item.X += SharedModel.Instance.MoveValue;
             }
-
-
+            UpdatePositionValues();
         }
 
         private void ButtonMoveValue_Click(object sender, RoutedEventArgs e)
         {
-            switch (SharedModel.Instance.MoveValue)
+            SharedModel.Instance.MoveValue = SharedModel.Instance.MoveValue switch
             {
-                case 1:
-                    SharedModel.Instance.MoveValue = 5;
-                    break;
-                case 5:
-                    SharedModel.Instance.MoveValue = 10;
-                    break;
-                case 10:
-                    SharedModel.Instance.MoveValue = 20;
-                    break;
-                case 20:
-                    SharedModel.Instance.MoveValue = 1;
-                    break;
-                default:
-                    SharedModel.Instance.MoveValue = 1;
-                    break;
+                1 => 5,
+                5 => 10,
+                10 => 20,
+                20 => 1,
+                _ => 1
+            };
+            UpdateMoveValueText();
+        }
+
+        private void NumberBoxX_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (!double.IsNaN(args.NewValue) && SharedModel.Instance.SelectedItem is DisplayItem displayItem)
+            {
+                displayItem.X = (int)args.NewValue;
             }
         }
 
-        private void NumberBoxX_TextChanged(object sender, TextChangedEventArgs e)
+        private void NumberBoxY_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
-            var numBox = ((NumberBox)sender);
-            double newValue;
-            if (double.TryParse(numBox.Text, out newValue))
+            if (!double.IsNaN(args.NewValue) && SharedModel.Instance.SelectedItem is DisplayItem displayItem)
             {
-                numBox.Value = newValue;
-                if (SharedModel.Instance.SelectedItem is DisplayItem displayItem)
-                {
-                    displayItem.X = (int)newValue;
-                }
-            }
-         }
-                
-        private void NumberBoxY_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var numBox = ((NumberBox)sender);
-            double newValue;
-            if (double.TryParse(numBox.Text, out newValue))
-            {
-                numBox.Value = newValue;
-                if (SharedModel.Instance.SelectedItem is DisplayItem displayItem)
-                {
-                    displayItem.Y = (int)newValue;
-                }
+                displayItem.Y = (int)args.NewValue;
             }
         }
     }

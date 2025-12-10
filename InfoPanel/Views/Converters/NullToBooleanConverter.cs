@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace InfoPanel
 {
-    [ValueConversion(typeof(object), typeof(bool))]
-    public class NullToBooleanConverter: IValueConverter
+    public class NullToBooleanConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
             return value != null;
         }
 
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
         }

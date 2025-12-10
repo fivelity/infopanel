@@ -2,120 +2,108 @@
     x:Class="InfoPanel.Views.Pages.PluginsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="clr-namespace:InfoPanel.Views.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:InfoPanel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:viewmodels="clr-namespace:InfoPanel.ViewModels"
-    Title="PluginsPage"
-    d:DataContext="{d:DesignInstance Type=viewmodels:PluginsViewModel}"
+    xmlns:local="using:InfoPanel"
     d:DesignHeight="650"
     d:DesignWidth="800"
-    mc:Ignorable="d">
-    <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-    </Page.Resources>
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel MaxWidth="1360" Margin="20,20,20,20">
-                <ui:CardControl>
-                    <ui:CardControl.Icon>
-                        <ui:SymbolIcon Symbol="PlugConnected20" />
-                    </ui:CardControl.Icon>
-                    <ui:CardControl.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock
-                                    FontSize="13"
-                                    FontWeight="Medium"
-                                    Text="Plugin Framework" />
-
-                                <TextBlock
-                                    Margin="0,5,0,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="12"
-                                    Foreground="Orange">
-                                    <Bold>Warning!</Bold>
-                                    Plugins run under the same privileges as InfoPanel (Administrator). Do not load untrusted plugins. Always verify the source of the plugin.<LineBreak />
-                                    If unsure, do NOT install the plugin.</TextBlock>
-                                <TextBlock
-                                    Margin="0,5,0,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                    Text="If you would like to develop a plugin, visit our Github and reference Infopanel.Extras project for guidelines." />
-                            </StackPanel>
-                            <ui:Anchor
-                                Grid.Column="2"
-                                Width="150"
-                                VerticalAlignment="Center"
-                                Appearance="Secondary"
-                                Content="Open Plugins Folder"
-                                NavigateUri="{Binding PluginFolder}" />
-
-
-                        </Grid>
-                    </ui:CardControl.Header>
-                </ui:CardControl>
-
-                <ui:CardControl
-                    Margin="0,10,0,0"
-                    Background="#FF9800"
-                    Visibility="{Binding ShowRestartBanner, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ui:CardControl.Icon>
-                        <ui:SymbolIcon Symbol="Warning20" />
-                    </ui:CardControl.Icon>
-                    <ui:CardControl.Header>
-                        InfoPanel needs to be restarted to apply your changes.
-                    </ui:CardControl.Header>
-                </ui:CardControl>
-
-                <Label
-                    Margin="0,40,0,0"
-                    Content="Bundled Plugins"
-                    FontSize="14"
-                    FontWeight="Medium"
-                    Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                <ItemsControl ItemsSource="{Binding BundledPlugins}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <components:PluginProperties PluginDisplayModel="{Binding}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
+    <ScrollViewer>
+        <StackPanel MaxWidth="1360" Margin="20,20,20,20" Spacing="10">
+            <!-- Plugin Framework Info -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="16">
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Label
-                        Margin="0,40,0,0"
-                        Content="User Plugins"
-                        FontSize="14"
-                        FontWeight="Medium"
-                        Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                    <ui:Anchor
-                        Grid.Column="1"
-                        Width="150"
-                        Margin="0,0,0,0"
-                        VerticalAlignment="Bottom"
-                        Appearance="Secondary"
-                        Command="{Binding AddPluginFromZipCommand}"
-                        Content="Import Plugin" />
+                    <SymbolIcon Symbol="AllApps" Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Top" />
+                    <StackPanel Grid.Column="1">
+                        <TextBlock FontSize="13" FontWeight="SemiBold" Text="Plugin Framework" />
+                        <TextBlock Margin="0,5,0,0" FontSize="12" Foreground="Orange" TextWrapping="Wrap">
+                            <Run FontWeight="Bold">Warning!</Run>
+                            <Run Text=" Plugins run under the same privileges as InfoPanel (Administrator). Do not load untrusted plugins." />
+                        </TextBlock>
+                        <TextBlock Margin="0,5,0,0" FontSize="12" Opacity="0.7" TextWrapping="Wrap" Text="Visit our Github and reference InfoPanel.Extras project for plugin development guidelines." />
+                    </StackPanel>
+                    <HyperlinkButton Grid.Column="2" Content="Open Plugins Folder" Click="OpenPluginsFolder_Click" VerticalAlignment="Center" />
                 </Grid>
+            </Border>
 
-                <ItemsControl ItemsSource="{Binding ExternalPlugins}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <components:PluginProperties PluginDisplayModel="{Binding}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+            <!-- Restart Banner -->
+            <Border x:Name="BorderRestartBanner" Background="#FF9800" CornerRadius="8" Padding="16" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <SymbolIcon Symbol="Important" />
+                    <TextBlock Text="InfoPanel needs to be restarted to apply your changes." VerticalAlignment="Center" />
+                </StackPanel>
+            </Border>
+
+            <!-- Bundled Plugins Section -->
+            <TextBlock Text="Bundled Plugins" FontSize="14" FontWeight="SemiBold" Margin="0,30,0,10" />
+            <ItemsRepeater x:Name="RepeaterBundledPlugins">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="10" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock FontSize="13" FontWeight="SemiBold" Text="{Binding Name}" />
+                                    <TextBlock FontSize="12" Opacity="0.7" Text="{Binding Description}" TextWrapping="Wrap" />
+                                    <TextBlock FontSize="11" Opacity="0.5" Text="{Binding Version}" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding IsEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <!-- User Plugins Section -->
+            <Grid Margin="0,30,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="User Plugins" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Content="Import Plugin" Click="ImportPlugin_Click" />
+            </Grid>
+            <ItemsRepeater x:Name="RepeaterExternalPlugins">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="10" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock FontSize="13" FontWeight="SemiBold" Text="{Binding Name}" />
+                                    <TextBlock FontSize="12" Opacity="0.7" Text="{Binding Description}" TextWrapping="Wrap" />
+                                    <TextBlock FontSize="11" Opacity="0.5" Text="{Binding Version}" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="{Binding IsEnabled, Mode=TwoWay}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+            <!-- Empty state -->
+            <Border x:Name="BorderNoUserPlugins" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="8" Padding="20">
+                <TextBlock Text="No user plugins installed. Click 'Import Plugin' to add one." HorizontalAlignment="Center" Opacity="0.7" />
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

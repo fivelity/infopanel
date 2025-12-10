@@ -1,35 +1,25 @@
-﻿using Flurl;
-using Flurl.Http;
-using InfoPanel.Models;
-using InfoPanel.ViewModels;
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using static InfoPanel.Views.Pages.AboutPage;
-using System.Diagnostics;
+﻿using InfoPanel.ViewModels;
+using Microsoft.UI.Xaml.Controls;
 
 namespace InfoPanel.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for AboutPage.xaml
+    /// About page for InfoPanel WinUI 3 application
     /// </summary>
-    public partial class AboutPage : Page
+    public sealed partial class AboutPage : Page
     {
-        public AboutViewModel ViewModel
+        public AboutViewModel ViewModel { get; }
+
+        public AboutPage()
         {
-            get;
+            ViewModel = new AboutViewModel();
+            this.InitializeComponent();
         }
 
         public AboutPage(AboutViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = this;
-
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

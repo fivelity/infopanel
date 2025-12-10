@@ -2,22 +2,14 @@
     x:Class="InfoPanel.Views.Components.DisplayItems"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:app="clr-namespace:InfoPanel"
-    xmlns:components="clr-namespace:InfoPanel.Views.Components"
-    xmlns:converters="clr-namespace:InfoPanel.Views.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:local="clr-namespace:InfoPanel.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:InfoPanel.Models"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+    xmlns:local="using:InfoPanel.Views.Components"
+    xmlns:components="using:InfoPanel.Views.Components"
+    xmlns:models="using:InfoPanel.Models"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <!--  CollectionViewSource for filtering display items  -->
-        <CollectionViewSource x:Key="DisplayItemsViewSource" Source="{Binding Source={x:Static app:SharedModel.Instance}, Path=DisplayItems}" />
-
         <DataTemplate x:Key="SimpleItemTemplate_MarginA">
             <local:DisplayItemView Width="375" Margin="10,0,30,0" />
         </DataTemplate>
@@ -28,36 +20,37 @@
 
         <DataTemplate x:Key="GroupItemTemplate">
             <Expander
-                Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="#601A1a1a"
-                IsExpanded="{Binding IsExpanded}">
+                IsExpanded="{Binding IsExpanded, Mode=TwoWay}">
 
                 <Expander.Header>
                     <Grid Margin="0,-8,0,-10" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <!--  Group Header  -->
+                        
+                        <!-- Group Header -->
                         <Border
                             Grid.Column="0"
                             Background="#00FFFFFF"
-                            PreviewMouseLeftButtonDown="Border_MouseDown">
+                            RightTapped="Border_RightTapped">
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ui:SymbolIcon
+                                <FontIcon
                                     Width="20"
                                     Height="20"
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Center"
-                                    Symbol="Group24" />
+                                    FontFamily="Segoe Fluent Icons"
+                                    Glyph="&#xE802;" />
                                 <TextBlock
                                     Grid.Column="1"
                                     MaxWidth="180"
@@ -71,8 +64,10 @@
                                     Margin="5,2,0,5"
                                     VerticalAlignment="Center"
                                     FontSize="12"
-                                    Foreground="Gray"
-                                    Text="{Binding DisplayItemsCount, StringFormat={} {0} Items}" />
+                                    Foreground="Gray">
+                                    <Run Text="{Binding DisplayItemsCount}" />
+                                    <Run Text=" Items" />
+                                </TextBlock>
                             </Grid>
                         </Border>
 
@@ -86,44 +81,41 @@
                             Background="Transparent"
                             BorderThickness="0"
                             Command="{Binding ToggleLockCommand}"
-                            Cursor="Hand"
-                            ToolTip="Lock items from moving in and out">
-                            <ui:SymbolIcon Foreground="{Binding IsLocked, Converter={StaticResource LockColorConverter}}" Symbol="{Binding IsLocked, Converter={StaticResource LockSymbolConverter}}" />
+                            ToolTipService.ToolTip="Lock items from moving in and out">
+                            <FontIcon
+                                FontFamily="Segoe Fluent Icons"
+                                Glyph="{x:Bind IsLocked, Converter={StaticResource LockSymbolConverter}}"
+                                Foreground="{x:Bind IsLocked, Converter={StaticResource LockColorConverter}}" />
                         </Button>
 
-                        <!--  Visibility Checkbox  -->
+                        <!-- Visibility Checkbox -->
                         <CheckBox
                             Grid.Column="2"
                             Margin="5,0,8,0"
                             VerticalAlignment="Center"
-                            IsChecked="{Binding Hidden, Converter={StaticResource InverseBooleanConverter}}" />
+                            IsChecked="{x:Bind Hidden, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}" />
                     </Grid>
                 </Expander.Header>
-                <!--  Child Items ListView  -->
+                
+                <!-- Child Items ListView -->
                 <ListView
+                    x:Name="InnerListView"
                     Margin="0,-10,0,-10"
                     HorizontalContentAlignment="Stretch"
-                    dd:DragDrop.DropHandler="{Binding RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
-                    dd:DragDrop.SelectDroppedItems="True"
-                    dd:DragDrop.UseDefaultDragAdorner="True"
+                    AllowDrop="True"
+                    DragOver="InnerListView_DragOver"
+                    Drop="InnerListView_Drop"
                     Background="Transparent"
                     BorderThickness="0"
                     ItemTemplate="{StaticResource SimpleItemTemplate_MarginB}"
                     ItemsSource="{Binding DisplayItems}"
-                    PreviewMouseWheel="InnerListView_PreviewMouseWheel"
-                    ScrollViewer.CanContentScroll="False"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    SelectionChanged="ListViewGroupItems_SelectionChanged"
-                    SelectionMode="Extended"
-                    VirtualizingStackPanel.IsVirtualizing="False"
-                    VirtualizingStackPanel.IsVirtualizingWhenGrouping="False">
+                    SelectionChanged="InnerListView_SelectionChanged"
+                    SelectionMode="Extended">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Margin" Value="0,1,0,1" />
                             <Setter Property="FontSize" Value="12" />
-                            <Setter Property="IsSelected" Value="{Binding Selected}" />
+                            <Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay}" />
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
@@ -134,226 +126,208 @@
             x:Key="PanelItemsSelector"
             GroupTemplate="{StaticResource GroupItemTemplate}"
             SimpleTemplate="{StaticResource SimpleItemTemplate_MarginA}" />
-
-
     </UserControl.Resources>
 
     <Grid Margin="10,10,10,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <ui:TextBox
-                    Name="TextBoxSearch"
+                <TextBox
+                    x:Name="TextBoxSearch"
                     Grid.Column="0"
                     Width="200"
                     Margin="0,0,0,0"
                     PlaceholderText="Search Items"
                     TextChanged="TextBoxSearch_TextChanged" />
                 <StackPanel
-                    Grid.Column="2"
-                    Margin="0,0,0,0"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.Active}"
                     Orientation="Horizontal">
-                    <ToggleButton
+                    <ToggleSwitch
+                        x:Name="ToggleOpenGL"
                         Margin="10,0,0,0"
-                        IsChecked="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.OpenGL}"
-                        ToolTip="OpenGL">
-                        <ui:SymbolIcon Symbol="FastAcceleration20" />
-                    </ToggleButton>
+                        IsOn="{x:Bind SharedModel.Instance.SelectedProfile.OpenGL, Mode=TwoWay}"
+                        ToolTipService.ToolTip="OpenGL"
+                        IsEnabled="{x:Bind SharedModel.Instance.SelectedProfile.Active, Mode=OneWay}">
+                        <ToggleSwitch.OffContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8AB;" />
+                        </ToggleSwitch.OffContent>
+                        <ToggleSwitch.OnContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8AB;" />
+                        </ToggleSwitch.OnContent>
+                    </ToggleSwitch>
 
-                    <ToggleButton
+                    <ToggleSwitch
+                        x:Name="ToggleShowFps"
                         Margin="10,0,0,0"
-                        IsChecked="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.ShowFps}"
-                        ToolTip="Show Panel Overlay">
-                        <ui:SymbolIcon Symbol="Info20" />
-                    </ToggleButton>
+                        IsOn="{x:Bind SharedModel.Instance.SelectedProfile.ShowFps, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Show Panel Overlay"
+                        IsEnabled="{x:Bind SharedModel.Instance.SelectedProfile.Active, Mode=OneWay}">
+                        <ToggleSwitch.OffContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
+                        </ToggleSwitch.OffContent>
+                        <ToggleSwitch.OnContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
+                        </ToggleSwitch.OnContent>
+                    </ToggleSwitch>
 
-                    <ToggleButton
+                    <ToggleSwitch
+                        x:Name="ToggleStrictWindow"
                         Margin="10,0,0,0"
-                        IsChecked="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.StrictWindowMatching}"
-                        ToolTip="Enforce strict window matching. Panel will not move over to a visible window even if the target display monitor is off.">
-                        <ui:SymbolIcon Symbol="WindowInprivate20" />
-                    </ToggleButton>
+                        IsOn="{x:Bind SharedModel.Instance.SelectedProfile.StrictWindowMatching, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Enforce strict window matching. Panel will not move over to a visible window even if the target display monitor is off."
+                        IsEnabled="{x:Bind SharedModel.Instance.SelectedProfile.Active, Mode=OneWay}">
+                        <ToggleSwitch.OffContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8A2;" />
+                        </ToggleSwitch.OffContent>
+                        <ToggleSwitch.OnContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8A2;" />
+                        </ToggleSwitch.OnContent>
+                    </ToggleSwitch>
 
-                    <ToggleButton
+                    <ToggleSwitch
+                        x:Name="ToggleTopmost"
                         Margin="10,0,0,0"
-                        IsChecked="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.Topmost}"
-                        ToolTip="Keep panel visible on top of all other windows.">
-                        <ui:SymbolIcon Symbol="ShareScreenStart20" />
-                    </ToggleButton>
+                        IsOn="{x:Bind SharedModel.Instance.SelectedProfile.Topmost, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Keep panel visible on top of all other windows."
+                        IsEnabled="{x:Bind SharedModel.Instance.SelectedProfile.Active, Mode=OneWay}">
+                        <ToggleSwitch.OffContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8AC;" />
+                        </ToggleSwitch.OffContent>
+                        <ToggleSwitch.OnContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8AC;" />
+                        </ToggleSwitch.OnContent>
+                    </ToggleSwitch>
 
-                    <ToggleButton
+                    <ToggleSwitch
+                        x:Name="ToggleDrag"
                         Margin="10,0,0,0"
-                        IsChecked="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.Drag}"
-                        ToolTip="Enables drag and drop placement of panel.">
-                        <ui:SymbolIcon Symbol="Drag20" />
-                    </ToggleButton>
+                        IsOn="{x:Bind SharedModel.Instance.SelectedProfile.Drag, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Enables drag and drop placement of panel."
+                        IsEnabled="{x:Bind SharedModel.Instance.SelectedProfile.Active, Mode=OneWay}">
+                        <ToggleSwitch.OffContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74C;" />
+                        </ToggleSwitch.OffContent>
+                        <ToggleSwitch.OnContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74C;" />
+                        </ToggleSwitch.OnContent>
+                    </ToggleSwitch>
 
-                    <ToggleButton
+                    <ToggleSwitch
+                        x:Name="ToggleResize"
                         Margin="10,0,0,0"
-                        IsChecked="{Binding Source={x:Static app:SharedModel.Instance}, Path=SelectedProfile.Resize}"
-                        ToolTip="Enables drag resizing of panel.">
-                        <ui:SymbolIcon Symbol="Resize20" />
-                    </ToggleButton>
-
+                        IsOn="{x:Bind SharedModel.Instance.SelectedProfile.Resize, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Enables drag resizing of panel."
+                        IsEnabled="{x:Bind SharedModel.Instance.SelectedProfile.Active, Mode=OneWay}">
+                        <ToggleSwitch.OffContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE744;" />
+                        </ToggleSwitch.OffContent>
+                        <ToggleSwitch.OnContent>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE744;" />
+                        </ToggleSwitch.OnContent>
+                    </ToggleSwitch>
                 </StackPanel>
             </Grid>
 
-            <Separator Grid.Row="2" Margin="0,5,0,0" />
+            <Border Grid.Row="2" Margin="0,5,0,0" Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
         </StackPanel>
 
         <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <ListView
-                    x:Name="ListViewItems"
-                    Grid.Row="1"
-                    Width="auto"
-                    HorizontalContentAlignment="Stretch"
-                    dd:DragDrop.DropHandler="{Binding}"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
-                    dd:DragDrop.SelectDroppedItems="True"
-                    dd:DragDrop.UseDefaultDragAdorner="True"
-                    Background="Transparent"
-                    ItemTemplateSelector="{StaticResource PanelItemsSelector}"
-                    ItemsSource="{Binding Source={StaticResource DisplayItemsViewSource}}"
-                    ScrollViewer.CanContentScroll="False"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible"
-                    SelectionChanged="ListViewItems_SelectionChanged"
-                    SelectionMode="Extended"
-                    VirtualizingStackPanel.IsVirtualizing="False"
-                    VirtualizingStackPanel.IsVirtualizingWhenGrouping="False">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0,1,0,1" />
-                            <Setter Property="IsSelected" Value="{Binding Selected}" />
-                            <!--  Only apply the border style to GroupDisplayItem  -->
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Kind}" Value="Group">
-                                    <Setter Property="Margin" Value="0,0,0,0" />
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="BorderThickness" Value="1" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewItem">
-                                                <Border
-                                                    x:Name="Border"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter
-                                                        Margin="2"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="Border" Property="BorderThickness" Value="1" />
-                                                        <Setter Property="BorderBrush" Value="LightSkyBlue" />
-                                                    </Trigger>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter TargetName="Border" Property="BorderThickness" Value="1" />
-                                                        <Setter Property="BorderBrush" Value="DeepSkyBlue" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </Grid>
+            <ListView
+                x:Name="ListViewItems"
+                Grid.Column="0"
+                HorizontalContentAlignment="Stretch"
+                AllowDrop="True"
+                DragOver="ListViewItems_DragOver"
+                Drop="ListViewItems_Drop"
+                Background="Transparent"
+                ItemTemplateSelector="{StaticResource PanelItemsSelector}"
+                ItemsSource="{x:Bind FilteredDisplayItems, Mode=OneWay}"
+                SelectionChanged="ListViewItems_SelectionChanged"
+                SelectionMode="Extended">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0,1,0,1" />
+                        <Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
 
             <StackPanel
                 Grid.Column="1"
                 Margin="5,0,0,0"
-                VerticalAlignment="Bottom">
+                VerticalAlignment="Bottom"
+                Spacing="10">
 
-                <ui:Button
+                <Button
                     x:Name="ButtonPushBack"
-                    Margin="0,10,0,0"
                     Click="ButtonPushBack_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon ArrowUpload20}"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=IsSingleItemSelected}"
-                    ToolTip="Push selected item to the top (overlapped by items below)" />
-                <ui:Button
+                    ToolTipService.ToolTip="Push selected item to the top (overlapped by items below)"
+                    IsEnabled="{x:Bind SharedModel.Instance.IsSingleItemSelected, Mode=OneWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74E;" />
+                </Button>
+                <Button
                     x:Name="ButtonPushUp"
-                    Margin="0,10,0,0"
                     Click="ButtonPushUp_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon ArrowUp20}"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=IsSingleItemSelected}"
-                    ToolTip="Push selected item up (overlapped by items below)" />
-                <ui:Button
+                    ToolTipService.ToolTip="Push selected item up (overlapped by items below)"
+                    IsEnabled="{x:Bind SharedModel.Instance.IsSingleItemSelected, Mode=OneWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE70E;" />
+                </Button>
+                <Button
                     x:Name="ButtonPushDown"
-                    Margin="0,10,0,0"
                     Click="ButtonPushDown_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon ArrowDown20}"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=IsSingleItemSelected}"
-                    ToolTip="Bring selected item down (overlap items above)" />
-                <ui:Button
+                    ToolTipService.ToolTip="Bring selected item down (overlap items above)"
+                    IsEnabled="{x:Bind SharedModel.Instance.IsSingleItemSelected, Mode=OneWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE70D;" />
+                </Button>
+                <Button
                     x:Name="ButtonPushFront"
-                    Margin="0,10,0,0"
                     Click="ButtonPushFront_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon ArrowDownload20}"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=IsSingleItemSelected}"
-                    ToolTip="Bring selected item to bottom (overlap items above)" />
-                <ui:Button
+                    ToolTipService.ToolTip="Bring selected item to bottom (overlap items above)"
+                    IsEnabled="{x:Bind SharedModel.Instance.IsSingleItemSelected, Mode=OneWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74F;" />
+                </Button>
+                <Button
                     x:Name="ButtonDuplicate"
-                    Margin="0,10,0,0"
                     Click="ButtonDuplicate_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon Copy20}"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=IsSingleItemSelected}"
-                    ToolTip="Duplicate selected item" />
-                <ui:Button
+                    ToolTipService.ToolTip="Duplicate selected item"
+                    IsEnabled="{x:Bind SharedModel.Instance.IsSingleItemSelected, Mode=OneWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE8C8;" />
+                </Button>
+                <Button
                     x:Name="ButtonDelete"
-                    Margin="0,10,0,0"
-                    Appearance="Danger"
                     Click="ButtonDelete_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon Delete20}"
-                    IsEnabled="{Binding Source={x:Static app:SharedModel.Instance}, Path=IsSingleItemSelected}"
-                    ToolTip="Delete selected item" />
+                    ToolTipService.ToolTip="Delete selected item"
+                    IsEnabled="{x:Bind SharedModel.Instance.IsSingleItemSelected, Mode=OneWay}">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE74D;" />
+                </Button>
             </StackPanel>
-
         </Grid>
 
-        <Separator Grid.Row="2" Margin="0,5,0,0" />
+        <Border Grid.Row="2" Margin="0,5,0,0" Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
         <Grid Grid.Row="4" Margin="0,8,0,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <components:CommonActions Grid.Column="0" HorizontalAlignment="Left" />
@@ -361,23 +335,21 @@
             <StackPanel
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <ui:Button
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button
                     x:Name="ButtonSave"
                     Width="140"
-                    Margin="0,0,0,0"
-                    Appearance="Primary"
                     Click="ButtonSave_Click"
-                    Content="Save"
-                    ToolTip="Make your changes permanent" />
-                <ui:Button
+                    ToolTipService.ToolTip="Make your changes permanent">
+                    <TextBlock Text="Save" />
+                </Button>
+                <Button
                     x:Name="ButtonReload"
-                    Margin="10,0,0,0"
-                    Appearance="Danger"
                     Click="ButtonReload_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon ArrowUndo20}"
-                    ToolTip="Discard all changes and reload from disk" />
+                    ToolTipService.ToolTip="Discard all changes and reload from disk">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72C;" />
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>

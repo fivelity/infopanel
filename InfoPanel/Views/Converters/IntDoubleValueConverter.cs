@@ -1,32 +1,27 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 
 namespace InfoPanel
 {
-    class IntDoubleValueConverter : IValueConverter
+    public class IntDoubleValueConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (double.TryParse(value.ToString(), out double doubleValue))
+            if (double.TryParse(value?.ToString(), out double doubleValue))
             {
                 return doubleValue;
             }
-
-            return Binding.DoNothing;
+            return DependencyProperty.UnsetValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             if (value is double doubleValue)
             {
-                if (int.TryParse(doubleValue.ToString(), out int intValue))
-                {
-                    return intValue;
-                }
+                return (int)doubleValue;
             }
-
-            return Binding.DoNothing;
+            return DependencyProperty.UnsetValue;
         }
     }
 }

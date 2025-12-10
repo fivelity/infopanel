@@ -32,27 +32,6 @@
           "Flurl": "4.0.0"
         }
       },
-      "FlyleafLib": {
-        "type": "Direct",
-        "requested": "[3.9.3, )",
-        "resolved": "3.9.3",
-        "contentHash": "VP5y4avbqskTBsoJOQBfp+/kCesl68ShlFY7vQGqW3k8qto8QMC9u8FkmsJtwzpEX5cJjdel2r0Z2H0A1w4/XQ==",
-        "dependencies": {
-          "Flyleaf.FFmpeg.Bindings": "7.1.1",
-          "Vortice.D3DCompiler": "3.7.6-beta",
-          "Vortice.Direct3D11": "3.7.6-beta",
-          "Vortice.DirectComposition": "3.7.6-beta",
-          "Vortice.Mathematics": "1.9.3",
-          "Vortice.MediaFoundation": "3.7.6-beta",
-          "Vortice.XAudio2": "3.7.6-beta"
-        }
-      },
-      "gong-wpf-dragdrop": {
-        "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "nDj86v1XHhgmQR8PPo/uDDp/xdLDxcqZdvIwSxWAHQPiRX/GBXK13FYY0C2xQow9RSl6j5FKLk8xoYrdb52vqg=="
-      },
       "HidSharp": {
         "type": "Direct",
         "requested": "[2.6.4, )",
@@ -88,15 +67,6 @@
         "contentHash": "PRp2lYflUN/IrYJW8ZM6G/0hBKnX4ySOq9L+4mavqWIGH6KcEMPXKAxln6oVQ+dQK5Q2yNdYLDJhk7NfuP9+ww==",
         "dependencies": {
           "Microsoft.Win32.Registry": "5.0.0"
-        }
-      },
-      "MahApps.Metro": {
-        "type": "Direct",
-        "requested": "[2.4.11, )",
-        "resolved": "2.4.11",
-        "contentHash": "pvk757N/ViZy+zlbB56AakryuZkts328M6pX2mMn/Z7r5ifkScDrS300zSBjLd+eGOPeHgUjH4f7cZbRiMyvQg==",
-        "dependencies": {
-          "ControlzEx": "[4.4.0, 6.0.0)"
         }
       },
       "Microsoft.Extensions.Caching.Memory": {
@@ -141,6 +111,12 @@
           "Microsoft.Extensions.Logging.EventSource": "9.0.10",
           "Microsoft.Extensions.Options": "9.0.10"
         }
+      },
+      "Microsoft.Windows.SDK.BuildTools": {
+        "type": "Direct",
+        "requested": "[10.0.26100.1, )",
+        "resolved": "10.0.26100.1742",
+        "contentHash": "ypcHjr4KEi6xQhgClnbXoANHcyyX/QsC4Rky4igs6M4GiDa+weegPo8JuV/VMxqrZCV4zlqDsp2krgkN7ReAAg=="
       },
       "SecureStore": {
         "type": "Direct",
@@ -230,18 +206,6 @@
           "SkiaSharp.NativeAssets.Win32": "3.119.1"
         }
       },
-      "SkiaSharp.Views.WPF": {
-        "type": "Direct",
-        "requested": "[3.119.1, )",
-        "resolved": "3.119.1",
-        "contentHash": "z9Yi2GFJeQFmdOmgKe0Q3g7iGPrFdXMPzG8fROalHonf/HFFGNCIGT7HLlsi0IL3HHFtwqE/izmY9Ex9Z96RNg==",
-        "dependencies": {
-          "OpenTK": "4.3.0",
-          "OpenTK.GLWpfControl": "4.2.3",
-          "SkiaSharp": "3.119.1",
-          "SkiaSharp.Views.Desktop.Common": "3.119.1"
-        }
-      },
       "Svg.Skia": {
         "type": "Direct",
         "requested": "[3.2.1, )",
@@ -295,31 +259,6 @@
           "System.ValueTuple": "4.5.0"
         }
       },
-      "WPF-UI": {
-        "type": "Direct",
-        "requested": "[3.1.1, )",
-        "resolved": "3.1.1",
-        "contentHash": "NGNsihMhCUYGpjaM4aTIGyQvYJCNJq55lof125CiP6KGoKo5usKILKE1UJzE8D97fdMNnQaUsE0N8UqoU8DD5Q=="
-      },
-      "WPF-UI.Tray": {
-        "type": "Direct",
-        "requested": "[3.1.1, )",
-        "resolved": "3.1.1",
-        "contentHash": "wf2DDY5gIPjbFMMO2AcoTOVxUFManE3N2LXbQ4OmK0rceXUaQJo9DSJT35Dutolk+WER6RRedXZCb/K0Hg/gSQ==",
-        "dependencies": {
-          "System.Drawing.Common": "8.0.0",
-          "WPF-UI": "3.1.1"
-        }
-      },
-      "ControlzEx": {
-        "type": "Transitive",
-        "resolved": "4.4.0",
-        "contentHash": "pZ5z4hYWwE4R13UMCVs6vII//nL7hz+Nwn4oJlnsZJRGqJNy6Z9KnJiTZfly6lKFu0pMc1aWBZpx+VqFTQKP1Q==",
-        "dependencies": {
-          "Microsoft.Xaml.Behaviors.Wpf": "1.1.19",
-          "System.Text.Json": "4.7.2"
-        }
-      },
       "ExCSS": {
         "type": "Transitive",
         "resolved": "4.3.1",
@@ -329,11 +268,6 @@
         "type": "Transitive",
         "resolved": "4.0.0",
         "contentHash": "rpts69yYgvJqg6PPgqShBQEZ4aNzWQqWpWppcT0oDWxDCIsBqiod4pj6LQZdhk+1OozLFagemldMRACdHF3CsA=="
-      },
-      "Flyleaf.FFmpeg.Bindings": {
-        "type": "Transitive",
-        "resolved": "7.1.1",
-        "contentHash": "EU4JLzurif8pkcxq03aARp2fYRAlQVU+Gpn30cjvTXc95NLmag1BbMMkHmiCBegOgnZOPZKt/WIEj8aery8uPA=="
       },
       "HarfBuzzSharp": {
         "type": "Transitive",
@@ -633,16 +567,6 @@
           "System.Security.Principal.Windows": "5.0.0"
         }
       },
-      "Microsoft.Win32.SystemEvents": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "9opKRyOKMCi2xJ7Bj7kxtZ1r9vbzosMvRrdEhVhDz8j8MoBGgB+WmC94yH839NPH+BclAjtQ/pyagvi/8gDLkw=="
-      },
-      "Microsoft.Xaml.Behaviors.Wpf": {
-        "type": "Transitive",
-        "resolved": "1.1.19",
-        "contentHash": "5sPWkbqImc2t1aQwIfJcKsUo7tOg1Tr8+6xVzZJB56Nzt4u9NlpcLofgdX/aRYpPKdWDA3U23Akw1KQzU5e82g=="
-      },
       "Mono.Posix.NETStandard": {
         "type": "Transitive",
         "resolved": "1.0.0",
@@ -652,102 +576,6 @@
         "type": "Transitive",
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
-      "OpenTK": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "w2oiuLDpZbSCyqzHEFFLTO6JMNadHWS6Pp68U68lfzdTrzTQQqyH7x+/PJidsk+wRSDopaH9e03/KzYB9Fs+7Q==",
-        "dependencies": {
-          "OpenTK.Compute": "4.3.0",
-          "OpenTK.Core": "4.3.0",
-          "OpenTK.Graphics": "4.3.0",
-          "OpenTK.Input": "4.3.0",
-          "OpenTK.Mathematics": "4.3.0",
-          "OpenTK.OpenAL": "4.3.0",
-          "OpenTK.Windowing.Common": "4.3.0",
-          "OpenTK.Windowing.Desktop": "4.3.0",
-          "OpenTK.Windowing.GraphicsLibraryFramework": "4.3.0"
-        }
-      },
-      "OpenTK.Compute": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "XrMVjBPp1PNuz7z7hdNyO2oBsAPZHcHzILs7ewtEP09CM1KPVwZDAsIjOjEJesLCWrNr+jm6+3TvHActYkk4lQ=="
-      },
-      "OpenTK.Core": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "Hu+4U+tvnQW++y8Gj4OggLVuhclLm1hVN9ZIc3e9d8uo15CWYOSycw+FQhaRH3aibFv1vFYgH+bMIHM509YwYg=="
-      },
-      "OpenTK.GLWpfControl": {
-        "type": "Transitive",
-        "resolved": "4.2.3",
-        "contentHash": "VIq15MqeMB42v7cuoPcbHAFzdlOcN5DZEhguuQVdvZP0NlfajjaoVDqtP3koOWLs1how2YqCaVk1qIvsuRdQqQ==",
-        "dependencies": {
-          "OpenTK": "[4.3.0, 5.0.0)"
-        }
-      },
-      "OpenTK.Graphics": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "N1XXKrX+op6ORxkRoLa8mb/rMQVTW4YsJraneyU0RKqZ04PeOwcnX6BFb+mJISZnbtk+3SyYlWLjSsQjDdFbRg==",
-        "dependencies": {
-          "OpenTK.Core": "[4.3.0, 4.4.0)",
-          "OpenTK.Mathematics": "[4.3.0, 4.4.0)"
-        }
-      },
-      "OpenTK.Input": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "tvTQlC87bnNWN5BPOxCqSE2UJ6RKz/r342I25XBfeF/TNpw9Ad6upLdok8l8Nhess9LUItOPT6uBBdOlMEO0cA=="
-      },
-      "OpenTK.Mathematics": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "3yiHBaEeV6OVu7La6961Jx7xoP7dJoZXcRJaDqqPrEmmIuwUx2i4AQI60UpGmcrMJ11QhicmW6zjb8aZYySYrw=="
-      },
-      "OpenTK.OpenAL": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "zDzP8wsppS/5jwW8RUaac/bWOrZV5rB8Faejy5vLVE1ixWKclOEyO30ADOO3XZ+IWNKioX5wMhzKcy8kfsKKew==",
-        "dependencies": {
-          "OpenTK.Core": "[4.3.0, 4.4.0)",
-          "OpenTK.Mathematics": "[4.3.0, 4.4.0)"
-        }
-      },
-      "OpenTK.redist.glfw": {
-        "type": "Transitive",
-        "resolved": "3.3.0-pre20200830200122",
-        "contentHash": "EKE9pJCFHScbqOv/t0zG1h5Eh24nWr44SXYnpYtAWDhJhzAoUoI8TwDRXGvTGhDeCBp8ONEaVsq9xRC+OQIxQA=="
-      },
-      "OpenTK.Windowing.Common": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "HKKMHsv+eQrB3C3ySCcYS0yfKNZ/SM0v1upqBLEN5khs7IVPQ/wRwdR+OaPH/9v11pYtdNQL/XtkPVV0SC8jWA==",
-        "dependencies": {
-          "OpenTK.Core": "[4.3.0, 4.4.0)",
-          "OpenTK.Mathematics": "[4.3.0, 4.4.0)"
-        }
-      },
-      "OpenTK.Windowing.Desktop": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "pomhIDKQGGLn+5jAWCUsxAcHLOwO4/43pmcXA2xVKRcrvRQgY0QCUcroQRDwGam+8SinRBSTa0PNVNbDxZhoRA==",
-        "dependencies": {
-          "OpenTK.Core": "[4.3.0, 4.4.0)",
-          "OpenTK.Mathematics": "[4.3.0, 4.4.0)",
-          "OpenTK.Windowing.Common": "[4.3.0, 4.4.0)",
-          "OpenTK.Windowing.GraphicsLibraryFramework": "[4.3.0, 4.4.0)"
-        }
-      },
-      "OpenTK.Windowing.GraphicsLibraryFramework": {
-        "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "R8H4ynmYUYuow/QNx4pnvPGR8Z6KUP54rVlnsH5tRkDYBU/m6bWmvFFvAA492rRyM5nt+6zAqGjv8GXY+8sylA==",
-        "dependencies": {
-          "OpenTK.Core": "[4.3.0, 4.4.0)",
-          "OpenTK.redist.glfw": "[3.3.0-pre20200830200122, 3.4.0-pre)"
-        }
       },
       "RAMSPDToolkit-NDD": {
         "type": "Transitive",
@@ -869,23 +697,6 @@
           "Serilog": "4.2.0"
         }
       },
-      "SharpGen.Runtime": {
-        "type": "Transitive",
-        "resolved": "2.4.2-beta",
-        "contentHash": "niTtWAUov1F7wZGAlVeEvW+Tnqvg5yTmhI7rxmYu2Utoyu2TbC9tWWpUpMs0PQg5lu5svoYpCAztNjxCqMFP/w==",
-        "dependencies": {
-          "System.Text.Json": "9.0.1"
-        }
-      },
-      "SharpGen.Runtime.COM": {
-        "type": "Transitive",
-        "resolved": "2.4.2-beta",
-        "contentHash": "9lxDFMiepqo3lJQzMSjECCIONeCc2f3Drokgj6HtrTLZcJSftNgcLbD6/iXYj2iphkwgrZb1oLsDOZxoFZkawQ==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "System.Text.Json": "9.0.1"
-        }
-      },
       "ShimSkiaSharp": {
         "type": "Transitive",
         "resolved": "3.2.1",
@@ -912,14 +723,6 @@
         "type": "Transitive",
         "resolved": "3.119.1",
         "contentHash": "8C4GSXVJqSr0y3Tyyv5jz6MJSTVUyYkMjeKrzK+VyZPGLo89MNoUEclVuYahzOCDdtbfXrd2HtxXfDuvoSXrUw=="
-      },
-      "SkiaSharp.Views.Desktop.Common": {
-        "type": "Transitive",
-        "resolved": "3.119.1",
-        "contentHash": "unNGZH3G9zpumcRcWmF9I7XcdvSd5I0hhhlj78UTlZPIXL98jRTmcxGsMiR/949uD3hWhFhT48C0jf/9izMD4A==",
-        "dependencies": {
-          "SkiaSharp": "3.119.1"
-        }
       },
       "Svg.Custom": {
         "type": "Transitive",
@@ -961,14 +764,6 @@
         "type": "Transitive",
         "resolved": "9.0.10",
         "contentHash": "Jc+az1pTMujPLDn2j5eqSfzlO7j/T1K/LB7THxdfRWOxujE4zaitUqBs7sv1t6/xmmvpU6Xx3IofCs4owYH0yQ=="
-      },
-      "System.Drawing.Common": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "JkbHJjtI/dWc5dfmEdJlbe3VwgZqCkZRtfuWFh5GOv0f+gGCfBtzMpIVkmdkj2AObO9y+oiOi81UGwH3aBYuqA==",
-        "dependencies": {
-          "Microsoft.Win32.SystemEvents": "8.0.0"
-        }
       },
       "System.IO.FileSystem.AccessControl": {
         "type": "Transitive",
@@ -1030,86 +825,6 @@
         "type": "Transitive",
         "resolved": "4.5.0",
         "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
-      },
-      "Vortice.D3DCompiler": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "4xrtZx+5OoE0DcVMbRsRS9HrhgjNVb0A+2xopwgbuXofogNkJ0uPTFGIeovvchnEDMvCvfckp6qy1EZcM/1OyA==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DirectX": "3.7.6-beta"
-        }
-      },
-      "Vortice.Direct2D1": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "/TM4VfY0hx0MZWmTT9LiJ6WRwwz/qUsluTkBWUFFJfzTs4mUdawnxkWyGHzspVOwInetCFSUCR2ZCBfT90Jf1g==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DXGI": "3.7.6-beta"
-        }
-      },
-      "Vortice.Direct3D11": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "lQwLfslpLsSyIKsrXJkDq+06Evlz1oSQMe+jvidsDl1HxiX8OZqR92ncs+TY9PYBOStE30LYP9A/+auV10ggwg==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DXGI": "3.7.6-beta"
-        }
-      },
-      "Vortice.DirectComposition": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "wU0pbXAsGVQd8XPUbMBchhEvuY6sa/uOidvb8pZ7C4QHXznxdUDV24m/OMgTCjJwN+OCWmEb5sJc2/Dy7i12RQ==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DXGI": "3.7.6-beta",
-          "Vortice.Direct2D1": "3.7.6-beta",
-          "Vortice.DirectX": "3.7.6-beta"
-        }
-      },
-      "Vortice.DirectX": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "59M9RYb6aQCRRrWBkxYZZcxtj2F54Ig+/gsMolz4G/NJ0kATB9T4cgm4Afu50X7lsoH6KbpLSUSbf2o81NUGXw==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "SharpGen.Runtime.COM": "2.4.2-beta",
-          "Vortice.Mathematics": "1.9.3"
-        }
-      },
-      "Vortice.DXGI": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "EmO4F+F9rqH3yWpkkBOK4oBI1lL6j8fdMKNXh24GzgTa7Ud8COFQ1GifZTnwK/n5Km1RnK1olxlGM378V4kZkw==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DirectX": "3.7.6-beta"
-        }
-      },
-      "Vortice.Mathematics": {
-        "type": "Transitive",
-        "resolved": "1.9.3",
-        "contentHash": "VzXWjzM4F5pK3gP3m0wv9LqhRrcmQebf+lK/gIPLZ+TPXTptMal74iGkQbivIJm9OwdMZdGOuk1dvwc2iJHUGQ=="
-      },
-      "Vortice.MediaFoundation": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "Lm75QZ9ePKfJ0JV9OOA+gOzMbCylP3bsY4OTAR/YO4Y+HNqaQdLwUuL+aQZpA+uzwbtxpHqRsjlKY7DXbLnp+A==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DirectX": "3.7.6-beta"
-        }
-      },
-      "Vortice.XAudio2": {
-        "type": "Transitive",
-        "resolved": "3.7.6-beta",
-        "contentHash": "g8JddMksoaR+SAnPyhgHQzAsP5zRcKhFLs2Zbf24EvNmHKDMmijgwEzHc9w+eUr+0ZdpoUnJwtE1euwHg9Qwcg==",
-        "dependencies": {
-          "SharpGen.Runtime": "2.4.2-beta",
-          "Vortice.DirectX": "3.7.6-beta"
-        }
       },
       "infopanel.plugins": {
         "type": "Project"
@@ -1185,20 +900,10 @@
           "System.Security.Principal.Windows": "5.0.0"
         }
       },
-      "Microsoft.Win32.SystemEvents": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "9opKRyOKMCi2xJ7Bj7kxtZ1r9vbzosMvRrdEhVhDz8j8MoBGgB+WmC94yH839NPH+BclAjtQ/pyagvi/8gDLkw=="
-      },
       "Mono.Posix.NETStandard": {
         "type": "Transitive",
         "resolved": "1.0.0",
         "contentHash": "vSN/L1uaVwKsiLa95bYu2SGkF0iY3xMblTfxc8alSziPuVfJpj3geVqHGAA75J7cZkMuKpFVikz82Lo6y6LLdA=="
-      },
-      "OpenTK.redist.glfw": {
-        "type": "Transitive",
-        "resolved": "3.3.0-pre20200830200122",
-        "contentHash": "EKE9pJCFHScbqOv/t0zG1h5Eh24nWr44SXYnpYtAWDhJhzAoUoI8TwDRXGvTGhDeCBp8ONEaVsq9xRC+OQIxQA=="
       },
       "runtime.android-arm.runtime.native.System.IO.Ports": {
         "type": "Transitive",

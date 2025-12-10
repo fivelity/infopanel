@@ -1,29 +1,26 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 
 namespace InfoPanel
 {
-    [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class InverseBooleanToVisibilityConverter: IValueConverter
+    public class InverseBooleanToVisibilityConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
             bool bValue = false;
-            if (value is bool)
+            if (value is bool b)
             {
-                bValue = (bool)value;
+                bValue = b;
             }
-            else if (value is Nullable<bool>)
+            else if (value is bool? tmp)
             {
-                Nullable<bool> tmp = (Nullable<bool>)value;
-                bValue = tmp.HasValue ? tmp.Value : false;
+                bValue = tmp ?? false;
             }
-            return (bValue) ? Visibility.Collapsed : Visibility.Visible;
+            return bValue ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
         }

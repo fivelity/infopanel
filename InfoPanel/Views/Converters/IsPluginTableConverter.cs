@@ -1,20 +1,18 @@
-﻿using InfoPanel.Models;
-using InfoPanel.Plugins;
+﻿using InfoPanel.Plugins;
 using System;
 using System.Data;
-using System.Globalization;
-using System.Windows.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace InfoPanel
 {
-    internal class IsPluginTableConverter : IValueConverter
+    public class IsPluginTableConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
             return value is SensorReading sensorReading && sensorReading.ValueTable is DataTable;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotSupportedException();
         }

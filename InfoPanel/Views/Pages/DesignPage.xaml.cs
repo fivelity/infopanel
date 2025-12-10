@@ -1,27 +1,27 @@
-﻿
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using InfoPanel.Models;
 using InfoPanel.ViewModels;
-using System.Windows;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace InfoPanel.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for DesignPage.xaml
-    /// </summary>
-    public partial class DesignPage
+    public sealed partial class DesignPage : Page
     {
-        public DesignViewModel ViewModel
+        public DesignViewModel ViewModel { get; }
+
+        public DesignPage()
         {
-            get;
+            ViewModel = new DesignViewModel();
+            this.InitializeComponent();
+            this.Unloaded += DesignPage_Unloaded;
         }
 
         public DesignPage(DesignViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = this;
-            InitializeComponent();
-            Unloaded += DesignPage_Unloaded;
+            this.InitializeComponent();
+            this.Unloaded += DesignPage_Unloaded;
         }
 
         private void DesignPage_Unloaded(object sender, RoutedEventArgs e)

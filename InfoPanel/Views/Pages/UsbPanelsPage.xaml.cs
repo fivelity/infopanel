@@ -1,37 +1,46 @@
 using InfoPanel.BeadaPanel;
 using InfoPanel.Models;
-using InfoPanel.Services;
 using InfoPanel.TuringPanel;
 using InfoPanel.ViewModels;
 using InfoPanel.Views.Windows;
 using LibUsbDotNet;
 using LibUsbDotNet.Main;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace InfoPanel.Views.Pages;
 
-/// <summary>
-/// Interaction logic for UsbPanelsPage.xaml
-/// </summary>
-public partial class UsbPanelsPage : Page
+public sealed partial class UsbPanelsPage : Page
 {
     private static readonly ILogger Logger = Log.ForContext<UsbPanelsPage>();
     public UsbPanelsViewModel ViewModel { get; }
 
-    private static bool deviceInserted = false;
-    private static bool deviceRemoved = false;
+    public UsbPanelsPage()
+    {
+        ViewModel = new UsbPanelsViewModel();
+        this.InitializeComponent();
+        LoadSettings();
+    }
 
     public UsbPanelsPage(UsbPanelsViewModel viewModel)
     {
         ViewModel = viewModel;
-        DataContext = this;
-        InitializeComponent();
+        this.InitializeComponent();
+        LoadSettings();
+    }
+
+    private void LoadSettings()
+    {
+        ToggleBeadaPanelMode.IsOn = ConfigModel.Instance.Settings.BeadaPanelMultiDeviceMode;
+        ToggleTuringPanelMode.IsOn = ConfigModel.Instance.Settings.TuringPanelMultiDeviceMode;
+
+        ToggleBeadaPanelMode.Toggled += (s, e) => ConfigModel.Instance.Settings.BeadaPanelMultiDeviceMode = ToggleBeadaPanelMode.IsOn;
+        ToggleTuringPanelMode.Toggled += (s, e) => ConfigModel.Instance.Settings.TuringPanelMultiDeviceMode = ToggleTuringPanelMode.IsOn;
     }
 
     private async Task UpdateBeadaPanelDeviceList()

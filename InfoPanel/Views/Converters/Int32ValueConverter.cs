@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace InfoPanel
 {
-    class Int32ValueConverter : IValueConverter
+    public class Int32ValueConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is UInt32 Value)
+            if (value is UInt32 val)
             {
-                return "0x"+Value.ToString("x");
+                return "0x" + val.ToString("x");
             }
-
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
         }

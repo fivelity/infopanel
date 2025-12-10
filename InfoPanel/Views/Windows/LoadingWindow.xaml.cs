@@ -1,21 +1,17 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using Microsoft.UI.Xaml;
 
 namespace InfoPanel.Views.Windows
 {
-    /// <summary>
-    /// Interaction logic for ClosingWindow.xaml
-    /// </summary>
-    public partial class LoadingWindow : Window
+    public sealed partial class LoadingWindow : Window
     {
         public LoadingWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public void SetText(string text)
         {
-            TextBlock.Text = text;  
+            TextBlockStatus.Text = text;
         }
     }
 }

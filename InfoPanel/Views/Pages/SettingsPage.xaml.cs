@@ -1,32 +1,42 @@
 ﻿using InfoPanel.Models;
 using InfoPanel.Monitors;
-using InfoPanel.Services;
 using InfoPanel.Utils;
 using InfoPanel.ViewModels;
-using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Serilog;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.NetworkInformation;
-using System.Windows;
-using System.Windows.Controls;
-using System.Diagnostics;
+using Windows.UI;
 
 namespace InfoPanel.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for SettingsPage.xaml
-    /// </summary>
-    public partial class SettingsPage : Page
+    public sealed partial class SettingsPage : Page
     {
         private static readonly ILogger Logger = Log.ForContext<SettingsPage>();
         public SettingsViewModel ViewModel { get; }
 
+        public SettingsPage()
+        {
+            ViewModel = new SettingsViewModel();
+            this.InitializeComponent();
+            InitializeControls();
+            LoadSettings();
+        }
 
         public SettingsPage(SettingsViewModel viewModel)
         {
             ViewModel = viewModel;
-            DataContext = this;
-            InitializeComponent();
+            this.InitializeComponent();
+            InitializeControls();
+            LoadSettings();
+        }
+
+        private void InitializeControls()
+        {
+            // Populate Listen IP
             ComboBoxListenIp.Items.Add("127.0.0.1");
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface ni in interfaces)
@@ -45,6 +55,7 @@ namespace InfoPanel.Views.Pages
                 }
             }
 
+            // Populate Listen Port
             ComboBoxListenPort.Items.Add("80");
             ComboBoxListenPort.Items.Add("81");
             ComboBoxListenPort.Items.Add("2020");
@@ -56,6 +67,7 @@ namespace InfoPanel.Views.Pages
             ComboBoxListenPort.Items.Add("10000");
             ComboBoxListenPort.Items.Add("10001");
 
+            // Populate Refresh Rate
             ComboBoxRefreshRate.Items.Add(16);
             ComboBoxRefreshRate.Items.Add(33);
             ComboBoxRefreshRate.Items.Add(50);
@@ -65,12 +77,108 @@ namespace InfoPanel.Views.Pages
             ComboBoxRefreshRate.Items.Add(300);
             ComboBoxRefreshRate.Items.Add(500);
             ComboBoxRefreshRate.Items.Add(1000);
+
+            // Wire up events
+            ToggleAutoStart.Toggled += (s, e) => ConfigModel.Instance.Settings.AutoStart = ToggleAutoStart.IsOn;
+            ToggleMinimizeToTray.Toggled += (s, e) => ConfigModel.Instance.Settings.MinimizeToTray = ToggleMinimizeToTray.IsOn;
+            ToggleStartMinimized.Toggled += (s, e) => ConfigModel.Instance.Settings.StartMinimized = ToggleStartMinimized.IsOn;
+            ToggleShowGridLines.Toggled += (s, e) => ConfigModel.Instance.Settings.ShowGridLines = ToggleShowGridLines.IsOn;
+            ToggleLibreHardwareMonitor.Toggled += (s, e) => ConfigModel.Instance.Settings.LibreHardwareMonitor = ToggleLibreHardwareMonitor.IsOn;
+            ToggleWebServer.Toggled += (s, e) => ConfigModel.Instance.Settings.WebServer = ToggleWebServer.IsOn;
+
+            NumberBoxStartupDelay.ValueChanged += (s, e) => ConfigModel.Instance.Settings.AutoStartDelay = (int)NumberBoxStartupDelay.Value;
+            NumberBoxGridSpacing.ValueChanged += (s, e) => ConfigModel.Instance.Settings.GridLinesSpacing = (int)NumberBoxGridSpacing.Value;
+
+            SliderFrameRate.ValueChanged += (s, e) =>
+            {
+                ConfigModel.Instance.Settings.TargetFrameRate = (int)SliderFrameRate.Value;
+                RunFrameRate.Text = ((int)SliderFrameRate.Value).ToString();
+            };
+
+            SliderGraphUpdateRate.ValueChanged += (s, e) =>
+            {
+                ConfigModel.Instance.Settings.TargetGraphUpdateRate = (int)SliderGraphUpdateRate.Value;
+                RunGraphUpdateRate.Text = ((int)SliderGraphUpdateRate.Value).ToString();
+            };
+
+            ComboBoxListenIp.SelectionChanged += (s, e) =>
+            {
+                if (ComboBoxListenIp.SelectedItem != null)
+                    ConfigModel.Instance.Settings.WebServerListenIp = ComboBoxListenIp.SelectedItem.ToString()!;
+            };
+
+            ComboBoxListenPort.SelectionChanged += (s, e) =>
+            {
+                if (ComboBoxListenPort.SelectedItem != null && int.TryParse(ComboBoxListenPort.SelectedItem.ToString(), out int port))
+                    ConfigModel.Instance.Settings.WebServerListenPort = port;
+            };
+
+            ComboBoxRefreshRate.SelectionChanged += (s, e) =>
+            {
+                if (ComboBoxRefreshRate.SelectedItem is int rate)
+                    ConfigModel.Instance.Settings.WebServerRefreshRate = rate;
+            };
+        }
+
+        private void LoadSettings()
+        {
+            var settings = ConfigModel.Instance.Settings;
+
+            ToggleAutoStart.IsOn = settings.AutoStart;
+            ToggleMinimizeToTray.IsOn = settings.MinimizeToTray;
+            ToggleStartMinimized.IsOn = settings.StartMinimized;
+            ToggleShowGridLines.IsOn = settings.ShowGridLines;
+            ToggleLibreHardwareMonitor.IsOn = settings.LibreHardwareMonitor;
+            ToggleWebServer.IsOn = settings.WebServer;
+
+            NumberBoxStartupDelay.Value = settings.AutoStartDelay;
+            NumberBoxGridSpacing.Value = settings.GridLinesSpacing;
+
+            SliderFrameRate.Value = settings.TargetFrameRate;
+            SliderGraphUpdateRate.Value = settings.TargetGraphUpdateRate;
+            RunFrameRate.Text = settings.TargetFrameRate.ToString();
+            RunGraphUpdateRate.Text = settings.TargetGraphUpdateRate.ToString();
+
+            // Select items in combo boxes
+            if (!string.IsNullOrEmpty(settings.WebServerListenIp))
+            {
+                for (int i = 0; i < ComboBoxListenIp.Items.Count; i++)
+                {
+                    if (ComboBoxListenIp.Items[i]?.ToString() == settings.WebServerListenIp)
+                    {
+                        ComboBoxListenIp.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            var portStr = settings.WebServerListenPort.ToString();
+            for (int i = 0; i < ComboBoxListenPort.Items.Count; i++)
+            {
+                if (ComboBoxListenPort.Items[i]?.ToString() == portStr)
+                {
+                    ComboBoxListenPort.SelectedIndex = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < ComboBoxRefreshRate.Items.Count; i++)
+            {
+                if (ComboBoxRefreshRate.Items[i] is int rate && rate == settings.WebServerRefreshRate)
+                {
+                    ComboBoxRefreshRate.SelectedIndex = i;
+                    break;
+                }
+            }
+
+            // Update PawniO status
+            TextBlockPawnIOStatus.Text = ViewModel.PawnIOStatus;
         }
 
         private void ButtonOpenDataFolder_Click(object sender, RoutedEventArgs e)
         {
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel");
-            Process.Start(new ProcessStartInfo("explorer.exe", path));
+            Process.Start(new ProcessStartInfo("explorer.exe", path) { UseShellExecute = true });
         }
 
         private async void ButtonCheckPawnIO_Click(object sender, RoutedEventArgs e)
@@ -78,42 +186,33 @@ namespace InfoPanel.Views.Pages
             try
             {
                 Logger.Information("Checking PawniO status from Settings page");
-
-                // Refresh status
                 ViewModel.RefreshPawnIOStatus();
+                TextBlockPawnIOStatus.Text = ViewModel.PawnIOStatus;
 
-                // If not installed or requires update, offer to install/update
                 if (!PawnIoHelper.IsInstalled || PawnIoHelper.RequiresUpdate)
                 {
-                    string message;
-                    if (PawnIoHelper.RequiresUpdate)
-                    {
-                        message = $"PawniO is outdated (v{PawnIoHelper.Version}).\n\n" +
-                                 $"LibreHardwareMonitor requires PawniO v2.0.0.0 or higher.\n\n" +
-                                 "Would you like to update it now?";
-                    }
-                    else
-                    {
-                        message = "PawniO is not installed.\n\n" +
-                                 "LibreHardwareMonitor requires PawniO for low-level hardware access.\n\n" +
-                                 "Would you like to install it now?";
-                    }
+                    string message = PawnIoHelper.RequiresUpdate
+                        ? $"PawniO is outdated (v{PawnIoHelper.Version}).\n\nLibreHardwareMonitor requires PawniO v2.0.0.0 or higher.\n\nWould you like to update it now?"
+                        : "PawniO is not installed.\n\nLibreHardwareMonitor requires PawniO for low-level hardware access.\n\nWould you like to install it now?";
 
-                    var result = MessageBox.Show(
-                        message,
-                        "PawniO Driver",
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Question);
+                    var dialog = new ContentDialog
+                    {
+                        Title = "PawniO Driver",
+                        Content = message,
+                        PrimaryButtonText = "Install",
+                        CloseButtonText = "Cancel",
+                        XamlRoot = this.XamlRoot
+                    };
 
-                    if (result == MessageBoxResult.OK)
+                    var result = await dialog.ShowAsync();
+                    if (result == ContentDialogResult.Primary)
                     {
                         bool success = PawnIoHelper.InstallOrUpdate();
-
                         if (success && PawnIoHelper.IsInstalled)
                         {
                             ViewModel.RefreshPawnIOStatus();
+                            TextBlockPawnIOStatus.Text = ViewModel.PawnIOStatus;
 
-                            // Restart LibreMonitor if it's running to load the new driver
                             if (ConfigModel.Instance.Settings.LibreHardwareMonitor)
                             {
                                 Logger.Information("Restarting LibreMonitor to load PawniO driver");
@@ -122,32 +221,40 @@ namespace InfoPanel.Views.Pages
                                 Logger.Information("LibreMonitor restarted successfully");
                             }
 
-                            MessageBox.Show(
-                                $"PawniO v{PawnIoHelper.Version} has been installed successfully.\n\n" +
-                                "LibreHardwareMonitor has been restarted to load the driver.",
-                                "Installation Complete",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Information);
+                            var successDialog = new ContentDialog
+                            {
+                                Title = "Installation Complete",
+                                Content = $"PawniO v{PawnIoHelper.Version} has been installed successfully.\n\nLibreHardwareMonitor has been restarted to load the driver.",
+                                CloseButtonText = "OK",
+                                XamlRoot = this.XamlRoot
+                            };
+                            await successDialog.ShowAsync();
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"PawniO v{PawnIoHelper.Version} is installed and up to date.",
-                        "PawniO Status",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
+                    var infoDialog = new ContentDialog
+                    {
+                        Title = "PawniO Status",
+                        Content = $"PawniO v{PawnIoHelper.Version} is installed and up to date.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.XamlRoot
+                    };
+                    await infoDialog.ShowAsync();
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "Error checking PawniO status");
-                MessageBox.Show(
-                    "An error occurred while checking PawniO status. See logs for details.",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = "An error occurred while checking PawniO status. See logs for details.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+                await errorDialog.ShowAsync();
             }
         }
     }

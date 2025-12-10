@@ -1,21 +1,27 @@
 using InfoPanel.Models;
 using InfoPanel.ViewModels;
-using System.Windows;
-using Wpf.Ui.Controls;
+using Microsoft.UI.Xaml;
 
 namespace InfoPanel.Views.Windows;
 
-public partial class TuringDeviceWindow : FluentWindow
+public sealed partial class TuringDeviceWindow : Window
 {
+    private readonly TuringDeviceWindowViewModel _viewModel;
+
     public TuringDeviceWindow(TuringPanelDevice device)
     {
-        InitializeComponent();
-        
-        var viewModel = new TuringDeviceWindowViewModel(device);
-        DataContext = viewModel;
-        
-        Owner = Application.Current.MainWindow;
-        
-        Closing += (s, e) => viewModel.Cleanup();
+        this.InitializeComponent();
+
+        _viewModel = new TuringDeviceWindowViewModel(device);
+        // Note: In WinUI 3, DataContext binding is handled differently
+        // The ViewModel will need to be accessed via x:Bind or set as a property
+
+        this.Closed += (s, e) => _viewModel.Cleanup();
+    }
+
+    public void ShowDialog()
+    {
+        // WinUI 3 doesn't have ShowDialog - activate the window instead
+        this.Activate();
     }
 }

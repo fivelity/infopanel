@@ -1,26 +1,22 @@
 ﻿using InfoPanel.Views.Components.WebServer;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for Menu.xaml
-    /// </summary>
-    public partial class Menu : UserControl
+    public sealed partial class Menu : UserControl
     {
         public Menu()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private async void MenuItemExit_Click(object sender, RoutedEventArgs e)
         {
             await BeadaPanelTask.Instance.StopAsync();
-
-            Environment.Exit(0);
+            Application.Current.Exit();
         }
 
         private void MenuItemPerformanceSettings_Click(object sender, RoutedEventArgs e)
@@ -31,7 +27,7 @@ namespace InfoPanel.Views.Components
             {
                 if(app.MainWindow != null)
                 {
-                    performanceSettings.Owner = app.MainWindow;
+                    performanceSettings.XamlRoot = app.MainWindow.Content.XamlRoot;
                 }
             }
 
@@ -40,7 +36,11 @@ namespace InfoPanel.Views.Components
 
         private void MenuItemDiscord_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", "https://discord.gg/cQnjdMC7Qc");
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://discord.gg/cQnjdMC7Qc",
+                UseShellExecute = true
+            });
         }
 
         private void MenuItemWebserverSettings_Click(object sender, RoutedEventArgs e)
@@ -50,13 +50,11 @@ namespace InfoPanel.Views.Components
             {
                 if (app.MainWindow != null)
                 {
-                    webServerSettings.Owner = app.MainWindow;
+                    webServerSettings.XamlRoot = app.MainWindow.Content.XamlRoot;
                 }
             }
 
             webServerSettings.Show();
         }
     }
-
-    
 }

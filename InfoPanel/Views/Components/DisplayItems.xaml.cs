@@ -1,59 +1,45 @@
-﻿using GongSolutions.Wpf.DragDrop;
-using InfoPanel.Models;
+﻿using InfoPanel.Models;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Data;
-using Wpf.Ui.Controls;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
+using Windows.UI.Core;
 
 namespace InfoPanel.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for DisplayItems.xaml
-    /// </summary>
-    public partial class DisplayItems : UserControl, IDropTarget
+    public sealed partial class DisplayItems : UserControl
     {
         private static readonly ILogger Logger = Log.ForContext<DisplayItems>();
-        private static DisplayItem? SelectedItem { get { return SharedModel.Instance.SelectedItem; } }
+        private static DisplayItem? SelectedItem => SharedModel.Instance.SelectedItem;
 
-        private CollectionViewSource? _displayItemsViewSource;
         private string _searchText = string.Empty;
+        private ObservableCollection<DisplayItem> _filteredDisplayItems = new();
+
+        public ObservableCollection<DisplayItem> FilteredDisplayItems => _filteredDisplayItems;
 
         public DisplayItems()
         {
-            DataContext = this;
-            InitializeComponent();
-            Loaded += DisplayItems_Loaded;
-            Unloaded += DisplayItems_Unloaded;
+            this.InitializeComponent();
+            this.Loaded += DisplayItems_Loaded;
+            this.Unloaded += DisplayItems_Unloaded;
         }
 
         private void DisplayItems_Loaded(object sender, RoutedEventArgs e)
         {
             SharedModel.Instance.PropertyChanged += Instance_PropertyChanged;
-            
-            // Get the CollectionViewSource from resources
-            _displayItemsViewSource = FindResource("DisplayItemsViewSource") as CollectionViewSource;
-            if (_displayItemsViewSource != null)
-            {
-                _displayItemsViewSource.Filter += DisplayItemsViewSource_Filter;
-            }
+            RefreshFilteredItems();
         }
 
         private void DisplayItems_Unloaded(object sender, RoutedEventArgs e)
         {
             SharedModel.Instance.PropertyChanged -= Instance_PropertyChanged;
-            
-            // Unsubscribe from filter
-            if (_displayItemsViewSource != null)
-            {
-                _displayItemsViewSource.Filter -= DisplayItemsViewSource_Filter;
-            }
         }
 
         private void Instance_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -75,58 +61,59 @@ namespace InfoPanel.Views.Components
                     }
                 }
             }
-            else if (e.PropertyName == nameof(SharedModel.Instance.SelectedProfile))
+            else if (e.PropertyName == nameof(SharedModel.Instance.SelectedProfile) ||
+                     e.PropertyName == nameof(SharedModel.Instance.DisplayItems))
             {
-                // Refresh the view when profile changes
-                _displayItemsViewSource?.View?.Refresh();
+                RefreshFilteredItems();
             }
         }
 
-        private void DisplayItemsViewSource_Filter(object sender, FilterEventArgs e)
+        private void RefreshFilteredItems()
         {
-            if (e.Item is not DisplayItem item)
-            {
-                e.Accepted = false;
-                return;
-            }
-
-            // If no search text, accept all items
+            _filteredDisplayItems.Clear();
+            
+            var allItems = SharedModel.Instance.DisplayItems;
             if (string.IsNullOrWhiteSpace(_searchText))
             {
-                e.Accepted = true;
-                return;
-            }
-
-            // Apply search filter
-            var searchLower = _searchText.ToLower();
-            var searchTerms = searchLower.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            if (item is GroupDisplayItem groupItem)
-            {
-                // Check if group name matches all search terms
-                bool groupMatches = MatchesAllTerms(groupItem.Name, searchTerms);
-
-                // Check if any children match
-                bool hasMatchingChildren = !groupMatches && groupItem.DisplayItems.Any(child =>
-                    MatchesAllTerms(child.Name, searchTerms) ||
-                    MatchesAllTerms(child.Kind, searchTerms));
-
-                e.Accepted = groupMatches || hasMatchingChildren;
-                
-                // Expand groups that match the search
-                if (e.Accepted)
+                foreach (var item in allItems)
                 {
-                    groupItem.IsExpanded = true;
+                    _filteredDisplayItems.Add(item);
                 }
             }
             else
             {
-                // Regular item - check name and kind
-                e.Accepted = MatchesAllTerms(item.Name, searchTerms) ||
-                           MatchesAllTerms(item.Kind, searchTerms);
+                var searchLower = _searchText.ToLower();
+                var searchTerms = searchLower.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var item in allItems)
+                {
+                    if (item is GroupDisplayItem groupItem)
+                    {
+                        bool groupMatches = MatchesAllTerms(groupItem.Name, searchTerms);
+                        bool hasMatchingChildren = !groupMatches && groupItem.DisplayItems.Any(child =>
+                            MatchesAllTerms(child.Name, searchTerms) ||
+                            MatchesAllTerms(child.Kind, searchTerms));
+
+                        if (groupMatches || hasMatchingChildren)
+                        {
+                            _filteredDisplayItems.Add(item);
+                            if (hasMatchingChildren)
+                            {
+                                groupItem.IsExpanded = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (MatchesAllTerms(item.Name, searchTerms) ||
+                            MatchesAllTerms(item.Kind, searchTerms))
+                        {
+                            _filteredDisplayItems.Add(item);
+                        }
+                    }
+                }
             }
         }
-
 
         private static bool MatchesAllTerms(string text, string[] searchTerms)
         {
@@ -139,12 +126,8 @@ namespace InfoPanel.Views.Components
 
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is not System.Windows.Controls.TextBox textBox)
-                return;
-
-            // Update the search text and refresh the view for live filtering
-            _searchText = textBox.Text ?? string.Empty;
-            _displayItemsViewSource?.View?.Refresh();
+            _searchText = TextBoxSearch.Text ?? string.Empty;
+            RefreshFilteredItems();
         }
 
 
@@ -376,7 +359,7 @@ namespace InfoPanel.Views.Components
 
         private void ListViewItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isHandlingSelection || sender is not System.Windows.Controls.ListView listView)
+            if (_isHandlingSelection || sender is not ListView listView)
                 return;
 
             Logger.Debug("ListViewItems_SelectionChanged - {Count} SelectedItems", listView.SelectedItems.Count);
@@ -384,7 +367,6 @@ namespace InfoPanel.Views.Components
             _isHandlingSelection = true;
             try
             {
-
                 if (listView.SelectedItems.Count == 0)
                 {
                     return;
@@ -406,7 +388,12 @@ namespace InfoPanel.Views.Components
                 if (selectedItems.Count != 0)
                     listView.ScrollIntoView(selectedItems.Last());
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                // Check for modifier keys in WinUI 3
+                var ctrlKey = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+                var shiftKey = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
+
+                if ((ctrlKey & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down ||
+                    (shiftKey & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down)
                 {
                     return;
                 }
@@ -439,12 +426,12 @@ namespace InfoPanel.Views.Components
             }
         }
 
-        private void ListViewGroupItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InnerListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isHandlingSelection || sender is not System.Windows.Controls.ListView innerListView)
+            if (_isHandlingSelection || sender is not ListView innerListView)
                 return;
 
-            Log.Debug("ListViewGroupItems_SelectionChanged - {Count} SelectedItems", innerListView.SelectedItems.Count);
+            Log.Debug("InnerListView_SelectionChanged - {Count} SelectedItems", innerListView.SelectedItems.Count);
 
             _isHandlingSelection = true;
 
@@ -455,7 +442,12 @@ namespace InfoPanel.Views.Components
                 if (selectedItems.Count != 0)
                     innerListView.ScrollIntoView(selectedItems.Last());
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                // Check for modifier keys in WinUI 3
+                var ctrlKey = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+                var shiftKey = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
+
+                if ((ctrlKey & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down ||
+                    (shiftKey & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down)
                 {
                     return;
                 }
@@ -473,309 +465,69 @@ namespace InfoPanel.Views.Components
             {
                 SharedModel.Instance.NotifySelectedItemChange();
                 _isHandlingSelection = false;
-                Log.Debug("ListViewGroupItems_SelectionChanged - finally");
+                Log.Debug("InnerListView_SelectionChanged - finally");
             }
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Border_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            e.Handled = true;
-
-            if (e.ChangedButton != MouseButton.Left)
-                return;
-
-            if (sender is not Border border)
-                return;
-
-            var dataItem = border.DataContext;
-            var listViewItem = FindAncestor<System.Windows.Controls.ListViewItem>(border);
-            if (listViewItem == null)
-                return;
-
-            var listView = ItemsControl.ItemsControlFromItemContainer(listViewItem) as System.Windows.Controls.ListView;
-            if (listView == null)
-                return;
-
-            // Handle modifier keys
-            bool ctrl = Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
-            bool shift = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-
-            if (shift)
+            // Handle group selection in WinUI 3
+            if (sender is Border border && border.DataContext is DisplayItem item)
             {
-                // Select range from last selected to current
-                int currentIndex = listView.Items.IndexOf(dataItem);
-                int anchorIndex = listView.SelectedIndex;
-
-                if (anchorIndex >= 0 && currentIndex >= 0)
+                // Clear other selections and select this item
+                SharedModel.Instance.AccessDisplayItems(displayItems =>
                 {
-                    int start = Math.Min(anchorIndex, currentIndex);
-                    int end = Math.Max(anchorIndex, currentIndex);
-
-                    listView.SelectedItems.Clear();
-                    for (int i = start; i <= end; i++)
+                    foreach (var displayItem in displayItems)
                     {
-                        if (listView.ItemContainerGenerator.ContainerFromIndex(i) is System.Windows.Controls.ListViewItem item)
-                            item.IsSelected = true;
-                    }
-                }
-            }
-            else if (ctrl)
-            {
-                // Toggle selection
-                listViewItem.IsSelected = !listViewItem.IsSelected;
-            }
-            else
-            {
-                // Normal click: clear others and select this
-                listView.SelectedItems.Clear();
-                listViewItem.IsSelected = true;
-            }
-
-            listViewItem.BringIntoView();
-        }
-
-        public static T FindAncestor<T>(DependencyObject current) where T : DependencyObject
-        {
-            while (current != null)
-            {
-                if (current is T target)
-                    return target;
-                current = VisualTreeHelper.GetParent(current);
-            }
-            return null;
-        }
-
-        private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T typedChild)
-                    return typedChild;
-
-                var result = FindVisualChild<T>(child);
-                if (result != null)
-                    return result;
-            }
-            return null;
-        }
-
-        private void InnerListView_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (!e.Handled)
-            {
-                e.Handled = true;
-
-                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-                {
-                    RoutedEvent = UIElement.MouseWheelEvent,
-                    Source = sender
-                };
-
-                var parent = ((Control)sender).Parent as UIElement;
-                while (parent != null && !(parent is ScrollViewer))
-                {
-                    parent = VisualTreeHelper.GetParent(parent) as UIElement;
-                }
-
-                parent?.RaiseEvent(eventArg);
-            }
-        }
-
-        private GroupDisplayItem? GetGroupFromCollection(object? collection)
-        {
-            GroupDisplayItem? result = null;
-
-            SharedModel.Instance.AccessDisplayItems(displayItems => {
-
-                if (collection == null || collection == displayItems)
-                    return;
-
-                // Check if the collection is a view of the main collection
-                if (collection is ListCollectionView view && view.SourceCollection == displayItems)
-                    return;
-
-                foreach (var item in displayItems)
-                {
-                    if (item is GroupDisplayItem group && group.DisplayItems == collection)
-                    {
-                        result = group;
-                        break;
-                    }
-                }
-            });
-          
-            return result;
-        }
-
-        void IDropTarget.DragOver(IDropInfo dropInfo)
-        {
-            if (dropInfo.Data is DisplayItem sourceItem)
-            {
-                var targetItem = dropInfo.TargetItem as DisplayItem;
-
-                // Don't allow dropping an item onto itself
-                if (targetItem != null && sourceItem == targetItem)
-                {
-                    dropInfo.Effects = DragDropEffects.None;
-                    return;
-                }
-
-                // Get parent groups
-                var sourceParent = SharedModel.Instance.GetParent(sourceItem);
-                var targetParentGroup = GetGroupFromCollection(dropInfo.TargetCollection);
-
-                // Check if source item is from a locked group
-                if (sourceParent is GroupDisplayItem sourceGroup && sourceGroup.IsLocked)
-                {
-                    // Allow reordering within the same locked group
-                    if (targetParentGroup == sourceGroup)
-                    {
-                        dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-                        dropInfo.Effects = DragDropEffects.Move;
-                        return;
-                    }
-
-                    // Don't allow dragging items out of locked groups
-                    dropInfo.Effects = DragDropEffects.None;
-                    return;
-                }
-
-                // Check if target is in a locked group
-                if (targetParentGroup != null && targetParentGroup.IsLocked)
-                {
-                    // Don't allow dropping items into locked groups
-                    dropInfo.Effects = DragDropEffects.None;
-                    return;
-                }
-
-                // Check if we're dragging a group
-                if (sourceItem is GroupDisplayItem)
-                {
-                    // If target is also a group, prevent drop
-                    if (targetItem is GroupDisplayItem)
-                    {
-                        dropInfo.Effects = DragDropEffects.None;
-                        return;
-                    }
-
-                    // Check if the target collection is not the main collection
-                    // If it's not, then it must be a group's inner collection
-                    if (dropInfo.TargetCollection != null &&
-                        dropInfo.TargetCollection != SharedModel.Instance.DisplayItems &&
-                        !(dropInfo.TargetCollection is ListCollectionView view && view.SourceCollection == SharedModel.Instance.DisplayItems))
-                    {
-                        // We're trying to drop a group inside another group
-                        dropInfo.Effects = DragDropEffects.None;
-                        return;
-                    }
-                }
-                else
-                {
-                    // We're dragging a regular item (not a group)
-                    // Allow dropping into groups (even empty ones)
-                    if (targetItem is GroupDisplayItem groupItem)
-                    {
-                        // Check if the group is locked
-                        if (groupItem.IsLocked)
+                        if (displayItem is GroupDisplayItem group)
                         {
-                            dropInfo.Effects = DragDropEffects.None;
-                            return;
+                            foreach (var groupItem in group.DisplayItems)
+                            {
+                                groupItem.Selected = false;
+                            }
                         }
-
-                        // Allow dropping items into groups
-                        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-                        dropInfo.Effects = DragDropEffects.Move;
-                        return;
-                    }
-                }
-
-                // Allow the drop for all other cases
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-                dropInfo.Effects = DragDropEffects.Move;
-            }
-        }
-
-        private readonly DefaultDropHandler dropHandler = new();
-
-        void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-            if (dropInfo.Data is DisplayItem sourceItem)
-            {
-                var targetItem = dropInfo.TargetItem as DisplayItem;
-
-                // Don't allow dropping an item onto itself
-                if (targetItem != null && sourceItem == targetItem)
-                {
-                    return;
-                }
-
-                // Get parent groups
-                var sourceParent = SharedModel.Instance.GetParent(sourceItem);
-                var targetParentGroup = GetGroupFromCollection(dropInfo.TargetCollection);
-
-                // Check if source item is from a locked group
-                if (sourceParent is GroupDisplayItem sourceGroup && sourceGroup.IsLocked)
-                {
-                    // Allow reordering within the same locked group
-                    if (targetParentGroup == sourceGroup)
-                    {
-                        dropHandler.Drop(dropInfo);
-                        return;
-                    }
-
-                    // Don't allow dragging items out of locked groups
-                    return;
-                }
-
-                // Check if target is in a locked group
-                if (targetParentGroup != null && targetParentGroup.IsLocked)
-                {
-                    // Don't allow dropping items into locked groups
-                    return;
-                }
-
-                // Check if we're dragging a group
-                if (sourceItem is GroupDisplayItem)
-                {
-                    // If target is also a group, prevent drop
-                    if (targetItem is GroupDisplayItem)
-                    {
-                        return;
-                    }
-
-                    // Check if the target collection is not the main collection
-                    // If it's not, then it must be a group's inner collection
-                    if (dropInfo.TargetCollection != null &&
-                        dropInfo.TargetCollection != SharedModel.Instance.DisplayItems &&
-                        !(dropInfo.TargetCollection is ListCollectionView view && view.SourceCollection == SharedModel.Instance.DisplayItems))
-                    {
-                        // We're trying to drop a group inside another group
-                        return;
-                    }
-                }
-                else
-                {
-                    // We're dragging a regular item (not a group)
-                    // Special handling for dropping into empty groups
-                    if (targetItem is GroupDisplayItem groupItem)
-                    {
-                        // Check if the group is locked
-                        if (groupItem.IsLocked)
+                        else
                         {
-                            return;
+                            displayItem.Selected = false;
                         }
-
-                        // Move the item into the group
-                        SharedModel.Instance.RemoveDisplayItem(sourceItem);
-                        groupItem.DisplayItems.Add(sourceItem);
-                        return;
                     }
-                }
-
-                // Use the default drop handler for all other cases
-                dropHandler.Drop(dropInfo);
+                });
+                
+                item.Selected = true;
+                SharedModel.Instance.NotifySelectedItemChange();
             }
         }
-    }
+
+        // WinUI 3 Drag-Drop Event Handlers
+        private void ListViewItems_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Move;
+            e.DragUIOverride.Caption = "Move item";
+        }
+
+        private void ListViewItems_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.Text))
+            {
+                var text = e.DataView.GetTextAsync().GetResults();
+                // Handle drop logic here
+            }
+        }
+
+        private void InnerListView_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Move;
+            e.DragUIOverride.Caption = "Move to group";
+        }
+
+        private void InnerListView_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.Text))
+            {
+                var text = e.DataView.GetTextAsync().GetResults();
+                // Handle drop logic for inner list view
+            }
+        }
+
+        }
 }

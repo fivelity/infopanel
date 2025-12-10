@@ -1,13 +1,12 @@
-﻿using FlyleafLib;
-using InfoPanel.Models;
+﻿using InfoPanel.Models;
 using InfoPanel.Monitors;
 using InfoPanel.Services;
 using InfoPanel.Utils;
 using InfoPanel.ViewModels;
-using InfoPanel.Views.Common;
 using InfoPanel.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.UI.Xaml;
 using Microsoft.Win32;
 using Sentry;
 using Serilog;
@@ -20,24 +19,17 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Threading;
-using Wpf.Ui;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
 
 namespace InfoPanel
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : System.Windows.Application
+    public partial class App : Application
     {
         private static readonly ILogger Logger = Log.ForContext<App>();
         private static readonly IHost _host = Host
        .CreateDefaultBuilder()
-       //.ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
        .UseSerilog((context, services, configuration) => configuration
 #if DEBUG
            .MinimumLevel.Debug()
@@ -63,30 +55,8 @@ namespace InfoPanel
            // App Host
            services.AddHostedService<ApplicationHostService>();
 
-           // Theme manipulation
-           services.AddSingleton<IThemeService, ThemeService>();
-
-           // Taskbar manipulation
-           services.AddSingleton<ITaskBarService, TaskBarService>();
-
-           // Snackbar service
-           services.AddSingleton<ISnackbarService, SnackbarService>();
-
-           // Dialog service
-           services.AddSingleton<IContentDialogService, ContentDialogService>();
-
-           //// Page resolver service
-           services.AddSingleton<IPageService, PageService>();
-
-           //// Page resolver service
-           //services.AddSingleton<ITestWindowService, TestWindowService>();
-
-           // Service containing navigation, same as INavigationWindow... but without window
+           // Navigation service
            services.AddSingleton<INavigationService, NavigationService>();
-
-           // Main window container with navigation
-           services.AddScoped<INavigationWindow, MainWindow>();
-           //services.AddScoped<ContainerViewModel>();
 
            // Views and ViewModels
            services.AddScoped<Views.Pages.HomePage>();
@@ -106,11 +76,12 @@ namespace InfoPanel
            services.AddScoped<Views.Pages.UsbPanelsPage>();
            services.AddScoped<UsbPanelsViewModel>();
 
-           // Configuration
-           //services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
+           // Main window
+           services.AddSingleton<MainWindow>();
        }).Build();
 
         public Dictionary<Guid, DisplayWindow> DisplayWindows = [];
+        private MainWindow? m_window;
 
         public static T? GetService<T>()
         where T : class
@@ -126,17 +97,13 @@ namespace InfoPanel
 
         public App()
         {
-            // IMPORTANT: Set Dark theme before any UI resources are loaded
-            // This prevents the ThemesDictionary constructor from defaulting to Light theme
-            ApplicationThemeManager.Apply(ApplicationTheme.Dark, WindowBackdropType.Mica, false);
-
-            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            this.InitializeComponent();
 
             // 1. Handle exceptions from background threads and Task.Run
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             // 2. Handle unobserved task exceptions (async/await without proper handling)
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            System.Threading.Tasks.TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
             SentrySdk.Init(o =>
             {
@@ -150,18 +117,6 @@ namespace InfoPanel
                 o.Environment = "production"; // or "development"
                 o.Release = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
             });
-        }
-
-        void App_DispatcherUnhandledException(object? sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            SentrySdk.AddBreadcrumb("WPF Dispatcher unhandled exception", "error");
-            SentrySdk.CaptureException(e.Exception);
-
-            // Log locally as well
-            Logger.Error(e.Exception, "DispatcherUnhandledException occurred");
-
-            // Decide whether to crash or continue
-            e.Handled = true; // Uncomment to prevent crash
         }
 
         void CurrentDomain_UnhandledException(object? sender, UnhandledExceptionEventArgs e)
@@ -200,17 +155,9 @@ namespace InfoPanel
             e.SetObserved();
         }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            Logger.Information("Application exiting");
-            Log.CloseAndFlush();
-            base.OnExit(e);
-        }
-
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             Logger.Information("InfoPanel starting up");
-            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
 
             Process proc = Process.GetCurrentProcess();
             var otherInstances = Process.GetProcesses()
@@ -219,52 +166,30 @@ namespace InfoPanel
 
             if (otherInstances.Count > 0)
             {
-                var result = System.Windows.MessageBox.Show(
-                    $"Another instance of InfoPanel is running (Process ID: {string.Join(", ", otherInstances.Select(p => p.Id))}).\n\n" +
-                    "This may be from a previous crash or hung process.\n\n" +
-                    "Would you like to terminate the other instance(s) and continue?",
-                    "InfoPanel Already Running",
-                    System.Windows.MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-
-                if (result == System.Windows.MessageBoxResult.Yes)
+                // For WinUI 3, we'll use a ContentDialog later, for now just terminate
+                Logger.Information("Terminating {Count} other InfoPanel instance(s)", otherInstances.Count);
+                foreach (var otherProcess in otherInstances)
                 {
-                    Logger.Information("User chose to terminate {Count} other InfoPanel instance(s)", otherInstances.Count);
-                    foreach (var otherProcess in otherInstances)
+                    try
                     {
-                        try
-                        {
-                            Logger.Information("Terminating process ID: {ProcessId}", otherProcess.Id);
-                            otherProcess.Kill();
-                            otherProcess.WaitForExit(5000); // Wait up to 5 seconds for process to exit
-                            Logger.Information("Successfully terminated process ID: {ProcessId}", otherProcess.Id);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex, "Failed to terminate process ID: {ProcessId}", otherProcess.Id);
-                        }
+                        Logger.Information("Terminating process ID: {ProcessId}", otherProcess.Id);
+                        otherProcess.Kill();
+                        otherProcess.WaitForExit(5000);
+                        Logger.Information("Successfully terminated process ID: {ProcessId}", otherProcess.Id);
                     }
-                    Logger.Information("Continuing with InfoPanel startup after terminating other instances");
-                    // Continue with startup
-                }
-                else
-                {
-                    Logger.Information("User chose not to terminate other instances, exiting");
-                    Environment.Exit(0);
-                    return;
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Failed to terminate process ID: {ProcessId}", otherProcess.Id);
+                    }
                 }
             }
 
-            ShutdownMode = ShutdownMode.OnMainWindowClose;
-
-            var cwd = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
+            var cwd = Path.GetDirectoryName(Environment.ProcessPath);
 
             if (cwd != null)
             {
                 Environment.CurrentDirectory = cwd;
             }
-
-            base.OnStartup(e);
 
             var updateFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel", "updates", "InfoPanelSetup.exe");
 
@@ -279,18 +204,6 @@ namespace InfoPanel
 
             _host.Start();
             Logger.Debug("Application host started");
-
-            Engine.Start(new EngineConfig()
-            {
-#if DEBUG
-                LogOutput = ":debug",
-                LogLevel = LogLevel.Debug,
-                FFmpegLogLevel = Flyleaf.FFmpeg.LogLevel.Warn,
-#endif
-                PluginsPath = ":FlyleafPlugins",
-                FFmpegPath = ":FFmpeg",
-            });
-            Logger.Debug("Flyleaf engine started");
 
             ConfigModel.Instance.Initialize();
             Logger.Debug("Configuration initialized");
@@ -336,21 +249,12 @@ namespace InfoPanel
 
             await PluginMonitor.Instance.StartAsync();
             SystemEvents.PowerModeChanged += OnPowerChange;
-            Exit += App_Exit;
 
             await StartPanels();
 
-            //var window = new SkiaDisplayWindow();
-            //window.Show();
-        }
-
-        void App_SessionEnding(object sender, SessionEndingCancelEventArgs e)
-        {
-            Task.Run(async () =>
-            {
-                await BeadaPanelTask.Instance.StopAsync(true);
-                await TuringPanelTask.Instance.StopAsync(true);
-            }).ConfigureAwait(false).GetAwaiter().GetResult();
+            // Create and activate the main window
+            m_window = _host.Services.GetRequiredService<MainWindow>();
+            m_window.Activate();
         }
 
         private void OnPowerChange(object sender, PowerModeChangedEventArgs e)
@@ -399,11 +303,6 @@ namespace InfoPanel
             await TuringPanelTask.Instance.StopAsync();
         }
 
-        private void App_Exit(object sender, ExitEventArgs e)
-        {
-
-        }
-
         /// <summary>
         /// Checks PawniO installation status and prompts user to install/update if needed.
         /// </summary>
@@ -417,53 +316,27 @@ namespace InfoPanel
                     return;
                 }
 
-                string message;
-                string title = "PawniO Driver";
-
                 if (PawnIoHelper.RequiresUpdate)
                 {
-                    message = $"PawniO is outdated (v{PawnIoHelper.Version}).\n\n" +
-                             $"LibreHardwareMonitor requires PawniO v{2}.0.0.0 or higher for low-level hardware access.\n\n" +
-                             "Would you like to update it now?";
                     Logger.Information("PawniO update available: current v{Current}, required v{Required}",
                         PawnIoHelper.Version, "2.0.0.0");
                 }
                 else
                 {
-                    message = "PawniO is not installed.\n\n" +
-                             "LibreHardwareMonitor requires PawniO for low-level hardware access (CPU temperatures, voltages, etc.).\n\n" +
-                             "Would you like to install it now?";
                     Logger.Information("PawniO is not installed");
                 }
 
-                var result = System.Windows.MessageBox.Show(
-                    message,
-                    title,
-                    System.Windows.MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question);
+                // Auto-install PawniO (dialog will be shown from MainWindow later)
+                Logger.Information("Auto-installing/updating PawniO");
+                bool success = PawnIoHelper.InstallOrUpdate();
 
-                if (result == System.Windows.MessageBoxResult.OK)
+                if (success && PawnIoHelper.IsInstalled)
                 {
-                    Logger.Information("User chose to install/update PawniO");
-                    bool success = PawnIoHelper.InstallOrUpdate();
-
-                    if (success && PawnIoHelper.IsInstalled)
-                    {
-                        Logger.Information("PawniO installation/update successful");
-                        System.Windows.MessageBox.Show(
-                            $"PawniO v{PawnIoHelper.Version} has been installed successfully.",
-                            "Installation Complete",
-                            System.Windows.MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                    }
-                    else if (!success)
-                    {
-                        Logger.Warning("PawniO installation/update failed or was cancelled");
-                    }
+                    Logger.Information("PawniO installation/update successful");
                 }
-                else
+                else if (!success)
                 {
-                    Logger.Information("User cancelled PawniO installation/update");
+                    Logger.Warning("PawniO installation/update failed or was cancelled");
                 }
             }
             catch (Exception ex)
@@ -478,20 +351,15 @@ namespace InfoPanel
             await StopPanels();
             await LibreMonitor.Instance.StopAsync();
             await PluginMonitor.Instance.StopAsync();
-            //shutdown
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Application.Current.Shutdown();
-            });
+            
+            // Exit the application
+            Current.Exit();
         }
 
         public void ShowDesign(Profile profile)
         {
             SharedModel.Instance.SelectedProfile = profile;
-            var window = _host.Services.GetRequiredService<INavigationWindow>() as MainWindow;
-            window?.RestoreWindow();
-            window?.Navigate(typeof(Views.Pages.DesignPage));
+            m_window?.Navigate(typeof(Views.Pages.DesignPage));
         }
 
         public void MaximiseDisplayWindow(Profile profile)
