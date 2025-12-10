@@ -30,15 +30,14 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DS_BackgroundBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
-                            <Setter TargetName="Border" Property="Effect" Value="{StaticResource DS_Shadow_Sm}"/>
+                            <Setter TargetName="Border" Property="Background" Value="#000000"/>
+                            <Setter Property="Foreground" Value="#EDEDED"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource DS_ForegroundMutedBrush}"/>
+                            <Setter Property="Foreground" Value="#52525B"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+                            <Setter Property="Foreground" Value="#EDEDED"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -60,7 +59,7 @@
                         </Grid.RowDefinitions>
                         
                         <!-- Tab List Container -->
-                        <Border Background="{StaticResource DS_BackgroundMutedBrush}"
+                        <Border Background="#0A0A0A"
                                 CornerRadius="{StaticResource DS_Radius_Md}"
                                 Padding="4"
                                 HorizontalAlignment="Left"

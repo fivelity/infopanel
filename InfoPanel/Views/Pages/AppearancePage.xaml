@@ -27,12 +27,12 @@
             <TextBlock
                 FontSize="28"
                 FontWeight="SemiBold"
-                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                Foreground="#EDEDED"
                 Text="Appearance" />
             <TextBlock
                 Margin="0,8,0,0"
                 FontSize="14"
-                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Foreground="#A1A1AA"
                 Text="Customize the look, feel, and layout of your InfoPanel workspace"
                 TextWrapping="Wrap" />
         </StackPanel>
@@ -40,7 +40,7 @@
         <!--  Main Content  -->
         <Border
             Grid.Row="1"
-            Background="{DynamicResource ControlFillColorDefaultBrush}"
+            Background="#0A0A0A"
             CornerRadius="8">
             <TabControl
                 Margin="0"
@@ -83,7 +83,7 @@
                                     <TextBlock
                                         Margin="0,4,0,0"
                                         FontSize="12"
-                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Foreground="#A1A1AA"
                                         Text="Choose a theme to customize colors, typography, and visual style"
                                         TextWrapping="Wrap" />
                                 </StackPanel>
@@ -117,7 +117,7 @@
                                             Width="280"
                                             Height="180"
                                             Margin="0,0,16,16"
-                                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                            Background="#0A0A0A"
                                             BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
                                             BorderThickness="2"
                                             CornerRadius="8"
@@ -199,7 +199,7 @@
                                                 <Border
                                                     Grid.Row="1"
                                                     Padding="12,8"
-                                                    Background="{DynamicResource ControlFillColorTertiaryBrush}">
+                                                    Background="#171717">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
@@ -212,14 +212,14 @@
                                                                 Text="{Binding Name}" />
                                                             <TextBlock
                                                                 FontSize="11"
-                                                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                                Foreground="#A1A1AA"
                                                                 Text="{Binding Description}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                         </StackPanel>
                                                         <ui:SymbolIcon
                                                             Grid.Column="1"
                                                             FontSize="20"
-                                                            Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                                                            Foreground="#3B82F6"
                                                             Symbol="Checkmark24"
                                                             Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                     </Grid>
@@ -267,7 +267,7 @@
                                     <TextBlock
                                         Margin="0,4,0,0"
                                         FontSize="12"
-                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Foreground="#A1A1AA"
                                         Text="Choose a layout to define how panels are arranged on your display"
                                         TextWrapping="Wrap" />
                                 </StackPanel>
@@ -301,7 +301,7 @@
                                             Width="280"
                                             Height="180"
                                             Margin="0,0,16,16"
-                                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                            Background="#0A0A0A"
                                             BorderBrush="{Binding IsSelected, Converter={StaticResource BooleanToBrushConverter}}"
                                             BorderThickness="2"
                                             CornerRadius="8"
@@ -328,7 +328,7 @@
                                                         <Grid Width="100" Height="60">
                                                             <!--  Simplified grid preview  -->
                                                             <Rectangle
-                                                                Fill="{DynamicResource AccentFillColorDefaultBrush}"
+                                                                Fill="#3B82F6"
                                                                 Opacity="0.3"
                                                                 RadiusX="2"
                                                                 RadiusY="2" />
@@ -336,7 +336,7 @@
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
                                                                 FontSize="8"
-                                                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                                                Foreground="#EDEDED"
                                                                 Text="{Binding Type}" />
                                                         </Grid>
                                                     </Viewbox>
@@ -346,7 +346,7 @@
                                                 <Border
                                                     Grid.Row="1"
                                                     Padding="12,8"
-                                                    Background="{DynamicResource ControlFillColorTertiaryBrush}">
+                                                    Background="#171717">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
@@ -359,14 +359,14 @@
                                                                 Text="{Binding Name}" />
                                                             <TextBlock
                                                                 FontSize="11"
-                                                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                                Foreground="#A1A1AA"
                                                                 Text="{Binding Description}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                         </StackPanel>
                                                         <ui:SymbolIcon
                                                             Grid.Column="1"
                                                             FontSize="20"
-                                                            Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                                                            Foreground="#3B82F6"
                                                             Symbol="Checkmark24"
                                                             Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                     </Grid>
@@ -414,7 +414,7 @@
                                     <TextBlock
                                         Margin="0,4,0,0"
                                         FontSize="12"
-                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Foreground="#A1A1AA"
                                         Text="Save, load, and share complete workspace configurations (theme + layout + panel placements)"
                                         TextWrapping="Wrap" />
                                 </StackPanel>
@@ -438,7 +438,7 @@
                                     <DataTemplate>
                                         <Border
                                             Margin="0,0,0,12"
-                                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                            Background="#0A0A0A"
                                             BorderBrush="{Binding IsActive, Converter={StaticResource BooleanToBrushConverter}}"
                                             BorderThickness="2"
                                             CornerRadius="8"
@@ -465,7 +465,7 @@
                                                         <Border
                                                             Margin="8,0,0,0"
                                                             Padding="6,2"
-                                                            Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                                            Background="#3B82F6"
                                                             CornerRadius="4"
                                                             Visibility="{Binding IsDefault, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                             <TextBlock
@@ -477,21 +477,21 @@
                                                     <TextBlock
                                                         Margin="0,4,0,0"
                                                         FontSize="12"
-                                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                        Foreground="#A1A1AA"
                                                         Text="{Binding Description}" />
                                                     <StackPanel
                                                         Margin="0,8,0,0"
                                                         Orientation="Horizontal">
                                                         <TextBlock
                                                             FontSize="11"
-                                                            Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+                                                            Foreground="#52525B">
                                                             <Run Text="Theme:" />
                                                             <Run FontWeight="Medium" Text="{Binding ThemeId}" />
                                                         </TextBlock>
                                                         <TextBlock
                                                             Margin="16,0,0,0"
                                                             FontSize="11"
-                                                            Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+                                                            Foreground="#52525B">
                                                             <Run Text="Layout:" />
                                                             <Run FontWeight="Medium" Text="{Binding LayoutId}" />
                                                         </TextBlock>

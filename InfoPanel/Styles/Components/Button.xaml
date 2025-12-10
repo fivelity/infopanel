@@ -35,15 +35,15 @@
 
     <!-- Default Button (Secondary) -->
     <Style x:Key="DS_Button" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource DS_SecondaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_SecondaryForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="16,8"/>
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
         <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Medium}"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Tag" Value="{StaticResource DS_SecondaryHoverBrush}"/>
+        <Setter Property="Tag" Value="#171717"/>
         <Setter Property="Template" Value="{StaticResource DS_ButtonTemplate}"/>
     </Style>
 
@@ -157,8 +157,8 @@
 
     <!-- Card Button (looks like a card, acts like a button) -->
     <Style x:Key="DS_CardButton" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource DS_CardBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="{StaticResource DS_Thickness_6}"/>
         <Setter Property="Cursor" Value="Hand"/>
@@ -172,16 +172,14 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{StaticResource DS_Radius_Lg}"
-                            Padding="{TemplateBinding Padding}"
-                            Effect="{StaticResource DS_Shadow_Sm}">
+                            Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource DS_PrimaryBrush}"/>
-                            <Setter TargetName="border" Property="Effect" Value="{StaticResource DS_Shadow_Md}"/>
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource DS_CardHoverBrush}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
+                            <Setter TargetName="border" Property="Background" Value="#171717"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="0.9"/>

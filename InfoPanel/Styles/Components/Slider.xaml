@@ -16,11 +16,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
-                    <Border Background="{StaticResource DS_BackgroundBrush}"
-                            BorderBrush="{StaticResource DS_PrimaryBrush}"
+                    <Border Background="#000000"
+                            BorderBrush="#3B82F6"
                             BorderThickness="2"
-                            CornerRadius="10"
-                            Effect="{StaticResource DS_Shadow_Sm}"/>
+                            CornerRadius="10"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -29,8 +28,8 @@
     <Style x:Key="DS_Slider" TargetType="Slider">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_PrimaryBrush}"/>
-        <Setter Property="Background" Value="{StaticResource DS_SecondaryBrush}"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
+        <Setter Property="Background" Value="#0A0A0A"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">

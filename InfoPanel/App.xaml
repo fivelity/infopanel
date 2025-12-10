@@ -61,6 +61,7 @@
             <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="{StaticResource DS_Foreground}" />
             <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="{StaticResource DS_ForegroundSecondary}" />
             <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="{StaticResource DS_ForegroundMuted}" />
+            <SolidColorBrush x:Key="TextFillColorDisabledBrush" Color="{StaticResource DS_ForegroundDisabled}" />
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />

@@ -119,11 +119,10 @@
                                PopupAnimation="Slide"
                                Placement="Bottom">
                             <Border x:Name="dropDownBorder"
-                                    Background="{StaticResource DS_PopoverBrush}"
-                                    BorderBrush="{StaticResource DS_BorderBrush}"
+                                    Background="#0A0A0A"
+                                    BorderBrush="#1F1F1F"
                                     BorderThickness="1"
                                     CornerRadius="{StaticResource DS_Radius_Md}"
-                                    Effect="{StaticResource DS_Shadow_Md}"
                                     MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                     MinWidth="{Binding ActualWidth, ElementName=templateRoot}"
                                     Padding="4">

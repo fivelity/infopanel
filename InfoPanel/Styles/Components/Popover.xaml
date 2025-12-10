@@ -9,9 +9,9 @@
     -->
 
     <Style x:Key="DS_ToolTip" TargetType="ToolTip">
-        <Setter Property="Background" Value="{StaticResource DS_PopoverBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_PopoverForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="12,6"/>
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
@@ -27,8 +27,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{StaticResource DS_Radius_Md}"
-                            Padding="{TemplateBinding Padding}"
-                            Effect="{StaticResource DS_Shadow_Md}">
+                            Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>

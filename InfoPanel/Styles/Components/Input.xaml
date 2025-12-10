@@ -10,9 +10,9 @@
 
     <!-- Base Input Style (TextBox) -->
     <Style x:Key="DS_Input" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource DS_InputBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_InputForegroundBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="12,8"/>
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
@@ -31,10 +31,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource DS_BorderHoverBrush}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#2E2E2E"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource DS_RingBrush}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
@@ -61,14 +61,14 @@
     <Style x:Key="DS_Label" TargetType="TextBlock">
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
         <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Medium}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
         <Setter Property="Margin" Value="0,0,0,4"/>
     </Style>
 
     <!-- Input Description/Helper Text -->
     <Style x:Key="DS_InputDescription" TargetType="TextBlock">
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Xs}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundMutedBrush}"/>
+        <Setter Property="Foreground" Value="#52525B"/>
         <Setter Property="Margin" Value="0,4,0,0"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>

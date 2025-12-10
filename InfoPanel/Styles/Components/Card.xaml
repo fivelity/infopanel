@@ -10,40 +10,62 @@
 
     <!-- Base Card Style -->
     <Style x:Key="DS_CardStyle" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource DS_CardBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Lg}"/>
         <Setter Property="Padding" Value="{StaticResource DS_Thickness_6}"/>
-        <Setter Property="Effect" Value="{StaticResource DS_Shadow_Sm}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource DS_CardHoverBrush}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource DS_BorderHoverBrush}"/>
+                <Setter Property="Background" Value="#171717"/>
+                <Setter Property="BorderBrush" Value="#2E2E2E"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- Card with no padding (for content that fills the card) -->
-    <Style x:Key="DS_Card_NoPadding" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
+    <Style x:Key="DS_Card_NoPadding" TargetType="Border">
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Lg}"/>
         <Setter Property="Padding" Value="0"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#171717"/>
+                <Setter Property="BorderBrush" Value="#2E2E2E"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Card with hover effect -->
-    <Style x:Key="DS_Card_Hoverable" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
+    <Style x:Key="DS_Card_Hoverable" TargetType="Border">
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Lg}"/>
+        <Setter Property="Padding" Value="{StaticResource DS_Thickness_6}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Effect" Value="{StaticResource DS_Shadow_Md}"/>
+                <Setter Property="Background" Value="#171717"/>
+                <Setter Property="BorderBrush" Value="#2E2E2E"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- Interactive card (clickable) -->
-    <Style x:Key="DS_Card_Interactive" TargetType="Border" BasedOn="{StaticResource DS_Card_Hoverable}">
+    <Style x:Key="DS_Card_Interactive" TargetType="Border">
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Lg}"/>
+        <Setter Property="Padding" Value="{StaticResource DS_Thickness_6}"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource DS_PrimaryBrush}"/>
+                <Setter Property="Background" Value="#171717"/>
+                <Setter Property="BorderBrush" Value="#3B82F6"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -52,7 +74,7 @@
     <Style x:Key="DS_CardHeader" TargetType="TextBlock">
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Lg}"/>
         <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Semibold}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_CardForegroundBrush}"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
         <Setter Property="Margin" Value="0,0,0,8"/>
     </Style>
 
@@ -60,14 +82,14 @@
     <Style x:Key="DS_CardTitle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_2xl}"/>
         <Setter Property="FontWeight" Value="{StaticResource DS_FontWeight_Bold}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_CardForegroundBrush}"/>
+        <Setter Property="Foreground" Value="#EDEDED"/>
         <Setter Property="Margin" Value="0,0,0,4"/>
     </Style>
 
     <!-- Card Description TextBlock Style -->
     <Style x:Key="DS_CardDescription" TargetType="TextBlock">
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Sm}"/>
-        <Setter Property="Foreground" Value="{StaticResource DS_ForegroundMutedBrush}"/>
+        <Setter Property="Foreground" Value="#52525B"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="LineHeight" Value="20"/>
     </Style>
@@ -79,13 +101,33 @@
     </Style>
 
     <!-- Compact Card (smaller padding) -->
-    <Style x:Key="DS_Card_Compact" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
+    <Style x:Key="DS_Card_Compact" TargetType="Border">
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Lg}"/>
         <Setter Property="Padding" Value="{StaticResource DS_Thickness_4}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#171717"/>
+                <Setter Property="BorderBrush" Value="#2E2E2E"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Flat Card (no shadow) -->
-    <Style x:Key="DS_Card_Flat" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
-        <Setter Property="Effect" Value="{x:Null}"/>
+    <Style x:Key="DS_Card_Flat" TargetType="Border">
+        <Setter Property="Background" Value="#0A0A0A"/>
+        <Setter Property="BorderBrush" Value="#1F1F1F"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource DS_Radius_Lg}"/>
+        <Setter Property="Padding" Value="{StaticResource DS_Thickness_6}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#171717"/>
+                <Setter Property="BorderBrush" Value="#2E2E2E"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>
