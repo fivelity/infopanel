@@ -1,5 +1,6 @@
 ﻿using InfoPanel.Drawing;
 using SkiaSharp;
+using SkiaSharp.Views.WinUI;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -134,23 +135,19 @@ namespace InfoPanel.Views.Components
             }
         }
 
-        private void skElement_PaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
+        private void skElement_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             if (DataContext is Profile profile)
             {
                 if (profile.PreviewBitmap is SKBitmap bitmap)
                 {
-
                     //draw bitmap to center of canvas
                     var x = (e.Info.Width - bitmap.Width) / 2;
                     var y = (e.Info.Height - bitmap.Height) / 2;
-
-
                     e.Surface.Canvas.Clear();
                     e.Surface.Canvas.DrawBitmap(bitmap, x, y);
                 }
             }
-
             _paintCompletionSource?.TrySetResult(true);
         }
 

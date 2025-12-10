@@ -4,6 +4,7 @@ using InfoPanel.Services;
 using InfoPanel.Utils;
 using InfoPanel.ViewModels;
 using InfoPanel.Views.Windows;
+using InfoPanel.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
@@ -119,7 +120,7 @@ namespace InfoPanel
             });
         }
 
-        void CurrentDomain_UnhandledException(object? sender, UnhandledExceptionEventArgs e)
+        void CurrentDomain_UnhandledException(object? sender, System.UnhandledExceptionEventArgs e)
         {
             var exception = e.ExceptionObject as Exception ?? new Exception($"Non-exception thrown: {e.ExceptionObject}");
 

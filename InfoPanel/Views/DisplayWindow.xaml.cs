@@ -1,42 +1,40 @@
 ﻿using InfoPanel.Drawing;
 using InfoPanel.Models;
 using InfoPanel.Utils;
-using Microsoft.Win32;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using WinRT.Interop;
+using Windows.Foundation;
 using SkiaSharp;
-using SkiaSharp.Views.Desktop;
-using SkiaSharp.Views.WPF;
+using SkiaSharp.Views.WinUI;
 using System;
 using Serilog;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Timers;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
 
-namespace InfoPanel.Views.Common
+namespace InfoPanel.Views
 {
     /// <summary>
     /// Interaction logic for DisplayWindow.xaml
     /// </summary>
-    public partial class DisplayWindow
+    public partial class DisplayWindow : Window
     {
         private static readonly ILogger Logger = Log.ForContext<DisplayWindow>();
-        SKElement? _sKElement;
-        SKGLElement? _skGlElement;
+        private SKXamlCanvas? _sKElement;
 
         public Profile Profile { get; }
         public bool OpenGL { get; }
 
         private bool _dragMove = false;
-        private readonly Dispatcher _dispatcher = Dispatcher.CurrentDispatcher;
+        private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
 
         private bool _isUserResizing = false;
-        private readonly DispatcherTimer _resizeTimer;
+        private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _resizeTimer;
         private bool _isDpiChanging = false;
 
         private Timer? _renderTimer;
@@ -44,13 +42,14 @@ namespace InfoPanel.Views.Common
 
         public DisplayWindow(Profile profile)
         {
-            RenderOptions.ProcessRenderMode = RenderMode.Default;
+            // TODO: WinUI 3 equivalent for RenderOptions if needed
+            // RenderOptions.ProcessRenderMode = RenderMode.Default;
             Profile = profile;
             DataContext = this;
 
             OpenGL = profile.OpenGL;
 
-            InitializeComponent();
+            this.InitializeComponent();
             InjectSkiaElement();
 
             if (profile.Resize)
@@ -74,19 +73,18 @@ namespace InfoPanel.Views.Common
             LocationChanged += DisplayWindow_LocationChanged;
             SizeChanged += DisplayWindow_SizeChanged;
 
-            _resizeTimer = new DispatcherTimer(DispatcherPriority.Input)
-            {
-                Interval = TimeSpan.FromMilliseconds(300)
-            };
+            _dispatcherQueue = this.DispatcherQueue;
+            _resizeTimer = _dispatcherQueue.CreateTimer();
+            _resizeTimer.Interval = TimeSpan.FromMilliseconds(300);
             _resizeTimer.Tick += OnResizeCompleted;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            // Variable to hold the handle for the form
-            var helper = new WindowInteropHelper(this).Handle;
+            // WinUI 3 equivalent for window handle operations
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             //Performing some magic to hide the form from Alt+Tab
-            _ = SetWindowLong(helper, GWL_EX_STYLE, (GetWindowLong(helper, GWL_EX_STYLE) | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW);
+            _ = SetWindowLong(hwnd, GWL_EX_STYLE, (GetWindowLong(hwnd, GWL_EX_STYLE) | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW);
 
             SetWindowPositionRelativeToScreen();
 
@@ -166,24 +164,7 @@ namespace InfoPanel.Views.Common
                 }
             }
 
-            if (_skGlElement != null && _skGlElement.GRContext is GRContext grContext)
-            {
-                grContext.PurgeResources();
-                grContext.Flush();
-                grContext.Submit(true);
-
-                grContext.GetResourceCacheUsage(out var maxResources, out var maxResourceBytes);
-                Logger.Information("Closing {MaxResources} items, {MaxResourceMB}mb", maxResources, maxResourceBytes / 1024 / 1024);
-
-                _skGlElement.PaintSurface -= SkGlElement_PaintSurface;
-
-                BindingOperations.ClearBinding(_skGlElement, WidthProperty);
-                BindingOperations.ClearBinding(_skGlElement, HeightProperty);
-
-                _skGlElement = null;
-
-                Logger.Debug("Disposed _skGLElement");
-            }
+            // TODO: Implement OpenGL cleanup when OpenGL support is added to WinUI 3 SkiaSharp
         }
 
         private void InjectSkiaElement()
@@ -196,30 +177,33 @@ namespace InfoPanel.Views.Common
             if (OpenGL)
             {
                 AllowsTransparency = false;
-                var skGlElement = new SKGLElement
-                {
-                    Name = "skGlElement",
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                skGlElement.SetBinding(WidthProperty, new Binding("Profile.Width") { Mode = BindingMode.OneWay });
-                skGlElement.SetBinding(HeightProperty, new Binding("Profile.Height") { Mode = BindingMode.OneWay });
-                skGlElement.PaintSurface += SkGlElement_PaintSurface;
-                container.Children.Add(skGlElement);
-
-                _skGlElement = skGlElement;
-            }
-            else
-            {
-                AllowsTransparency = true;
-                var skElement = new SKElement
+                // TODO: Implement OpenGL equivalent for WinUI 3
+                // SkiaSharp.Views.WinUI doesn't have SKGLElement yet
+                // For now, use regular SKXamlCanvas as fallback
+                var skElement = new SKXamlCanvas
                 {
                     Name = "skElement",
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Top
                 };
-                skElement.SetBinding(WidthProperty, new Binding("Profile.Width") { Mode = BindingMode.OneWay });
-                skElement.SetBinding(HeightProperty, new Binding("Profile.Height") { Mode = BindingMode.OneWay });
+                skElement.SetBinding(WidthProperty, new Binding { Path = new PropertyPath("Profile.Width"), Mode = BindingMode.OneWay });
+                skElement.SetBinding(HeightProperty, new Binding { Path = new PropertyPath("Profile.Height"), Mode = BindingMode.OneWay });
+                skElement.PaintSurface += SkElement_PaintSurface;
+                container.Children.Add(skElement);
+
+                _sKElement = skElement;
+            }
+            else
+            {
+                AllowsTransparency = true;
+                var skElement = new SKXamlCanvas
+                {
+                    Name = "skElement",
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top
+                };
+                skElement.SetBinding(WidthProperty, new Binding { Path = new PropertyPath("Profile.Width"), Mode = BindingMode.OneWay });
+                skElement.SetBinding(HeightProperty, new Binding { Path = new PropertyPath("Profile.Height"), Mode = BindingMode.OneWay });
                 skElement.PaintSurface += SkElement_PaintSurface;
                 container.Children.Add(skElement);
 
@@ -240,7 +224,8 @@ namespace InfoPanel.Views.Common
             }
         }
 
-        private void DisplayWindow_DpiChanged(object sender, DpiChangedEventArgs e)
+        // TODO: WinUI 3 doesn't have DpiChangedEventArgs - implement DPI handling differently
+        private void DisplayWindow_DpiChanged(object sender, object e)
         {
             _isDpiChanging = true;
             MaintainPixelSize();
@@ -273,51 +258,27 @@ namespace InfoPanel.Views.Common
             _targetPixelWidth = Profile.Width;
             _targetPixelHeight = Profile.Height;
 
-            var source = PresentationSource.FromVisual(this);
-            if (source?.CompositionTarget != null)
-            {
-                var dpiX = source.CompositionTarget.TransformToDevice.M11;
-                var dpiY = source.CompositionTarget.TransformToDevice.M22;
-                this.Width = _targetPixelWidth / dpiX;
-                this.Height = _targetPixelHeight / dpiY;
-            }
+            // TODO: WinUI 3 equivalent for DPI handling
+            // WinUI 3 handles DPI differently than WPF
+            // For now, use direct pixel values
+            this.Width = _targetPixelWidth;
+            this.Height = _targetPixelHeight;
         }
 
         private void UpdateModelWithNewSize()
         {
-            // Convert current WPF size back to pixels
-            var source = PresentationSource.FromVisual(this);
-            if (source?.CompositionTarget != null)
-            {
-                var dpiX = source.CompositionTarget.TransformToDevice.M11;
-                var dpiY = source.CompositionTarget.TransformToDevice.M22;
-
-                var newPixelWidth = this.ActualWidth * dpiX;
-                var newPixelHeight = this.ActualHeight * dpiY;
-
-                Profile.Width = (int)Math.Round(newPixelWidth);
-                Profile.Height = (int)Math.Round(newPixelHeight);
-            }
+            // TODO: WinUI 3 equivalent for DPI conversion
+            // For now, use direct pixel values
+            Profile.Width = (int)Math.Round(this.ActualWidth);
+            Profile.Height = (int)Math.Round(this.ActualHeight);
         }
 
         private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
         {
-            if (!OpenGL)
-            {
-                Dispatcher.Invoke(() => _sKElement?.InvalidateVisual(), DispatcherPriority.Input);
-            }
-            else
-            {
-                Dispatcher.Invoke(() => _skGlElement?.InvalidateVisual(), DispatcherPriority.Input);
-            }
+            _dispatcherQueue.TryEnqueue(() => _sKElement?.Invalidate());
         }
 
         private void SkElement_PaintSurface(object? sender, SKPaintSurfaceEventArgs e)
-        {
-            PaintSurface(e.Surface.Canvas);
-        }
-
-        private void SkGlElement_PaintSurface(object? sender, SKPaintGLSurfaceEventArgs e)
         {
             PaintSurface(e.Surface.Canvas);
         }
@@ -338,7 +299,7 @@ namespace InfoPanel.Views.Common
         private void SystemEvents_DisplaySettingsChanged(object? sender, EventArgs e)
         {
             Logger.Information("SystemEvents_DisplaySettingsChanged");
-            _dispatcher.BeginInvoke(() =>
+            _dispatcherQueue.TryEnqueue(() =>
             {
                 SetWindowPositionRelativeToScreen();
             });
@@ -346,7 +307,7 @@ namespace InfoPanel.Views.Common
 
         public void Fullscreen()
         {
-            _dispatcher.BeginInvoke(() =>
+            _dispatcherQueue.TryEnqueue(() =>
             {
                 var screen = ScreenHelper.GetWindowScreen(this);
                 if (screen != null)
@@ -375,7 +336,7 @@ namespace InfoPanel.Views.Common
             {
                 if (!_dragMove)
                 {
-                    _dispatcher.BeginInvoke(() =>
+                    _dispatcherQueue.TryEnqueue(() =>
                     {
                         SetWindowPositionRelativeToScreen();
                     });
@@ -383,7 +344,7 @@ namespace InfoPanel.Views.Common
             }
             else if (e.PropertyName == nameof(Profile.Resize))
             {
-                _dispatcher.BeginInvoke(() =>
+                _dispatcherQueue.TryEnqueue(() =>
                 {
                     if (Profile.Resize)
                     {
@@ -397,7 +358,7 @@ namespace InfoPanel.Views.Common
             }
             else if (e.PropertyName == nameof(Profile.Width) || e.PropertyName == nameof(Profile.Height))
             {
-                _dispatcher.BeginInvoke(() =>
+                _dispatcherQueue.TryEnqueue(() =>
                 {
                     MaintainPixelSize();
                 });
@@ -405,7 +366,7 @@ namespace InfoPanel.Views.Common
         }
 
 
-        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyUp(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (SharedModel.Instance.SelectedVisibleItems != null)
             {
@@ -413,16 +374,16 @@ namespace InfoPanel.Views.Common
                 {
                     switch (e.Key)
                     {
-                        case Key.Up:
+                        case Microsoft.UI.Xaml.Input.VirtualKey.Up:
                             displayItem.Y -= SharedModel.Instance.MoveValue;
                             break;
-                        case Key.Down:
+                        case Microsoft.UI.Xaml.Input.VirtualKey.Down:
                             displayItem.Y += SharedModel.Instance.MoveValue;
                             break;
-                        case Key.Left:
+                        case Microsoft.UI.Xaml.Input.VirtualKey.Left:
                             displayItem.X -= SharedModel.Instance.MoveValue;
                             break;
-                        case Key.Right:
+                        case Microsoft.UI.Xaml.Input.VirtualKey.Right:
                             displayItem.X += SharedModel.Instance.MoveValue;
                             break;
                     }
@@ -430,7 +391,7 @@ namespace InfoPanel.Views.Common
             }
         }
 
-        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
+        private void Window_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             dragStart = false;
         }
@@ -471,9 +432,9 @@ namespace InfoPanel.Views.Common
             }
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             {
                 if (!dragStart)
                 {
@@ -491,7 +452,7 @@ namespace InfoPanel.Views.Common
                     {
                         foreach (var selectedItem in SharedModel.Instance.SelectedVisibleItems)
                         {
-                            App.Current.Dispatcher.Invoke(() =>
+                            App.Current.Microsoft.UI.Xaml.Window.Current.DispatcherQueue.Invoke(() =>
                             {
                                 selectedItem.Selected = false;
                             });
@@ -536,13 +497,13 @@ namespace InfoPanel.Views.Common
 
                     foreach (var item in SharedModel.Instance.SelectedVisibleItems)
                     {
-                        item.MouseOffset = new System.Windows.Point(startPosition.X - item.X, startPosition.Y - item.Y);
+                        item.MouseOffset = new Windows.Foundation.Point(startPosition.X - item.X, startPosition.Y - item.Y);
                     }
 
                     dragStart = true;
                 }
             }
-            else if (e.ChangedButton == MouseButton.Middle)
+            else if (e.Key == Microsoft.UI.Xaml.Input.VirtualKey.Middle)
             {
                 if (SharedModel.Instance.SelectedProfile != Profile)
                 {
@@ -600,22 +561,22 @@ namespace InfoPanel.Views.Common
                 if (clickedItem != null)
                 {
 
-                    if (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.LeftShift))
+                    if (!Microsoft.UI.Input.KeyboardInput.GetKeyStateForCurrentThread(Microsoft.UI.VirtualKey.LeftShift).IsDown && !Microsoft.UI.Input.KeyboardInput.GetKeyStateForCurrentThread(Microsoft.UI.VirtualKey.LeftControl).IsDown)
                     {
-                        Application.Current.Dispatcher.BeginInvoke(() =>
+                        _dispatcherQueue.TryEnqueue(() =>
                         {
                             SharedModel.Instance.SelectedItem = clickedItem;
                         });
                     }
 
-                    Application.Current.Dispatcher.BeginInvoke(() =>
+                    _dispatcherQueue.TryEnqueue(() =>
                     {
                         clickedItem.Selected = true;
                     });
                 }
                 else
                 {
-                    Application.Current.Dispatcher.BeginInvoke(() =>
+                    _dispatcherQueue.TryEnqueue(() =>
                     {
                         SharedModel.Instance.SelectedItem = null;
                     });
@@ -624,8 +585,8 @@ namespace InfoPanel.Views.Common
         }
 
         bool dragStart = false;
-        System.Windows.Point startPosition = new System.Windows.Point();
-        private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        Windows.Foundation.Point startPosition = new Windows.Foundation.Point();
+        private void Window_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (dragStart)
             {
@@ -659,20 +620,20 @@ namespace InfoPanel.Views.Common
             }
         }
 
-        private void MenuItemSavePosition_Click(object sender, RoutedEventArgs e)
+        private void MenuItemSavePosition_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ConfigModel.Instance.SaveProfiles();
         }
 
-        private void MenuItemConfig_Click(object sender, RoutedEventArgs e)
+        private void MenuItemConfig_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            if (System.Windows.Application.Current is App app)
+            if (Microsoft.UI.Xaml.Application.Current is App app)
             {
                 app.ShowDesign(Profile);
             }
         }
 
-        private void MenuItemClose_Click(object sender, RoutedEventArgs e)
+        private void MenuItemClose_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             Close();
         }

@@ -13,13 +13,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
+using Microsoft.UI.Dispatching;
 
 namespace InfoPanel.ViewModels
 {
     public partial class PluginsViewModel : ObservableObject
     {
-        private readonly DispatcherTimer _timer;
+        private readonly DispatcherQueueTimer _timer;
 
         [ObservableProperty]
         private string _pluginFolder = FileUtil.GetExternalPluginFolder();

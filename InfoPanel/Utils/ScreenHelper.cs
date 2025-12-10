@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Interop;
+using WinRT.Interop;
 
 namespace InfoPanel.Utils
 {
@@ -47,25 +47,25 @@ namespace InfoPanel.Utils
         const uint SWP_NOSIZE = 0x0001;
         const uint SWP_NOZORDER = 0x0004;
 
-        public static void MoveWindowPhysical(Window window, int x, int y)
+        public static void MoveWindowPhysical(Microsoft.UI.Xaml.Window window, int x, int y)
         {
-            var hwnd = new WindowInteropHelper(window).Handle;
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             SetWindowPos(hwnd, IntPtr.Zero, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
         }
 
         [DllImport("user32.dll")]
         private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
-        public static SKPoint GetWindowPositionPhysical(Window window)
+        public static SKPoint GetWindowPositionPhysical(Microsoft.UI.Xaml.Window window)
         {
-            var hWnd = new WindowInteropHelper(window).Handle;
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             GetWindowRect(hWnd, out var rect);
             return new SKPoint(rect.Left, rect.Top);
         }
 
-        public static MonitorInfo? GetWindowScreen(Window window)
+        public static MonitorInfo? GetWindowScreen(Microsoft.UI.Xaml.Window window)
         {
-            var hwnd = new WindowInteropHelper(window).Handle;
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             if (!GetWindowRect(hwnd, out var rect))
                 return null;
 
@@ -96,12 +96,12 @@ namespace InfoPanel.Utils
             return dx * dx + dy * dy;
         }
 
-        public static Point GetWindowRelativePosition(MonitorInfo screen, SKPoint absolutePosition)
+        public static Windows.Foundation.Point GetWindowRelativePosition(MonitorInfo screen, SKPoint absolutePosition)
         {
             var relativeX = absolutePosition.X - (int) screen.Bounds.Left;
             var relativeY = absolutePosition.Y - (int) screen.Bounds.Top;
 
-            return new Point(relativeX, relativeY);
+            return new Windows.Foundation.Point(relativeX, relativeY);
         }
 
         // Get fresh monitor list using Win32 API

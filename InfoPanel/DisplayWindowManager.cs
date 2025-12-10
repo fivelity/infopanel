@@ -1,10 +1,9 @@
 ﻿using InfoPanel.Models;
-using InfoPanel.Views.Common;
+using InfoPanel.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Windows.Threading;
+using Microsoft.UI.Dispatching;
 
 namespace InfoPanel
 {
@@ -13,71 +12,40 @@ namespace InfoPanel
         private static readonly Lazy<DisplayWindowManager> _instance = new(() => new DisplayWindowManager());
         public static DisplayWindowManager Instance => _instance.Value;
 
-        private readonly Dictionary<Guid, DisplayWindow> _windows = [];
-        private Thread? _uiThread;
-        public Dispatcher? Dispatcher { get; private set; }
-        private readonly ManualResetEventSlim _threadReady = new();
+        private readonly Dictionary<Guid, DisplayWindow> _windows = new();
         private readonly object _lock = new();
 
         private DisplayWindowManager()
         {
-            StartUIThread();
-        }
-
-        private void StartUIThread()
-        {
-            _uiThread = new Thread(() =>
-            {
-                // Create dispatcher for this thread
-                Dispatcher = Dispatcher.CurrentDispatcher;
-                _threadReady.Set();
-
-                // Run the dispatcher
-                Dispatcher.Run();
-            })
-            {
-                Name = "DisplayWindowThread",
-                IsBackground = false
-            };
-
-            _uiThread.SetApartmentState(ApartmentState.STA);
-            _uiThread.Start();
-
-            // Wait for thread to be ready
-            _threadReady.Wait(5000);
+            // WinUI 3 windows are created on the main thread
         }
 
         public void ShowDisplayWindow(Profile profile)
         {
-            if (Dispatcher == null) return;
-
-            Dispatcher.BeginInvoke(() =>
+            lock (_lock)
             {
-                lock (_lock)
+                // Check if window exists
+                if (_windows.TryGetValue(profile.Guid, out var existingWindow))
                 {
-                    // Check if window exists
-                    if (_windows.TryGetValue(profile.Guid, out var existingWindow))
+                    // If Direct2D mode changed, close and recreate
+                    if (existingWindow.OpenGL != profile.OpenGL)
                     {
-                        // If Direct2D mode changed, close and recreate
-                        if (existingWindow.OpenGL != profile.OpenGL)
-                        {
-                            existingWindow.Close();
-                            _windows.Remove(profile.Guid);
-                            CreateAndShowWindow(profile);
-                        }
-                        else
-                        {
-                            // Just show existing window
-                            existingWindow.Show();
-                            existingWindow.Activate();
-                        }
+                        existingWindow.Close();
+                        _windows.Remove(profile.Guid);
+                        CreateAndShowWindow(profile);
                     }
                     else
                     {
-                        CreateAndShowWindow(profile);
+                        // Just show existing window
+                        existingWindow.Show();
+                        existingWindow.Activate();
                     }
                 }
-            });
+                else
+                {
+                    CreateAndShowWindow(profile);
+                }
+            }
         }
 
         private void CreateAndShowWindow(Profile profile)
@@ -96,29 +64,20 @@ namespace InfoPanel
                 {
                     _windows.Remove(displayWindow.Profile.Guid);
                     displayWindow.Closed -= Window_Closed;
-
-                    // If no more windows, optionally shut down the thread
-                    if (_windows.Count == 0 && AllowThreadShutdown)
-                    {
-                        Dispatcher?.BeginInvokeShutdown(DispatcherPriority.Background);
-                    }
                 }
             }
         }
 
         public void CloseDisplayWindow(Guid profileGuid)
         {
-            Dispatcher?.BeginInvoke(() =>
+            lock (_lock)
             {
-                lock (_lock)
+                if (_windows.TryGetValue(profileGuid, out var window))
                 {
-                    if (_windows.TryGetValue(profileGuid, out var window))
-                    {
-                        window.Close();
-                        _windows.Remove(profileGuid);
-                    }
+                    window.Close();
+                    _windows.Remove(profileGuid);
                 }
-            });
+            }
         }
 
         public DisplayWindow? GetWindow(Guid profileGuid)
@@ -140,23 +99,14 @@ namespace InfoPanel
 
         public void CloseAll()
         {
-            Dispatcher?.BeginInvoke(() =>
+            lock (_lock)
             {
-                lock (_lock)
+                foreach (var window in _windows.Values)
                 {
-                    foreach (var window in _windows.Values)
-                    {
-                        window.Close();
-                    }
-                    _windows.Clear();
+                    window.Close();
                 }
-
-                // Shutdown the dispatcher thread
-                Dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-            });
-
-            // Wait for thread to finish
-            _uiThread?.Join(5000);
+                _windows.Clear();
+            }
         }
 
         public void Dispose()

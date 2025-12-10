@@ -3,8 +3,7 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-		<Nullable>enable</Nullable>
+				<Nullable>enable</Nullable>
 		<UseWinUI>true</UseWinUI>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ApplicationIcon>Resources\Images\favicon.ico</ApplicationIcon>
@@ -16,7 +15,7 @@
 		<ApplicationManifest>Resources\app.manifest</ApplicationManifest>
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 		<WindowsPackageType>None</WindowsPackageType>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
 		<PublishProfile>win-x64</PublishProfile>
 	</PropertyGroup>
 
@@ -92,7 +91,27 @@
 	  <Compile Remove="Images\**" />
 	  <EmbeddedResource Remove="Images\**" />
 	  <None Remove="Images\**" />
-	  <Page Remove="Images\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Remove="Views\**" />
+		<Page Remove="**\*.xaml" />
+		<ApplicationDefinition Remove="App.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- Test with minimal XAML files to isolate compilation issue -->
+		<ApplicationDefinition Include="App.xaml" />
+		<Page Include="Views\Windows\MainWindow.xaml" />
+		<Page Include="Views\DisplayWindow.xaml" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Views\Windows\D2DWindow.cs" />
+		<Compile Remove="Views\Controls\MyImage.cs" />
+		<Compile Remove="Views\Components\Text\SensorProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Text\Masking.cs" />
+		<Compile Remove="Views\Components\Text\DateTimeProperties.xaml.cs" />
+		<Compile Remove="Views\Components\DisplayItems.xaml.cs" />
+		<Compile Remove="Views\Components\Custom\CustomProperties.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -203,13 +222,14 @@
 		<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
+		<PackageReference Include="FlyleafLib" Version="3.10.1" />
 		<PackageReference Include="HidSharp" Version="2.6.4" />
 		<PackageReference Include="ini-parser-netstandard" Version="2.5.3" />
 		<PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5-pre506" />
 		<PackageReference Include="LibUsbDotNet" Version="2.2.75" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
 		<PackageReference Include="SecureStore" Version="1.2.2" />
 		<PackageReference Include="Sentry" Version="5.16.1" />
@@ -335,19 +355,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Update="Views\Components\Chart\DonutProperties.xaml">
-		  <SubType>Designer</SubType>
-		</Page>
-		<Page Update="Views\Pages\UpdatesPage.xaml">
-		  <SubType>Designer</SubType>
-		</Page>
-		<Page Update="Views\Pages\ProfilesPage.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		</Page>
-		<Page Update="Views\Pages\HomePage.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-			<SubType>Designer</SubType>
-		</Page>
 	</ItemGroup>
 
 	<ItemGroup>

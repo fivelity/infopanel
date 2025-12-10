@@ -1,21 +1,19 @@
 ﻿using InfoPanel.Drawing;
 using InfoPanel.Models;
 using InfoPanel.Utils;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Dispatching;
 using SkiaSharp;
-using SkiaSharp.Views.Desktop;
+using SkiaSharp.Views.WinUI;
 using System;
 using System.Diagnostics;
 using Serilog;
 using System.Linq;
 using System.Timers;
-using System.Windows;
 
 namespace InfoPanel.Views
 {
-    /// <summary>
-    /// Interaction logic for SkiaDisplayWindow.xaml
-    /// </summary>
-    public partial class SkiaDisplayWindow : Window
+    public sealed partial class SkiaDisplayWindow : Window
     {
         private readonly Timer _timer;
         private readonly Stopwatch _stopwatch = new();
@@ -25,7 +23,7 @@ namespace InfoPanel.Views
 
         public SkiaDisplayWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             Width = _profile.Width;
             Height = _profile.Height;
@@ -40,27 +38,17 @@ namespace InfoPanel.Views
         private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
         {
             // Invalidate the SKElement on the UI thread
-            Dispatcher.Invoke(() => skElement.InvalidateVisual());
+            DispatcherQueue.TryEnqueue(() => skElement.Invalidate());
         }
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             _stopwatch.Restart();
             var canvas = e.Surface.Canvas;
-
-            // Clear the canvas
             canvas.Clear(SKColors.Transparent);
-
             RenderProfile(canvas);
-            //Draw random shapes
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    DrawRandomShape(canvas, width, height);
-            //}
-            //Trace.WriteLine($"Drawing took {_stopwatch.ElapsedMilliseconds}ms");
-
-            fpsCounter.Update();
-            //Trace.WriteLine($"FPS: {fpsCounter.FramesPerSecond}");
+            _stopwatch.Stop();
+            // fpsCounter.Tick();
         }
 
         private void RenderProfile(SKCanvas canvas)
@@ -68,7 +56,6 @@ namespace InfoPanel.Views
             var profile = ConfigModel.Instance.Profiles.First();
             SkiaGraphics skiaGraphics = new(canvas, profile.FontScale);
             PanelDraw.Run(profile, skiaGraphics);
-
         }
 
 

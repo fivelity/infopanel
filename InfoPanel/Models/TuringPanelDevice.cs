@@ -4,7 +4,7 @@ using InfoPanel.ViewModels;
 using Serilog;
 using System;
 using System.Drawing.Text;
-using System.Windows.Threading;
+using Microsoft.UI.Dispatching;
 
 namespace InfoPanel.Models
 {

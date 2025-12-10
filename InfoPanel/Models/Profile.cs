@@ -2,7 +2,7 @@
 using SkiaSharp;
 using System;
 using System.Linq;
-using System.Windows.Media;
+using Microsoft.UI.Xaml.Media;
 using System.Xml.Serialization;
 
 namespace InfoPanel.Models

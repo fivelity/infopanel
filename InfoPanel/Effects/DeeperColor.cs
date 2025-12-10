@@ -1,52 +1,23 @@
 ﻿using System;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 
 namespace InfoPanel
 {
     /// <summary>
-    /// This is a WPF pixel shader effect that will scale 16-235 HD-TV pixel output to
-    /// 0-255 pixel values for deeper color on video.
+    /// WinUI 3 doesn't support ShaderEffect like WPF.
+    /// This is a placeholder for future implementation using Composition effects.
     /// </summary>
-    public class DeeperColorEffect : ShaderEffect
+    public class DeeperColorEffect : Brush
     {
-        private static string? m_assemblyShortName;
-
-        public static DependencyProperty InputProperty = RegisterPixelShaderSamplerProperty("Input", typeof(DeeperColorEffect), 0);
-
+        // WinUI 3 doesn't have ShaderEffect, so this would need to be implemented
+        // using CompositionBrush or other WinUI 3 effects
         public DeeperColorEffect()
         {
-            var u = new Uri(@"pack://application:,,,/" + AssemblyShortName + ";component/Effects/DeeperColor.ps");
-            PixelShader = new PixelShader{ UriSource = u };
-            UpdateShaderValue(InputProperty);
+            // Placeholder implementation - no-op for now
         }
 
-        private static string AssemblyShortName
-        {
-            get
-            {
-                if (m_assemblyShortName == null)
-                {
-                    Assembly a = typeof(DeeperColorEffect).Assembly;
-                    m_assemblyShortName = a.ToString().Split(',')[0];
-                }
-
-                return m_assemblyShortName;
-            }
-        }
- 
-        public Brush Input
-        {
-            get
-            {
-                return ((Brush)(GetValue(InputProperty)));
-            }
-            set
-            {
-                SetValue(InputProperty, value);
-            }
-        }
+        // Placeholder property for compatibility
+        public Brush Input { get; set; }
     }
 }

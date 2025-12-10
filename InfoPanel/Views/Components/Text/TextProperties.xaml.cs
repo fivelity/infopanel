@@ -47,7 +47,7 @@ namespace InfoPanel.Views.Components
         }
 
         // Properties for x:Bind
-        public string Name => TextDisplayItem?.Name ?? string.Empty;
+        public new string Name => TextDisplayItem?.Name ?? string.Empty;
         public bool Underline => TextDisplayItem?.Underline ?? false;
         public bool Strikeout => TextDisplayItem?.Strikeout ?? false;
         public bool RightAlign => TextDisplayItem?.RightAlign ?? false;
@@ -56,13 +56,13 @@ namespace InfoPanel.Views.Components
         public bool Ellipsis => TextDisplayItem?.Ellipsis ?? false;
         public bool CenterAlign => TextDisplayItem?.CenterAlign ?? false;
         public bool Marquee => TextDisplayItem?.Marquee ?? false;
-        public int Width => TextDisplayItem?.Width ?? 0;
+        public new int Width => TextDisplayItem?.Width ?? 0;
         public int MarqueeSpacing => TextDisplayItem?.MarqueeSpacing ?? 0;
         public double MarqueeSpeed => TextDisplayItem?.MarqueeSpeed ?? 0;
         public Windows.UI.Color Color => TextDisplayItem?.Color ?? Windows.UI.Color.FromArgb(255, 255, 255, 255);
-        public int FontSize => TextDisplayItem?.FontSize ?? 12;
+        public new int FontSize => TextDisplayItem?.FontSize ?? 12;
         public string Font => TextDisplayItem?.Font ?? string.Empty;
-        public string FontStyle => TextDisplayItem?.FontStyle ?? string.Empty;
+        public new string FontStyle => TextDisplayItem?.FontStyle ?? string.Empty;
 
         public TextProperties()
         {

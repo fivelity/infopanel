@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using InfoPanel.Models;
 using InfoPanel.Utils;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Wpf.Ui.Controls;
 
 namespace InfoPanel.ViewModels
 {
@@ -15,7 +16,7 @@ namespace InfoPanel.ViewModels
         public float Value { get; set; }
     }
 
-    public partial class SettingsViewModel : ObservableObject, INavigationAware
+    public partial class SettingsViewModel : ObservableObject
     {
         private ObservableCollection<string> _comPorts = [];
 
@@ -47,14 +48,6 @@ namespace InfoPanel.ViewModels
         public ObservableCollection<string> ComPorts
         {
             get { return _comPorts; }
-        }
-
-        public void OnNavigatedFrom()
-        {
-        }
-
-        public void OnNavigatedTo()
-        {
         }
     }
 }

@@ -1,34 +1,27 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using InfoPanel.Services;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Wpf.Ui.Controls;
-using Wpf.Ui;
 
 namespace InfoPanel.ViewModels
 {
-    public class HomeViewModel : ObservableObject, INavigationAware
+    public class HomeViewModel : ObservableObject
     {
-        private readonly INavigationService _navigationService;
+        private readonly NavigationService _navigationService;
         private ICommand? _navigateCommand;
 
         public ICommand NavigateCommand => _navigateCommand ??= new RelayCommand<string>(OnNavigate);
 
-        public HomeViewModel(INavigationService navigationService)
+        public HomeViewModel(NavigationService navigationService)
         {
             _navigationService = navigationService;
-        }
-
-        public void OnNavigatedFrom()
-        {
-        }
-
-        public void OnNavigatedTo()
-        {
         }
 
         private void OnNavigate(string? parameter)

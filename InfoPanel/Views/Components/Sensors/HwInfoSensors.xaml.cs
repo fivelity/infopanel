@@ -89,9 +89,9 @@ namespace InfoPanel.Views.Components
             }
         }
 
-        private void TreeViewInfo_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void TreeViewInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.NewValue is HwInfoSensorItem sensorItem)
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is HwInfoSensorItem sensorItem)
             {
                 ViewModel.SelectedItem = sensorItem;
                 sensorItem.Update();
@@ -102,10 +102,11 @@ namespace InfoPanel.Views.Components
             }
         }
 
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void ScrollViewer_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             var scrollViewer = (ScrollViewer)sender;
-            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            var delta = e.GetCurrentPoint(scrollViewer).Properties.MouseWheelDelta;
+            scrollViewer.ChangeView(null, scrollViewer.VerticalOffset - delta, null);
             e.Handled = true;
         }
 
@@ -115,9 +116,12 @@ namespace InfoPanel.Views.Components
         }
 
 
-        private void ImageLogo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void ImageLogo_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Process.Start("explorer.exe", "https://www.hwinfo.com/");
+            var process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = "explorer.exe";
+            process.StartInfo.Arguments = "https://www.hwinfo.com/";
+            process.Start();
         }
     }
 }

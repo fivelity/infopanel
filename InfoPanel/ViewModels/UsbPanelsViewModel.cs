@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using InfoPanel.Models;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Wpf.Ui.Controls;
 
 namespace InfoPanel.ViewModels;
 
@@ -20,7 +21,7 @@ public enum LCD_ROTATION
     Rotate270FlipNone = 3,
 }
 
-public partial class UsbPanelsViewModel : ObservableObject, INavigationAware
+public partial class UsbPanelsViewModel : ObservableObject
 {
     public ObservableCollection<LCD_ROTATION> RotationValues { get; set; }
 
@@ -37,13 +38,5 @@ public partial class UsbPanelsViewModel : ObservableObject, INavigationAware
     public ObservableCollection<TuringPanelDevice> RuntimeTuringPanelDevices
     {
         get { return ConfigModel.Instance.Settings.TuringPanelDevices; }
-    }
-
-    public void OnNavigatedFrom()
-    {
-    }
-
-    public void OnNavigatedTo()
-    {
     }
 }

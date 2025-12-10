@@ -5,7 +5,7 @@ using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
 using Serilog;
 using System.Linq;
-using System.Windows.Threading;
+using Microsoft.UI.Dispatching;
 
 namespace InfoPanel.Models
 {

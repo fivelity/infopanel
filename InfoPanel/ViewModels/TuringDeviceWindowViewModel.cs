@@ -4,6 +4,7 @@ using InfoPanel.Models;
 using InfoPanel.TuringPanel;
 using InfoPanel.Views.Windows;
 using Microsoft.Win32;
+using Microsoft.UI.Xaml.Controls;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using Wpf.Ui.Controls;
-using MessageBox = System.Windows.MessageBox;
+using Microsoft.UI.Xaml;
 using static InfoPanel.ViewModels.SettingsViewModel;
 
 namespace InfoPanel.ViewModels;
@@ -116,7 +115,7 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
     {
         try
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() =>
             {
                 IsLoading = true;
                 LoadingText = "Connecting to device...";
@@ -127,23 +126,23 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
             try
             {
                 _turingDevice.Initialize();
-                Application.Current.Dispatcher.Invoke(() => DeviceStatus = "Connected");
+                Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => DeviceStatus = "Connected");
                 await RefreshStorage();
             }
             catch (TuringDeviceException ex)
             {
-                Application.Current.Dispatcher.Invoke(() => DeviceStatus = "Failed to connect");
+                Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => DeviceStatus = "Failed to connect");
                 ShowStatus("Connection Failed", $"Could not connect to the Turing device: {ex.Message}", InfoBarSeverity.Error);
             }
         }
         catch (Exception ex)
         {
-            Application.Current.Dispatcher.Invoke(() => DeviceStatus = "Error");
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => DeviceStatus = "Error");
             ShowStatus("Error", $"Failed to initialize device: {ex.Message}", InfoBarSeverity.Error);
         }
         finally
         {
-            Application.Current.Dispatcher.Invoke(() => IsLoading = false);
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => IsLoading = false);
         }
     }
 
@@ -159,7 +158,7 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
 
         try
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() =>
             {
                 IsLoading = true;
                 LoadingText = "Refreshing storage information...";
@@ -169,7 +168,7 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
             try
             {
                 var storageInfo = _turingDevice.GetStorageInfo();
-                Application.Current.Dispatcher.Invoke(() =>
+                Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() =>
                 {
                     TotalStorageDisplay = FormatBytes(storageInfo.TotalBytes);
                     UsedStorageDisplay = FormatBytes(storageInfo.UsedBytes);
@@ -185,14 +184,14 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
             }
 
             // Get video file list
-            Application.Current.Dispatcher.Invoke(() => LoadingText = "Loading video files...");
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => LoadingText = "Loading video files...");
             
             try
             {
                 var files = _turingDevice.ListFiles("/tmp/sdcard/mmcblk0p1/video/");
                 
                 // Update collection on UI thread
-                Application.Current.Dispatcher.Invoke(() =>
+                Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() =>
                 {
                     DeviceFiles.Clear();
                     foreach (var fileName in files)
@@ -220,7 +219,7 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
         }
         finally
         {
-            Application.Current.Dispatcher.Invoke(() => IsLoading = false);
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => IsLoading = false);
         }
     }
 
@@ -229,47 +228,43 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
     {
         if (_turingDevice == null) return;
 
-        var dialog = new OpenFileDialog
+        var picker = new Windows.Storage.Pickers.FileOpenPicker
         {
-            Title = "Select Video File",
-            Filter = "MP4 Files|*.mp4|All Files|*.*",
-            Multiselect = false
+            FileTypeFilter = { ".mp4", ".avi", ".mov", ".mkv" }
         };
+        var file = await picker.PickSingleFileAsync();
+        if (file == null) return;
 
-        if (dialog.ShowDialog() == true)
+        try
         {
+            IsLoading = true;
+            LoadingText = "Uploading video...";
+
+            var fileName = file.Name;
+
             try
             {
-                IsLoading = true;
-                LoadingText = "Uploading video...";
+                await Task.Run(() => { 
+                    _turingDevice.UploadFile(file.Path);
+                });
 
-                var fileName = Path.GetFileName(dialog.FileName);
-
-                try
-                {
-                    await Task.Run(() => { 
-                        _turingDevice.UploadFile(dialog.FileName);
-                    });
-
-                    ShowStatus("Success", $"Video '{fileName}' uploaded successfully.", InfoBarSeverity.Success);
-                    await RefreshStorage();
-                }
-                catch (TuringDeviceException ex)
-                {
-                    ShowStatus("Upload Failed", $"Failed to upload video '{fileName}': {ex.Message}", InfoBarSeverity.Error);
-                }
+                ShowStatus("Success", $"Video '{fileName}' uploaded successfully.", InfoBarSeverity.Success);
+                await RefreshStorage();
             }
-            catch (Exception ex)
+            catch (TuringDeviceException ex)
             {
-                ShowStatus("Error", $"Upload error: {ex.Message}", InfoBarSeverity.Error);
-            }
-            finally
-            {
-                IsLoading = false;
+                ShowStatus("Upload Failed", $"Failed to upload video '{fileName}': {ex.Message}", InfoBarSeverity.Error);
             }
         }
+        catch (Exception ex)
+        {
+            ShowStatus("Error", $"Upload error: {ex.Message}", InfoBarSeverity.Error);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
-
 
     [RelayCommand]
     private async Task PlayFile(DeviceFile? file)
@@ -342,13 +337,17 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
     {
         if (_turingDevice == null || file == null) return;
 
-        var result = System.Windows.MessageBox.Show(
-            $"Are you sure you want to delete '{file.Name}'?",
-            "Confirm Delete",
-            System.Windows.MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+        var dialog = new ContentDialog
+        {
+            Title = "Confirm Delete",
+            Content = $"Are you sure you want to delete '{file.Name}'?",
+            PrimaryButtonText = "Delete",
+            CloseButtonText = "Cancel",
+            XamlRoot = Microsoft.UI.Xaml.Window.Current.Content.XamlRoot
+        };
+        var result = await dialog.ShowAsync();
 
-        if (result == System.Windows.MessageBoxResult.Yes)
+        if (result == ContentDialogResult.Primary)
         {
             try
             {
@@ -383,8 +382,6 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
             }
         }
     }
-
-
 
     [RelayCommand]
     private async Task SaveSettings()
@@ -437,13 +434,17 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
     {
         if (_turingDevice == null) return;
 
-        var result = MessageBox.Show(
-            "Are you sure you want to restart the device?",
-            "Confirm Restart",
-            System.Windows.MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
+        var dialog = new ContentDialog
+        {
+            Title = "Confirm Restart",
+            Content = "Are you sure you want to restart the device?",
+            PrimaryButtonText = "Restart",
+            CloseButtonText = "Cancel",
+            XamlRoot = Microsoft.UI.Xaml.Window.Current.Content.XamlRoot
+        };
+        var result = await dialog.ShowAsync();
 
-        if (result == System.Windows.MessageBoxResult.Yes)
+        if (result == ContentDialogResult.Primary)
         {
             try
             {
@@ -457,10 +458,11 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
                     
                     // Close window after restart
                     await Task.Delay(2000);
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() =>
                     {
-                        var window = Application.Current.Windows.OfType<TuringDeviceWindow>().FirstOrDefault();
-                        window?.Close();
+                        // Note: This would need to be implemented based on your window management
+                        // var window = Application.Current.Windows.OfType<TuringDeviceWindow>().FirstOrDefault();
+                        // window?.Close();
                     });
                 }
                 catch (TuringDeviceException ex)
@@ -479,10 +481,9 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
         }
     }
 
-
     private void ShowStatus(string title, string message, InfoBarSeverity severity)
     {
-        Application.Current.Dispatcher.Invoke(() =>
+        Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() =>
         {
             StatusTitle = title;
             StatusMessage = message;
@@ -493,7 +494,7 @@ public partial class TuringDeviceWindowViewModel : ObservableObject
         // Auto-hide after 5 seconds
         Task.Delay(5000).ContinueWith(_ => 
         {
-            Application.Current.Dispatcher.Invoke(() => IsStatusVisible = false);
+            Microsoft.UI.Xaml.Window.Current.DispatcherQueue.TryEnqueue(() => IsStatusVisible = false);
         }, TaskScheduler.Default);
     }
 

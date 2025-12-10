@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InfoPanel.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:skia="using:SkiaSharp.Views.Windows"
+    xmlns:skia="using:SkiaSharp.Views.WinUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -22,7 +22,7 @@
                     CornerRadius="8,8,8,8"
                     Visibility="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                 <StackPanel>
-                    <skia:SKElement
+                    <skia:SKXamlCanvas
                         x:Name="skElement"
                         Height="150"
                         Margin="20,20,20,20"
