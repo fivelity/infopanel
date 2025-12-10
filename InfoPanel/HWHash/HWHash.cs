@@ -14,6 +14,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Timers;
 
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public class HWHash
     {
         private static readonly ILogger Logger = Log.ForContext<HWHash>();
@@ -159,6 +160,11 @@ using System.Timers;
                 MEM_ACC = MEM_MAP.CreateViewAccessor(0L, Marshal.SizeOf(typeof(HWINFO_MEM)), MemoryMappedFileAccess.Read);
                 MEM_ACC.Read(0L, out HWINFO_MEMREGION);
                 return true;
+            }
+            catch (FileNotFoundException)
+            {
+                // HWiNFO not running or shared memory disabled
+                return false;
             }
             catch (Exception)
             {

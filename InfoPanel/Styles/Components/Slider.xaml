@@ -1,0 +1,83 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- 
+    ========================================
+    SLIDER COMPONENT
+    shadcn/ui style slider
+    ========================================
+    -->
+
+    <Style x:Key="DS_SliderThumb" TargetType="Thumb">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{StaticResource DS_BackgroundBrush}"
+                            BorderBrush="{StaticResource DS_PrimaryBrush}"
+                            BorderThickness="2"
+                            CornerRadius="10"
+                            Effect="{StaticResource DS_Shadow_Sm}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DS_Slider" TargetType="Slider">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Foreground" Value="{StaticResource DS_PrimaryBrush}"/>
+        <Setter Property="Background" Value="{StaticResource DS_SecondaryBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Track Background -->
+                        <Border x:Name="TrackBackground"
+                                Grid.Row="1"
+                                Height="8"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4"/>
+                        
+                        <!-- Track Selection (Fill) -->
+                        <Canvas Grid.Row="1" Height="8" VerticalAlignment="Center">
+                             <Border x:Name="PART_SelectionRange"
+                                     Height="8"
+                                     Background="{TemplateBinding Foreground}"
+                                     CornerRadius="4"/>
+                        </Canvas>
+
+                        <Track x:Name="PART_Track" Grid.Row="1">
+                            <Track.Thumb>
+                                <Thumb x:Name="Thumb" Style="{StaticResource DS_SliderThumb}"/>
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelectionRangeEnabled" Value="True">
+                             <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                         <Trigger Property="IsSelectionRangeEnabled" Value="False">
+                             <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

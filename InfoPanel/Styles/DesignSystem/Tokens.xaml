@@ -11,21 +11,21 @@
     <!-- ==================== COLORS ==================== -->
 
     <!-- Background Colors -->
-    <Color x:Key="DS_Background">#0A0A0A</Color>
-    <Color x:Key="DS_BackgroundSecondary">#1A1A1A</Color>
-    <Color x:Key="DS_BackgroundTertiary">#2A2A2A</Color>
-    <Color x:Key="DS_BackgroundMuted">#161616</Color>
+    <Color x:Key="DS_Background">#000000</Color>
+    <Color x:Key="DS_BackgroundSecondary">#0A0A0A</Color>
+    <Color x:Key="DS_BackgroundTertiary">#171717</Color>
+    <Color x:Key="DS_BackgroundMuted">#0A0A0A</Color>
 
     <!-- Foreground/Text Colors -->
-    <Color x:Key="DS_Foreground">#FAFAFA</Color>
+    <Color x:Key="DS_Foreground">#EDEDED</Color>
     <Color x:Key="DS_ForegroundSecondary">#A1A1AA</Color>
-    <Color x:Key="DS_ForegroundMuted">#71717A</Color>
-    <Color x:Key="DS_ForegroundDisabled">#52525B</Color>
+    <Color x:Key="DS_ForegroundMuted">#52525B</Color>
+    <Color x:Key="DS_ForegroundDisabled">#3F3F46</Color>
 
     <!-- Border Colors -->
-    <Color x:Key="DS_Border">#27272A</Color>
-    <Color x:Key="DS_BorderHover">#3F3F46</Color>
-    <Color x:Key="DS_BorderFocus">#52525B</Color>
+    <Color x:Key="DS_Border">#1F1F1F</Color>
+    <Color x:Key="DS_BorderHover">#2E2E2E</Color>
+    <Color x:Key="DS_BorderFocus">#3F3F46</Color>
 
     <!-- Accent/Primary Colors -->
     <Color x:Key="DS_Primary">#3B82F6</Color>
@@ -34,53 +34,53 @@
     <Color x:Key="DS_PrimaryForeground">#FFFFFF</Color>
 
     <!-- Secondary Colors -->
-    <Color x:Key="DS_Secondary">#27272A</Color>
-    <Color x:Key="DS_SecondaryHover">#3F3F46</Color>
-    <Color x:Key="DS_SecondaryPressed">#52525B</Color>
-    <Color x:Key="DS_SecondaryForeground">#FAFAFA</Color>
+    <Color x:Key="DS_Secondary">#1F1F1F</Color>
+    <Color x:Key="DS_SecondaryHover">#2E2E2E</Color>
+    <Color x:Key="DS_SecondaryPressed">#3F3F46</Color>
+    <Color x:Key="DS_SecondaryForeground">#EDEDED</Color>
 
     <!-- Destructive/Danger Colors -->
-    <Color x:Key="DS_Destructive">#EF4444</Color>
-    <Color x:Key="DS_DestructiveHover">#DC2626</Color>
+    <Color x:Key="DS_Destructive">#7F1D1D</Color>
+    <Color x:Key="DS_DestructiveHover">#991B1B</Color>
     <Color x:Key="DS_DestructivePressed">#B91C1C</Color>
-    <Color x:Key="DS_DestructiveForeground">#FFFFFF</Color>
+    <Color x:Key="DS_DestructiveForeground">#FEF2F2</Color>
 
     <!-- Success Colors -->
-    <Color x:Key="DS_Success">#10B981</Color>
-    <Color x:Key="DS_SuccessHover">#059669</Color>
+    <Color x:Key="DS_Success">#064E3B</Color>
+    <Color x:Key="DS_SuccessHover">#065F46</Color>
     <Color x:Key="DS_SuccessPressed">#047857</Color>
-    <Color x:Key="DS_SuccessForeground">#FFFFFF</Color>
+    <Color x:Key="DS_SuccessForeground">#ECFDF5</Color>
 
     <!-- Warning Colors -->
-    <Color x:Key="DS_Warning">#F59E0B</Color>
-    <Color x:Key="DS_WarningHover">#D97706</Color>
-    <Color x:Key="DS_WarningPressed">#B45309</Color>
-    <Color x:Key="DS_WarningForeground">#000000</Color>
+    <Color x:Key="DS_Warning">#451A03</Color>
+    <Color x:Key="DS_WarningHover">#78350F</Color>
+    <Color x:Key="DS_WarningPressed">#92400E</Color>
+    <Color x:Key="DS_WarningForeground">#FFFBEB</Color>
 
     <!-- Accent Colors -->
-    <Color x:Key="DS_Accent">#8B5CF6</Color>
-    <Color x:Key="DS_AccentHover">#7C3AED</Color>
-    <Color x:Key="DS_AccentPressed">#6D28D9</Color>
-    <Color x:Key="DS_AccentForeground">#FFFFFF</Color>
+    <Color x:Key="DS_Accent">#1F1F1F</Color>
+    <Color x:Key="DS_AccentHover">#2E2E2E</Color>
+    <Color x:Key="DS_AccentPressed">#3F3F46</Color>
+    <Color x:Key="DS_AccentForeground">#EDEDED</Color>
 
     <!-- Muted Colors -->
-    <Color x:Key="DS_Muted">#27272A</Color>
-    <Color x:Key="DS_MutedHover">#3F3F46</Color>
+    <Color x:Key="DS_Muted">#1F1F1F</Color>
+    <Color x:Key="DS_MutedHover">#2E2E2E</Color>
     <Color x:Key="DS_MutedForeground">#A1A1AA</Color>
 
     <!-- Card Colors -->
-    <Color x:Key="DS_Card">#18181B</Color>
-    <Color x:Key="DS_CardHover">#1F1F23</Color>
-    <Color x:Key="DS_CardForeground">#FAFAFA</Color>
+    <Color x:Key="DS_Card">#0A0A0A</Color>
+    <Color x:Key="DS_CardHover">#171717</Color>
+    <Color x:Key="DS_CardForeground">#EDEDED</Color>
 
     <!-- Popover/Dialog Colors -->
-    <Color x:Key="DS_Popover">#18181B</Color>
-    <Color x:Key="DS_PopoverForeground">#FAFAFA</Color>
+    <Color x:Key="DS_Popover">#0A0A0A</Color>
+    <Color x:Key="DS_PopoverForeground">#EDEDED</Color>
 
     <!-- Input Colors -->
-    <Color x:Key="DS_Input">#18181B</Color>
-    <Color x:Key="DS_InputForeground">#FAFAFA</Color>
-    <Color x:Key="DS_InputPlaceholder">#71717A</Color>
+    <Color x:Key="DS_Input">#0A0A0A</Color>
+    <Color x:Key="DS_InputForeground">#EDEDED</Color>
+    <Color x:Key="DS_InputPlaceholder">#52525B</Color>
 
     <!-- Ring/Focus Colors -->
     <Color x:Key="DS_Ring">#3B82F6</Color>
@@ -204,6 +204,19 @@
     <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_16">64</system:Double>
     <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_20">80</system:Double>
     <system:Double xmlns:system="clr-namespace:System;assembly=mscorlib" x:Key="DS_Space_24">96</system:Double>
+
+    <!-- Thickness Resources (for Padding/Margin) -->
+    <Thickness x:Key="DS_Thickness_0">0</Thickness>
+    <Thickness x:Key="DS_Thickness_1">4</Thickness>
+    <Thickness x:Key="DS_Thickness_2">8</Thickness>
+    <Thickness x:Key="DS_Thickness_3">12</Thickness>
+    <Thickness x:Key="DS_Thickness_4">16</Thickness>
+    <Thickness x:Key="DS_Thickness_5">20</Thickness>
+    <Thickness x:Key="DS_Thickness_6">24</Thickness>
+    <Thickness x:Key="DS_Thickness_8">32</Thickness>
+    <Thickness x:Key="DS_Thickness_10">40</Thickness>
+    <Thickness x:Key="DS_Thickness_12">48</Thickness>
+    <Thickness x:Key="DS_Thickness_16">64</Thickness>
 
 
     <!-- ==================== BORDER RADIUS ==================== -->

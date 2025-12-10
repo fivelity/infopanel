@@ -17,12 +17,12 @@
     MinHeight="900"
     d:DesignHeight="900"
     d:DesignWidth="1300"
-    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ui:Design.Background="{DynamicResource DS_BackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource DS_ForegroundBrush}"
     Closing="MainWindow_Closing"
     ContentRendered="Window_ContentRendered"
     ExtendsContentIntoTitleBar="True"
-    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource DS_ForegroundBrush}"
     WindowBackdropType="Mica"
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
@@ -56,7 +56,7 @@
             IsPaneToggleVisible="True"
             OpenPaneLength="150"
             PaneDisplayMode="Left"
-            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}"
+            TitleBar="{Binding ElementName=RootTitleBar, Mode=OneWay}"
             Transition="FadeInWithSlide">
             <ui:NavigationView.Header>
                 <ui:BreadcrumbBar

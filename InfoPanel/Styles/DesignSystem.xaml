@@ -35,6 +35,15 @@
         <ResourceDictionary Source="/Styles/Components/Badge.xaml"/>
         <ResourceDictionary Source="/Styles/Components/Alert.xaml"/>
         <ResourceDictionary Source="/Styles/Components/Separator.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Select.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Checkbox.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Switch.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Slider.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Popover.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Table.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Accordion.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Tabs.xaml"/>
+        <ResourceDictionary Source="/Styles/Components/Scrollbar.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
 

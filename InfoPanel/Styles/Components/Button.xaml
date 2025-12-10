@@ -109,11 +109,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
+                    <ControlTemplate.Resources>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                    <Setter Property="TextDecorations" Value="Underline"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="AccessText">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                    <Setter Property="TextDecorations" Value="Underline"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ControlTemplate.Resources>
                     <ContentPresenter x:Name="content" TextElement.Foreground="{TemplateBinding Foreground}"/>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="content" Property="TextElement.TextDecorations" Value="Underline"/>
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.5"/>
                         </Trigger>
@@ -140,6 +153,47 @@
     <Style x:Key="DS_Button_Lg" TargetType="Button" BasedOn="{StaticResource DS_Button}">
         <Setter Property="Padding" Value="20,12"/>
         <Setter Property="FontSize" Value="{StaticResource DS_FontSize_Base}"/>
+    </Style>
+
+    <!-- Card Button (looks like a card, acts like a button) -->
+    <Style x:Key="DS_CardButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource DS_CardBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="24"/>
+        <Setter Property="Effect" Value="{StaticResource DS_Shadow_Sm}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource DS_Radius_Lg}"
+                            Padding="{TemplateBinding Padding}"
+                            Effect="{TemplateBinding Effect}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource DS_PrimaryBrush}"/>
+                            <Setter TargetName="border" Property="Effect" Value="{StaticResource DS_Shadow_Md}"/>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource DS_CardHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                             <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

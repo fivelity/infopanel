@@ -23,25 +23,44 @@
                 <ResourceDictionary Source="/Styles/DesignSystem.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!--<FontFamily x:Key="NunitoSansRegular">./Fonts/NunitoSans_7pt-Regular.ttf#Noto Sans</FontFamily>-->
+            <!-- Global Implicit Styles for Shadcn Design System Redesign -->
+            <Style TargetType="Button" BasedOn="{StaticResource DS_Button}" />
+            <Style TargetType="TextBox" BasedOn="{StaticResource DS_Input}" />
+            <Style TargetType="CheckBox" BasedOn="{StaticResource DS_CheckBox}" />
+            <Style TargetType="ComboBox" BasedOn="{StaticResource DS_ComboBox}" />
+            <Style TargetType="ToolTip" BasedOn="{StaticResource DS_ToolTip}" />
+            <Style TargetType="Expander" BasedOn="{StaticResource DS_Accordion}" />
+            <Style TargetType="TabControl" BasedOn="{StaticResource DS_Tabs}" />
+            <Style TargetType="TabItem" BasedOn="{StaticResource DS_TabItem}" />
+            <Style TargetType="ScrollBar" BasedOn="{StaticResource DS_ScrollBar}" />
+            <Style TargetType="ListView" BasedOn="{StaticResource DS_Table}" />
+            <Style TargetType="ListViewItem" BasedOn="{StaticResource DS_ListViewItem}" />
+            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource DS_ColumnHeader}" />
 
-            <SolidColorBrush x:Key="MahApps.Colors.AccentBase" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Colors.Accent" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Colors.Accent2" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Colors.Accent3" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Colors.Accent4" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Colors.Highlight" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Colors.IdealForeground" Color="#FF23262B" />
+            <!-- Overriding MahApps Brushes with Design System Tokens -->
+            <SolidColorBrush x:Key="MahApps.Colors.AccentBase" Color="{StaticResource DS_Primary}" />
+            <SolidColorBrush x:Key="MahApps.Colors.Accent" Color="{StaticResource DS_Primary}" />
+            <SolidColorBrush x:Key="MahApps.Colors.Accent2" Color="{StaticResource DS_PrimaryHover}" />
+            <SolidColorBrush x:Key="MahApps.Colors.Accent3" Color="{StaticResource DS_PrimaryPressed}" />
+            <SolidColorBrush x:Key="MahApps.Colors.Accent4" Color="{StaticResource DS_Primary}" />
+            <SolidColorBrush x:Key="MahApps.Colors.Highlight" Color="{StaticResource DS_Primary}" />
+            <SolidColorBrush x:Key="MahApps.Colors.IdealForeground" Color="{StaticResource DS_Foreground}" />
 
-            <SolidColorBrush x:Key="MahApps.Brushes.IdealForegroundDisabled" Color="Transparent" />
-            <SolidColorBrush x:Key="MahApps.Brushes.Control.Background" Color="Transparent" />
-            <SolidColorBrush x:Key="MahApps.Brushes.Control.Disabled" Color="Transparent" />
-            <SolidColorBrush x:Key="MahApps.Brushes.Text" Color="LightGray" />
-            <SolidColorBrush x:Key="MahApps.Brushes.Selected.Foreground" Color="LightGray" />
-            <SolidColorBrush x:Key="MahApps.Brushes.Accent" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Brushes.TextBox.Border" Color="DarkGray" />
-            <SolidColorBrush x:Key="MahApps.Brushes.TextBox.Border.Focus" Color="#FF23262B" />
-            <SolidColorBrush x:Key="MahApps.Brushes.TextBox.Border.MouseOver" Color="#FF23262B" />
+            <SolidColorBrush x:Key="MahApps.Brushes.IdealForegroundDisabled" Color="{StaticResource DS_ForegroundDisabled}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.Control.Background" Color="{StaticResource DS_Background}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.Control.Disabled" Color="{StaticResource DS_BackgroundMuted}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.Text" Color="{StaticResource DS_Foreground}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.Selected.Foreground" Color="{StaticResource DS_PrimaryForeground}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.Accent" Color="{StaticResource DS_Primary}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.TextBox.Border" Color="{StaticResource DS_Border}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.TextBox.Border.Focus" Color="{StaticResource DS_Ring}" />
+            <SolidColorBrush x:Key="MahApps.Brushes.TextBox.Border.MouseOver" Color="{StaticResource DS_BorderHover}" />
+            
+            <!-- Application Background Overrides -->
+            <SolidColorBrush x:Key="ApplicationBackgroundBrush" Color="{StaticResource DS_Background}" />
+            <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="{StaticResource DS_Foreground}" />
+            <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="{StaticResource DS_ForegroundSecondary}" />
+            <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="{StaticResource DS_ForegroundMuted}" />
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />

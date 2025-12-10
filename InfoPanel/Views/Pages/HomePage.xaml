@@ -17,282 +17,287 @@
         <Border
             Grid.Row="0"
             Height="400"
-            Margin="0,0,0,0"
-            CornerRadius="8,8,8,8">
+            Margin="0,0,0,32"
+            CornerRadius="{StaticResource DS_Radius_Lg}"
+            BorderBrush="{StaticResource DS_BorderBrush}"
+            BorderThickness="1">
             <Border.Background>
                 <ImageBrush ImageSource="/InfoPanel;component/Resources/Images/home.jpg" Stretch="UniformToFill" />
             </Border.Background>
-            <Border CornerRadius="8,8,8,8">
+            <Border CornerRadius="{StaticResource DS_Radius_Lg}">
                 <Border.Background>
                     <RadialGradientBrush>
-                        <GradientStop Offset="0" Color="#2F000000" />
-                        <GradientStop Offset="1" Color="#8F000000" />
+                        <GradientStop Offset="0" Color="#5F000000" />
+                        <GradientStop Offset="1" Color="#AF000000" />
                     </RadialGradientBrush>
                 </Border.Background>
                 <StackPanel
-                    Margin="16"
+                    Margin="32"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Background="Transparent">
                     <TextBlock
-                        FontSize="28"
-                        FontWeight="Bold"
+                        FontSize="{StaticResource DS_FontSize_4xl}"
+                        FontWeight="{StaticResource DS_FontWeight_Bold}"
+                        Foreground="{StaticResource DS_ForegroundBrush}"
                         Text="Welcome to InfoPanel." />
                     <TextBlock
-                        FontSize="18"
-                        Opacity=".8"
+                        FontSize="{StaticResource DS_FontSize_Xl}"
+                        Foreground="{StaticResource DS_ForegroundSecondaryBrush}"
+                        Margin="0,8,0,0"
                         Text="Level up your desktop." />
                 </StackPanel>
             </Border>
         </Border>
 
-        <Grid Grid.Row="1" Margin="50,30,50,0">
+        <Grid Grid.Row="1" Margin="32,0,32,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!--  Start left grid  -->
-            <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                <ui:CardAction
+            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                <Button
                     Command="{Binding ViewModel.NavigateCommand}"
                     CommandParameter="navigate_to_profiles"
-                    Icon="{ui:SymbolIcon List20}">
-                    <StackPanel>
-                        <TextBlock
-                            Margin="0"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            Text="Profiles" />
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                            Text="Create and manage your profiles." />
-                    </StackPanel>
-                </ui:CardAction>
-                <ui:CardAction
-                    Margin="0,10,0,0"
+                    Style="{StaticResource DS_CardButton}"
+                    Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="List20" Grid.Column="0" FontSize="20" Margin="0,0,16,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{StaticResource DS_CardHeader}" FontSize="{StaticResource DS_FontSize_Base}" Margin="0,0,0,4" Text="Profiles"/>
+                            <TextBlock Style="{StaticResource DS_CardDescription}" Text="Create and manage your profiles."/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+                <Button
                     Command="{Binding ViewModel.NavigateCommand}"
                     CommandParameter="navigate_to_design"
-                    Icon="{ui:SymbolIcon DesktopCursor20}">
-                    <StackPanel>
-                        <TextBlock
-                            Margin="0"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            Text="Design" />
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                            Text="Customisation and design." />
-                    </StackPanel>
-                </ui:CardAction>
-                <ui:CardAction
-                    Margin="0,10,0,0"
+                    Style="{StaticResource DS_CardButton}"
+                    Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="DesktopCursor20" Grid.Column="0" FontSize="20" Margin="0,0,16,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{StaticResource DS_CardHeader}" FontSize="{StaticResource DS_FontSize_Base}" Margin="0,0,0,4" Text="Design"/>
+                            <TextBlock Style="{StaticResource DS_CardDescription}" Text="Customisation and design."/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+                <Button
                     Command="{Binding ViewModel.NavigateCommand}"
                     CommandParameter="navigate_to_updates"
-                    Icon="{ui:SymbolIcon PhoneUpdate20}">
-                    <StackPanel>
-                        <TextBlock
-                            Margin="0"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            Text="Updates" />
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                            Text="Check for updates and view version history." />
-                    </StackPanel>
-                </ui:CardAction>
-                <ui:CardAction
-                    Margin="0,10,0,0"
+                    Style="{StaticResource DS_CardButton}"
+                    Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="PhoneUpdate20" Grid.Column="0" FontSize="20" Margin="0,0,16,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{StaticResource DS_CardHeader}" FontSize="{StaticResource DS_FontSize_Base}" Margin="0,0,0,4" Text="Updates"/>
+                            <TextBlock Style="{StaticResource DS_CardDescription}" Text="Check for updates and view version history."/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+                <Button
                     Command="{Binding ViewModel.NavigateCommand}"
                     CommandParameter="navigate_to_plugins"
-                    Icon="{ui:SymbolIcon PlugConnected20}">
-                    <StackPanel>
-                        <TextBlock
-                            Margin="0"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            Text="Plugins" />
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                            Text="View activated plugins." />
-                    </StackPanel>
-                </ui:CardAction>
-                <ui:CardAction
-                    Margin="0,10,0,0"
+                    Style="{StaticResource DS_CardButton}"
+                    Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="PlugConnected20" Grid.Column="0" FontSize="20" Margin="0,0,16,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{StaticResource DS_CardHeader}" FontSize="{StaticResource DS_FontSize_Base}" Margin="0,0,0,4" Text="Plugins"/>
+                            <TextBlock Style="{StaticResource DS_CardDescription}" Text="View activated plugins."/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+                <Button
                     Command="{Binding ViewModel.NavigateCommand}"
                     CommandParameter="navigate_to_settings"
-                    Icon="{ui:SymbolIcon Settings20}">
-                    <StackPanel>
-                        <TextBlock
-                            Margin="0"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            Text="Settings" />
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                            Text="Manage settings." />
-                    </StackPanel>
-                </ui:CardAction>
-                <ui:CardAction
-                    Margin="0,10,0,0"
+                    Style="{StaticResource DS_CardButton}"
+                    Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="Settings20" Grid.Column="0" FontSize="20" Margin="0,0,16,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{StaticResource DS_CardHeader}" FontSize="{StaticResource DS_FontSize_Base}" Margin="0,0,0,4" Text="Settings"/>
+                            <TextBlock Style="{StaticResource DS_CardDescription}" Text="Manage settings."/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+
+                <Button
                     Command="{Binding ViewModel.NavigateCommand}"
                     CommandParameter="navigate_to_about"
-                    Icon="{ui:SymbolIcon ChatHelp20}">
-                    <StackPanel>
-                        <TextBlock
-                            Margin="0"
-                            FontSize="13"
-                            FontWeight="Medium"
-                            Text="About" />
-                        <TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                            Text="Resource links, donations and acknowledgments." />
-                    </StackPanel>
-                </ui:CardAction>
-
+                    Style="{StaticResource DS_CardButton}"
+                    Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Symbol="ChatHelp20" Grid.Column="0" FontSize="20" Margin="0,0,16,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{StaticResource DS_CardHeader}" FontSize="{StaticResource DS_FontSize_Base}" Margin="0,0,0,4" Text="About"/>
+                            <TextBlock Style="{StaticResource DS_CardDescription}" Text="Resource links, donations and acknowledgments."/>
+                        </StackPanel>
+                    </Grid>
+                </Button>
             </StackPanel>
 
             <!--  Start right grid  -->
             <StackPanel
                 Grid.Column="1"
-                Margin="10,0,0,0"
-                VerticalAlignment="Center">
-                <ui:CardControl Margin="0,0,0,0" Icon="{ui:SymbolIcon Heart20}">
-                    <ui:CardControl.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
+                Margin="16,0,0,0"
+                VerticalAlignment="Top">
+                
+                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <ui:SymbolIcon Symbol="Heart20" FontSize="16" Margin="0,0,8,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
                                 <TextBlock
-                                    FontSize="13"
-                                    FontWeight="Medium"
+                                    Style="{StaticResource DS_CardHeader}"
+                                    FontSize="{StaticResource DS_FontSize_Base}"
+                                    Margin="0"
                                     Text="Love InfoPanel?" />
-                                <TextBlock
-                                    Margin="0,5,0,0"
-                                    FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                    Text="Leave a review for others to see and help InfoPanel grow." />
                             </StackPanel>
-                            <ui:Anchor
-                                Grid.Column="2"
-                                Width="150"
-                                Margin="0,0,0,0"
-                                VerticalAlignment="Center"
-                                Appearance="Secondary"
-                                Content="Review"
-                                NavigateUri="ms-windows-store://review/?ProductId=XPFP7C8H5446ZD" />
-                        </Grid>
-                    </ui:CardControl.Header>
-                </ui:CardControl>
+                            <TextBlock
+                                Style="{StaticResource DS_CardDescription}"
+                                Text="Leave a review for others to see and help InfoPanel grow." />
+                        </StackPanel>
+                        <ui:Anchor
+                            Grid.Column="2"
+                            Width="100"
+                            Margin="16,0,0,0"
+                            VerticalAlignment="Center"
+                            Appearance="Secondary"
+                            Content="Review"
+                            NavigateUri="ms-windows-store://review/?ProductId=XPFP7C8H5446ZD" />
+                    </Grid>
+                </Border>
 
-                <ui:CardControl Margin="0,10,0,0" Icon="{ui:SymbolIcon DrinkCoffee20}">
-                    <ui:CardControl.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                             <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <ui:SymbolIcon Symbol="DrinkCoffee20" FontSize="16" Margin="0,0,8,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
                                 <TextBlock
-                                    FontSize="13"
-                                    FontWeight="Medium"
+                                    Style="{StaticResource DS_CardHeader}"
+                                    FontSize="{StaticResource DS_FontSize_Base}"
+                                    Margin="0"
                                     Text="Support Development" />
-                                <TextBlock
-                                    Margin="0,5,0,0"
-                                    FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                    Text="Show your appreciation and buy me a coffee." />
                             </StackPanel>
-                            <ui:Anchor
-                                Grid.Column="2"
-                                Width="150"
-                                Margin="0,0,0,0"
-                                VerticalAlignment="Center"
-                                Appearance="Secondary"
-                                Content="Donate"
-                                NavigateUri="https://www.buymeacoffee.com/urfath3r" />
-                        </Grid>
-                    </ui:CardControl.Header>
-                </ui:CardControl>
+                            <TextBlock
+                                Style="{StaticResource DS_CardDescription}"
+                                Text="Show your appreciation and buy me a coffee." />
+                        </StackPanel>
+                        <ui:Anchor
+                            Grid.Column="2"
+                            Width="100"
+                            Margin="16,0,0,0"
+                            VerticalAlignment="Center"
+                            Appearance="Secondary"
+                            Content="Donate"
+                            NavigateUri="https://www.buymeacoffee.com/urfath3r" />
+                    </Grid>
+                </Border>
 
-                <ui:CardControl Margin="0,10,0,0" Icon="{ui:SymbolIcon Chat20}">
-                    <ui:CardControl.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <ui:SymbolIcon Symbol="Chat20" FontSize="16" Margin="0,0,8,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
                                 <TextBlock
-                                    FontSize="13"
-                                    FontWeight="Medium"
+                                    Style="{StaticResource DS_CardHeader}"
+                                    FontSize="{StaticResource DS_FontSize_Base}"
+                                    Margin="0"
                                     Text="Discord" />
-                                <TextBlock
-                                    Margin="0,5,0,0"
-                                    FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                    Text="Join in conversations with others regarding InfoPanel." />
                             </StackPanel>
-                            <ui:Anchor
-                                Grid.Column="2"
-                                Width="150"
-                                Margin="0,0,0,0"
-                                VerticalAlignment="Center"
-                                Appearance="Secondary"
-                                Content="Join"
-                                NavigateUri="https://discord.gg/cQnjdMC7Qc" />
-                        </Grid>
-                    </ui:CardControl.Header>
-                </ui:CardControl>
+                            <TextBlock
+                                Style="{StaticResource DS_CardDescription}"
+                                Text="Join in conversations with others regarding InfoPanel." />
+                        </StackPanel>
+                        <ui:Anchor
+                            Grid.Column="2"
+                            Width="100"
+                            Margin="16,0,0,0"
+                            VerticalAlignment="Center"
+                            Appearance="Secondary"
+                            Content="Join"
+                            NavigateUri="https://discord.gg/cQnjdMC7Qc" />
+                    </Grid>
+                </Border>
 
-                <ui:CardControl Margin="0,10,0,0" Icon="{ui:SymbolIcon WebAsset20}">
-                    <ui:CardControl.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <ui:SymbolIcon Symbol="WebAsset20" FontSize="16" Margin="0,0,8,0" Foreground="{StaticResource DS_ForegroundBrush}"/>
                                 <TextBlock
-                                    FontSize="13"
-                                    FontWeight="Medium"
+                                    Style="{StaticResource DS_CardHeader}"
+                                    FontSize="{StaticResource DS_FontSize_Base}"
+                                    Margin="0"
                                     Text="Reddit" />
-                                <TextBlock
-                                    Margin="0,5,0,0"
-                                    FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                    Text="Help grow the /r/InfoPanel community." />
                             </StackPanel>
-                            <ui:Anchor
-                                Grid.Column="2"
-                                Width="150"
-                                Margin="0,0,0,0"
-                                VerticalAlignment="Center"
-                                Appearance="Secondary"
-                                Content="Launch"
-                                NavigateUri="https://www.reddit.com/r/InfoPanel/" />
-                        </Grid>
-                    </ui:CardControl.Header>
-                </ui:CardControl>
+                            <TextBlock
+                                Style="{StaticResource DS_CardDescription}"
+                                Text="Help grow the /r/InfoPanel community." />
+                        </StackPanel>
+                        <ui:Anchor
+                            Grid.Column="2"
+                            Width="100"
+                            Margin="16,0,0,0"
+                            VerticalAlignment="Center"
+                            Appearance="Secondary"
+                            Content="Launch"
+                            NavigateUri="https://www.reddit.com/r/InfoPanel/" />
+                    </Grid>
+                </Border>
             </StackPanel>
         </Grid>
-
-
-
     </StackPanel>
 </Page>

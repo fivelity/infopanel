@@ -188,42 +188,52 @@ namespace InfoPanel.Views.Common
 
         private void InjectSkiaElement()
         {
-            var container = FindName("SkiaContainer") as Panel;
-            if (container == null) return;
-
-            container.Children.Clear();
-
-            if (OpenGL)
+            try
             {
-                AllowsTransparency = false;
-                var skGlElement = new SKGLElement
+                if (SkiaContainer == null)
                 {
-                    Name = "skGlElement",
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                skGlElement.SetBinding(WidthProperty, new Binding("Profile.Width") { Mode = BindingMode.OneWay });
-                skGlElement.SetBinding(HeightProperty, new Binding("Profile.Height") { Mode = BindingMode.OneWay });
-                skGlElement.PaintSurface += SkGlElement_PaintSurface;
-                container.Children.Add(skGlElement);
+                    Logger.Error("SkiaContainer is null - cannot inject Skia element");
+                    return;
+                }
 
-                _skGlElement = skGlElement;
+                SkiaContainer.Children.Clear();
+
+                if (OpenGL)
+                {
+                    AllowsTransparency = false;
+                    var skGlElement = new SKGLElement
+                    {
+                        Name = "skGlElement",
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top
+                    };
+                    skGlElement.SetBinding(WidthProperty, new Binding("Profile.Width") { Mode = BindingMode.OneWay });
+                    skGlElement.SetBinding(HeightProperty, new Binding("Profile.Height") { Mode = BindingMode.OneWay });
+                    skGlElement.PaintSurface += SkGlElement_PaintSurface;
+                    SkiaContainer.Children.Add(skGlElement);
+
+                    _skGlElement = skGlElement;
+                }
+                else
+                {
+                    AllowsTransparency = true;
+                    var skElement = new SKElement
+                    {
+                        Name = "skElement",
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top
+                    };
+                    skElement.SetBinding(WidthProperty, new Binding("Profile.Width") { Mode = BindingMode.OneWay });
+                    skElement.SetBinding(HeightProperty, new Binding("Profile.Height") { Mode = BindingMode.OneWay });
+                    skElement.PaintSurface += SkElement_PaintSurface;
+                    SkiaContainer.Children.Add(skElement);
+
+                    _sKElement = skElement;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                AllowsTransparency = true;
-                var skElement = new SKElement
-                {
-                    Name = "skElement",
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                skElement.SetBinding(WidthProperty, new Binding("Profile.Width") { Mode = BindingMode.OneWay });
-                skElement.SetBinding(HeightProperty, new Binding("Profile.Height") { Mode = BindingMode.OneWay });
-                skElement.PaintSurface += SkElement_PaintSurface;
-                container.Children.Add(skElement);
-
-                _sKElement = skElement;
+                Logger.Error(ex, "Error injecting Skia element");
             }
         }
 

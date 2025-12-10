@@ -1,0 +1,86 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- 
+    ========================================
+    TABS COMPONENT
+    shadcn/ui style tabs
+    ========================================
+    -->
+
+    <Style x:Key="DS_TabItem" TargetType="TabItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid x:Name="Root" Margin="0,0,4,0">
+                        <Border x:Name="Border"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                CornerRadius="{StaticResource DS_Radius_Sm}"
+                                Padding="16,8">
+                            <ContentPresenter x:Name="ContentSite"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            ContentSource="Header"
+                                            RecognizesAccessKey="True"
+                                            TextBlock.FontWeight="{StaticResource DS_FontWeight_Medium}"
+                                            TextBlock.FontSize="{StaticResource DS_FontSize_Sm}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DS_BackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+                            <Setter TargetName="Border" Property="Effect" Value="{StaticResource DS_Shadow_Sm}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource DS_ForegroundMutedBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource DS_ForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DS_Tabs" TargetType="TabControl">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DS_TabItem}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Tab List Container -->
+                        <Border Background="{StaticResource DS_BackgroundMutedBrush}"
+                                CornerRadius="{StaticResource DS_Radius_Md}"
+                                Padding="4"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,16">
+                             <TabPanel x:Name="HeaderPanel"
+                                       Grid.Row="0"
+                                       Panel.ZIndex="1"
+                                       Margin="0"
+                                       IsItemsHost="True"
+                                       KeyboardNavigation.TabIndex="1"
+                                       Background="Transparent"/>
+                        </Border>
+
+                        <ContentPresenter x:Name="PART_SelectedContentHost"
+                                        Grid.Row="1"
+                                        ContentSource="SelectedContent"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
