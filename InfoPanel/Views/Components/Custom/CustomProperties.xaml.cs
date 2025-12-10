@@ -5,6 +5,9 @@ using Microsoft.UI.Xaml.Controls;
 using Serilog;
 using System;
 using System.IO;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
+using InfoPanel.App;
 
 namespace InfoPanel.Views.Components
 {
@@ -32,7 +35,7 @@ namespace InfoPanel.Views.Components
             InitializeComponent();
             Unloaded += CustomProperties_Unloaded;
 
-            UpdateTimer = new(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(100) };
+            UpdateTimer = new() { Interval = TimeSpan.FromMilliseconds(100) };
             UpdateTimer.Tick += Timer_Tick;
             UpdateTimer.Start();
         }
@@ -57,23 +60,32 @@ namespace InfoPanel.Views.Components
             }
         }
 
-        private void ButtonAddStep_Click(object sender, RoutedEventArgs e)
+        private async void ButtonAddStep_Click(object sender, RoutedEventArgs e)
         {
             if (SharedModel.Instance.SelectedItem is GaugeDisplayItem customDisplayItem)
             {
-                Microsoft.Win32.OpenFileDialog openFileDialog = new()
+                var window = App.MainWindow;
+                if (window == null) return;
+                
+                var filePicker = new FileOpenPicker
                 {
-                    Multiselect = true,
-                    Filter = "Image files (*.jpg, *.jpeg, *.png, *.gif)|*.jpg;*.jpeg;*.png;*.gif",
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)
+                    SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                    ViewMode = PickerViewMode.Thumbnail
                 };
-
-                if (openFileDialog.ShowDialog() == true)
+                filePicker.FileTypeFilter.Add(".jpg");
+                filePicker.FileTypeFilter.Add(".jpeg");
+                filePicker.FileTypeFilter.Add(".png");
+                filePicker.FileTypeFilter.Add(".gif");
+                
+                var hwnd = WindowNative.GetWindowHandle(window);
+                InitializeWithWindow.Initialize(filePicker, hwnd);
+                
+                var files = await filePicker.PickMultipleFilesAsync();
+                if (files.Count > 0)
                 {
-
-                    if (openFileDialog.FileNames.Length > 101)
+                    if (files.Count > 101)
                     {
-                        System.Windows.MessageBox.Show("You can only select a maximum of 101 images.", "File Selection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        await ShowErrorDialog("You can only select a maximum of 101 images.", "File Selection Error");
                         return;
                     }
 
@@ -83,7 +95,7 @@ namespace InfoPanel.Views.Components
                     {
                         customDisplayItem.Images.Clear();
 
-                        foreach (var file in openFileDialog.FileNames)
+                        foreach (var file in files)
                         {
                             var imageFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "InfoPanel", "assets", profile.Guid.ToString());
                             if (!Directory.Exists(imageFolder))
@@ -93,8 +105,9 @@ namespace InfoPanel.Views.Components
 
                             try
                             {
-                                var fileName = Path.GetFileName(file);
-                                File.Copy(file, Path.Combine(imageFolder, fileName), true);
+                                var filePath = file.Path;
+                                var fileName = file.Name;
+                                File.Copy(filePath, Path.Combine(imageFolder, fileName), true);
                                 var imageDisplayItem = new ImageDisplayItem(fileName, profile, fileName, true)
                                 {
                                     PersistentCache = true // Gauge images should not expire
@@ -108,9 +121,20 @@ namespace InfoPanel.Views.Components
                             }
                         }
                     }
-
                 }
             }
+        }
+        
+        private async System.Threading.Tasks.Task ShowErrorDialog(string message, string title)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = title,
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
         }
 
         private void ButtonStepUp_Click(object sender, RoutedEventArgs e)
@@ -126,7 +150,7 @@ namespace InfoPanel.Views.Components
                         var temp = gaugeDisplayItem.Images[index - 1];
                         gaugeDisplayItem.Images[index - 1] = gaugeDisplayItem.Images[index];
                         gaugeDisplayItem.Images[index] = temp;
-                        ListViewItems.Items.Refresh();
+                        // Items refresh automatically in WinUI 3 via ObservableCollection
                         ViewModel.SelectedItem = selectedItem;
                         ListViewItems.ScrollIntoView(selectedItem);
                     }
@@ -147,7 +171,7 @@ namespace InfoPanel.Views.Components
                         var temp = gaugeDisplayItem.Images[index + 1];
                         gaugeDisplayItem.Images[index + 1] = gaugeDisplayItem.Images[index];
                         gaugeDisplayItem.Images[index] = temp;
-                        ListViewItems.Items.Refresh();
+                        // Items refresh automatically in WinUI 3 via ObservableCollection
                         ViewModel.SelectedItem = selectedItem;
                         ListViewItems.ScrollIntoView(selectedItem);
                     }
@@ -169,7 +193,7 @@ namespace InfoPanel.Views.Components
                             gaugeDisplayItem.Images.RemoveAt(i);
                         }
                     }
-                    ListViewItems.Items.Refresh();
+                    // Items refresh automatically in WinUI 3 via ObservableCollection
                     gaugeDisplayItem.TriggerDisplayImageChange();
                 }
             }

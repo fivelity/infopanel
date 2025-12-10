@@ -1,4 +1,5 @@
-﻿using InfoPanel.Models;
+using InfoPanel.Models;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -135,7 +136,7 @@ namespace InfoPanel.Views.Components
 
         private void FormatButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is System.Windows.Controls.Button button && button.Tag is string formatCode)
+            if (sender is Button button && button.Tag is string formatCode)
             {
                 var currentPos = TextBoxFormat.CaretIndex;
                 TextBoxFormat.Text = TextBoxFormat.Text.Insert(currentPos, formatCode);
@@ -157,12 +158,17 @@ namespace InfoPanel.Views.Components
                 {
                     PreviewText.Text = DateTime.Now.ToString(format);
                 }
-                PreviewText.Foreground = (Brush)FindResource("TextFillColorPrimaryBrush");
+                // Use WinUI 3 resource lookup
+                if (Application.Current.Resources.TryGetValue("TextFillColorPrimaryBrush", out var resource) && resource is Brush brush)
+                {
+                    PreviewText.Foreground = brush;
+                }
             }
             catch (FormatException)
             {
                 PreviewText.Text = "Invalid format";
-                PreviewText.Foreground = Brushes.Red;
+                // Use WinUI 3 SolidColorBrush instead of WPF Brushes
+                PreviewText.Foreground = new SolidColorBrush(Colors.Red);
             }
         }
 

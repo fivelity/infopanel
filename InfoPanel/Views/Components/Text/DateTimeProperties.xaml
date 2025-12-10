@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="InfoPanel.Views.Components.DateTimeProperties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -37,7 +37,7 @@
                 <TextBlock
                     Margin="5,0,0,0"
                     FontSize="12"
-                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                    Foreground="{ThemeResource TextFillColorDisabledBrush}"
                     Text="Custom Format" />
 
             </StackPanel>
@@ -50,7 +50,7 @@
                 <TextBlock
                     Margin="0,0,0,5"
                     FontSize="12"
-                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                    Foreground="{ThemeResource TextFillColorDisabledBrush}"
                     Text="Quick Templates" />
             </StackPanel>
 
@@ -61,14 +61,14 @@
             Grid.Row="1"
             Margin="0,10,0,0"
             Padding="10"
-            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
             CornerRadius="4">
             <StackPanel>
                 <TextBlock
                     FontSize="11"
-                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                     Text="Preview:" />
                 <TextBlock
                     x:Name="PreviewText"
@@ -84,7 +84,7 @@
             <TextBlock
                 Margin="0,0,0,5"
                 FontSize="12"
-                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                 Text="Format Builder (mouse over for details)" />
             <WrapPanel Visibility="{Binding ElementName=UserControlRoot, Path=IsDateVisible, Converter={StaticResource BoolToVisConverter}}">
                 <!--  Date Components  -->

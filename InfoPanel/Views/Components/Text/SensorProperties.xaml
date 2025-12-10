@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="InfoPanel.Views.Components.SensorProperties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -28,7 +28,7 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Sensor" />
                     <StackPanel
                         Margin="0,-5,0,0"
@@ -38,24 +38,24 @@
                             Grid.Column="2"
                             Margin="0,0,0,0"
                             HorizontalAlignment="Right"
-                            IsChecked="{Binding AbsoluteAddition}">
-                            <ui:SymbolIcon Symbol="FilterAdd20" ToolTip="Absolute" />
+                            IsToggled="{Binding AbsoluteAddition}">
+                            <SymbolIcon Symbol="FilterAdd2" ToolTip="Absolute" />
                         </ToggleButton>
 
                         <ToggleButton
                             Grid.Column="2"
                             Margin="5,0,0,0"
                             HorizontalAlignment="Right"
-                            IsChecked="{Binding ShowName}">
-                            <ui:SymbolIcon Symbol="DrawText20" ToolTip="Show Name" />
+                            IsToggled="{Binding ShowName}">
+                            <SymbolIcon Symbol="DrawText2" ToolTip="Show Name" />
                         </ToggleButton>
 
                         <ToggleButton
                             Grid.Column="2"
                             Margin="5,0,0,0"
                             HorizontalAlignment="Right"
-                            IsChecked="{Binding ShowUnit}">
-                            <ui:SymbolIcon Symbol="TextAsterisk20" ToolTip="Show Unit" />
+                            IsToggled="{Binding ShowUnit}">
+                            <SymbolIcon Symbol="TextAsterisk2" ToolTip="Show Unit" />
                         </ToggleButton>
                     </StackPanel>
                 </StackPanel>
@@ -65,7 +65,7 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Reading" />
                 </StackPanel>
             </Grid>
@@ -101,7 +101,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:NumberBox
+                        <NumberBox
                             Name="NumberBoxMultiplication"
                             Margin="0,0,0,0"
                             FontSize="14"
@@ -109,30 +109,30 @@
                             Text="{Binding MultiplicationModifier}"
                             ToolTip="Useful for unit conversion. E.g Kbps to Mbps"
                             Value="{Binding MultiplicationModifier}" />
-                        <ui:ToggleSwitch
+                        <ToggleSwitch
                             Grid.Column="1"
                             Width="50"
                             Margin="10,0,0,0"
-                            IsChecked="{Binding DivisionToggle}" />
+                            IsToggled="{Binding DivisionToggle}" />
                     </Grid>
 
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Multiplier (toggle for divisor)"
                         Visibility="{Binding DivisionToggle, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Divisor (toggle for multiplier)"
                         Visibility="{Binding DivisionToggle, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
                     <StackPanel>
-                        <ui:NumberBox
+                        <NumberBox
                             Name="NumberBoxAddition"
                             Margin="0,0,0,0"
                             FontSize="14"
@@ -144,7 +144,7 @@
                         <TextBlock
                             Margin="5,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="Modifier" />
                     </StackPanel>
                 </StackPanel>
@@ -166,7 +166,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <ui:NumberBox
+                            <NumberBox
                                 Name="NumberBoxPrecision"
                                 Margin="0,0,0,0"
                                 FontSize="14"
@@ -179,16 +179,16 @@
                                 TextChanged="NumberBoxPrecision_TextChanged"
                                 ToolTip="Number of decimal places"
                                 Value="{Binding Precision}" />
-                            <ui:ToggleSwitch
+                            <ToggleSwitch
                                 Grid.Column="1"
                                 Width="50"
                                 Margin="10,0,0,0"
-                                IsChecked="{Binding OverridePrecision}" />
+                                IsToggled="{Binding OverridePrecision}" />
                         </Grid>
                         <TextBlock
                             Margin="5,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="Override Precision" />
                     </StackPanel>
 
@@ -207,16 +207,16 @@
                                 FontSize="14"
                                 IsEnabled="{Binding OverrideUnit}"
                                 Text="{Binding Unit}" />
-                            <ui:ToggleSwitch
+                            <ToggleSwitch
                                 Grid.Column="1"
                                 Width="50"
                                 Margin="10,0,0,0"
-                                IsChecked="{Binding OverrideUnit}" />
+                                IsToggled="{Binding OverrideUnit}" />
                         </Grid>
                         <TextBlock
                             Margin="5,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="Override Unit" />
                     </StackPanel>
 
@@ -238,7 +238,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel>
-                        <ui:NumberBox
+                        <NumberBox
                             Name="NumberBoxThreshold1"
                             Margin="0,0,0,0"
                             FontSize="14"
@@ -252,7 +252,7 @@
                         <TextBlock
                             Margin="5,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="≥ Threshold #1" />
                     </StackPanel>
 
@@ -267,7 +267,7 @@
                         Background="Transparent"
                         BorderThickness="1"
                         SelectedColor="{Binding Threshold1Color}"
-                        SelectedColorTemplate="{DynamicResource MahApps.Templates.ColorPickerContent.ColorOnly}" />
+                        SelectedColorTemplate="{ThemeResource MahApps.Templates.ColorPickerContent.ColorOnly}" />
                 </Grid>
 
 
@@ -278,7 +278,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel>
-                        <ui:NumberBox
+                        <NumberBox
                             Name="NumberBoxThreshold2"
                             Margin="0,0,0,0"
                             FontSize="14"
@@ -292,7 +292,7 @@
                         <TextBlock
                             Margin="5,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="≥ Threshold #2" />
                     </StackPanel>
 
@@ -307,7 +307,7 @@
                         Background="Transparent"
                         BorderThickness="1"
                         SelectedColor="{Binding Threshold2Color}"
-                        SelectedColorTemplate="{DynamicResource MahApps.Templates.ColorPickerContent.ColorOnly}" />
+                        SelectedColorTemplate="{ThemeResource MahApps.Templates.ColorPickerContent.ColorOnly}" />
                 </Grid>
 
             </Grid>

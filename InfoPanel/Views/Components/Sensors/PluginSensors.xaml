@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="InfoPanel.Views.Components.PluginSensors"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -94,7 +94,7 @@
                             <TextBlock
                                 Margin="5,0,0,0"
                                 FontSize="12"
-                                Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                                Foreground="{ThemeResource TextFillColorDisabledBrush}"
                                 Text="Sensor Id" />
                         </StackPanel>
 

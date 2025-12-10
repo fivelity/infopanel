@@ -1,0 +1,13 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  InfoPanel.Plugins -> C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins\bin\Debug\net8.0\InfoPanel.Plugins.dll
+  InfoPanel.Plugins.Loader -> C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins.Loader\bin\Debug\net8.0\InfoPanel.Plugins.Loader.dll
+C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk.winui\1.8.251105000\buildTransitive\Microsoft.UI.Xaml.Markup.Compiler.interop.targets(594,9): error MSB3073: The command ""C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk.winui\1.8.251105000\buildTransitive\..\tools\net6.0\..\net472\XamlCompiler.exe" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\input.json" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\output.json"" exited with code 1. [C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj]
+
+Build FAILED.
+
+C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk.winui\1.8.251105000\buildTransitive\Microsoft.UI.Xaml.Markup.Compiler.interop.targets(594,9): error MSB3073: The command ""C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk.winui\1.8.251105000\buildTransitive\..\tools\net6.0\..\net472\XamlCompiler.exe" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\input.json" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\output.json"" exited with code 1. [C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:03.17

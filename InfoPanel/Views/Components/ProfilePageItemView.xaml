@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InfoPanel.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:skia="using:SkiaSharp.Views.Windows"
+    xmlns:skia="using:SkiaSharp.Views.WinUI"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -17,7 +17,7 @@
             CornerRadius="8,8,8,8">
             <Grid>
                 <Border
-                    Background="{DynamicResource SubtleFillColorSecondaryBrush}"
+                    Background="{ThemeResource SubtleFillColorSecondaryBrush}"
                     BorderThickness="0"
                     CornerRadius="8,8,8,8"
                     Visibility="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
@@ -34,39 +34,37 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Margin="10,10,10,10">
-                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
-                            </Label>
-                            <ui:ToggleSwitch
+                            <TextBlock Margin="10,10,10,10"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Name}"
+                                       TextTrimming="CharacterEllipsis" />
+                            <ToggleSwitch
                                 Grid.Column="1"
-                                Checked="ToggleSwitch_Checked"
-                                IsChecked="{Binding Active}"
-                                Unchecked="ToggleSwitch_Checked" />
+                                Toggled="ToggleSwitch_Checked"
+                                IsOn="{Binding Active, Mode=TwoWay}" />
                         </Grid>
                     </Border>
                 </StackPanel>
-                <ui:Button
+                <Button
                     Name="ButtonExport"
                     Grid.Column="1"
                     Margin="10,10,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Appearance="Success"
                     Click="ButtonExport_Click"
                     Content="Export"
                     Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-                <ui:Button
+                <Button
                     Name="ButtonDelete"
                     Grid.Column="1"
                     Margin="0,10,10,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
-                    Appearance="Danger"
                     Click="ButtonDelete_Click"
-                    Content=""
-                    Icon="{ui:SymbolIcon Delete20}"
-                    ToolTip="Delete Profile"
-                    Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                    ToolTipService.ToolTip="Delete Profile"
+                    Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                    <SymbolIcon Symbol="Delete" />
+                </Button>
             </Grid>
         </Border>
     </Grid>

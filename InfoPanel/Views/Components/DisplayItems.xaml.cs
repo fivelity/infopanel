@@ -141,7 +141,7 @@ namespace InfoPanel.Views.Components
                 group.IsExpanded = true;
 
                 // Get the ListViewItem container for the group
-                var groupContainer = ListViewItems.ItemContainerGenerator.ContainerFromItem(groupItem) as System.Windows.Controls.ListViewItem;
+                var groupContainer = ListViewItems.ContainerFromItem(groupItem) as ListViewItem;
                 if (groupContainer == null)
                     return;
 
@@ -151,7 +151,7 @@ namespace InfoPanel.Views.Components
                     return;
 
                 // Search inside the Expander for the inner ListView
-                var innerListView = FindVisualChild<System.Windows.Controls.ListView>(expander);
+                var innerListView = FindVisualChild<ListView>(expander);
                 if (innerListView != null)
                 {
                     innerListView.ScrollIntoView(displayItem);

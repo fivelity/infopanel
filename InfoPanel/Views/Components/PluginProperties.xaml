@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="InfoPanel.Views.Components.PluginProperties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,8 +11,8 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <ui:CardExpander Margin="0,10,0,0" IsEnabled="{Binding ControlEnabled}">
-            <ui:CardExpander.Header>
+        <Expander Margin="0,10,0,0" IsEnabled="{Binding ControlEnabled}">
+            <Expander.Header>
                 <StackPanel>
                     <Grid Margin="0,0,20,0">
                         <Grid.ColumnDefinitions>
@@ -36,7 +36,7 @@
                                     Grid.Column="2"
                                     VerticalAlignment="Center"
                                     FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                     Text="{Binding Author, StringFormat=' by {0}'}"
                                     Visibility="{Binding Author, Converter={StaticResource NullToVisibilityConverter}}" />
 
@@ -44,7 +44,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     FontSize="12"
-                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                     Text="{Binding Version, StringFormat=' v{0}'}"
                                     Visibility="{Binding Version, Converter={StaticResource NullToVisibilityConverter}}" />
 
@@ -56,32 +56,32 @@
                                 Margin="0,5,0,0"
                                 VerticalAlignment="Center"
                                 FontSize="12"
-                                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                 Text="{Binding Description}" />
 
-                            <ui:HyperlinkButton
+                            <HyperlinkButton
                                 Margin="0,5,0,0"
                                 Content="{Binding Website}"
                                 FontSize="12"
                                 NavigateUri="{Binding Website}"
                                 Visibility="{Binding Website, Converter={StaticResource NullToVisibilityConverter}}">
-                                <ui:HyperlinkButton.Icon>
-                                    <ui:SymbolIcon Symbol="Link20" />
-                                </ui:HyperlinkButton.Icon>
-                            </ui:HyperlinkButton>
+                                <HyperlinkButton.Icon>
+                                    <SymbolIcon Symbol="Link2" />
+                                </HyperlinkButton.Content>
+                            </HyperlinkButton>
                         </StackPanel>
 
 
-                        <ui:ToggleSwitch
+                        <ToggleSwitch
                             Grid.Column="2"
                             Margin="0,0,0,0"
                             VerticalAlignment="Center"
-                            IsChecked="{Binding Activated}" />
+                            IsToggled="{Binding Activated}" />
                     </Grid>
 
 
                 </StackPanel>
-            </ui:CardExpander.Header>
+            </Expander.Header>
 
             <ItemsControl
                 Margin="0,0,0,0"
@@ -89,8 +89,8 @@
                 ItemsSource="{Binding Plugins}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ui:CardControl Margin="0,10,0,0">
-                            <ui:CardControl.Header>
+                        <Border Margin="0,10,0,0">
+                            <Border.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -115,7 +115,7 @@
                                             <TextBlock
                                                 VerticalAlignment="Center"
                                                 FontSize="12"
-                                                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                                 Text="{Binding Description}" />
                                         </Grid>
 
@@ -143,7 +143,6 @@
                                         <ui:Anchor
                                             Width="150"
                                             VerticalAlignment="Center"
-                                            Appearance="Secondary"
                                             Content="Open Config File"
                                             NavigateUri="{Binding ConfigFilePath}"
                                             Visibility="{Binding ConfigFilePath, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -158,11 +157,11 @@
                                 </Grid>
 
                             </ui:CardControl.Header>
-                        </ui:CardControl>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-        </ui:CardExpander>
+        </Expander>
     </Grid>
 </UserControl>

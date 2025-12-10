@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="InfoPanel.Views.Components.DonutProperties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -33,7 +33,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Margin="0,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
                         LargeChange="1"
@@ -44,12 +44,12 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Radius" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
                         LargeChange="1"
@@ -60,7 +60,7 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Thickness" />
                 </StackPanel>
             </Grid>
@@ -144,13 +144,13 @@
                             Grid.Column="0"
                             Margin="0,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="Span °" />
                         <TextBlock
                             Grid.Column="1"
                             Margin="0,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="{Binding Span, Mode=OneWay}" />
                     </Grid>
                 </StackPanel>
@@ -172,13 +172,13 @@
                             Grid.Column="0"
                             Margin="0,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="Rotation °" />
                         <TextBlock
                             Grid.Column="1"
                             Margin="0,0,0,0"
                             FontSize="12"
-                            Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                            Foreground="{ThemeResource TextFillColorDisabledBrush}"
                             Text="{Binding Rotation, Mode=OneWay}" />
                     </Grid>
                 </StackPanel>
@@ -207,7 +207,7 @@
                 <TextBlock
                     Margin="5,0,0,0"
                     FontSize="12"
-                    Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                    Foreground="{ThemeResource TextFillColorDisabledBrush}"
                     Text="Sensor" />
             </StackPanel>
 
@@ -218,7 +218,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Margin="0,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
                         IsEnabled="{Binding AutoValue, Converter={StaticResource InverseBooleanConverter}}"
@@ -230,12 +230,12 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Min" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <ui:NumberBox
+                    <NumberBox
                         Margin="0,0,0,0"
                         FontSize="14"
                         IsEnabled="{Binding AutoValue, Converter={StaticResource InverseBooleanConverter}}"
@@ -247,14 +247,14 @@
                     <TextBlock
                         Margin="5,0,0,0"
                         FontSize="12"
-                        Foreground="{DynamicResource TextFillColorDisabledBrush}"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         Text="Max" />
                     <ToggleButton
                         Grid.Column="2"
                         Margin="0,-5,0,0"
                         HorizontalAlignment="Right"
                         IsChecked="{Binding AutoValue}">
-                        <ui:SymbolIcon Symbol="ArrowAutofitHeightDotted20" ToolTip="Auto" />
+                        <SymbolIcon Symbol="ArrowAutofitHeightDotted2" ToolTip="Auto" />
                     </ToggleButton>
                 </StackPanel>
             </Grid>

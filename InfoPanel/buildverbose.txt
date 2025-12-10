@@ -1,0 +1,45 @@
+Build started 12/10/2025 11:31:49 AM.
+     1>Project "C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj" on node 1 (default targets).
+     1>Project "C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj" (1) is building "C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins\InfoPanel.Plugins.csproj" (3:2) on node 2 (default targets).
+     3>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net8.0\InfoPanel.Plugins.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         InfoPanel.Plugins -> C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins\bin\Debug\net8.0\InfoPanel.Plugins.dll
+     3>Done Building Project "C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins\InfoPanel.Plugins.csproj" (default targets).
+     1>Project "C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj" (1) is building "C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins.Loader\InfoPanel.Plugins.Loader.csproj" (2:2) on node 1 (default targets).
+     2>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net8.0\InfoPanel.Plugins.Loader.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         InfoPanel.Plugins.Loader -> C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins.Loader\bin\Debug\net8.0\InfoPanel.Plugins.Loader.dll
+     2>Done Building Project "C:\Users\jpfive\source\repos\infopanel\InfoPanel.Plugins.Loader\InfoPanel.Plugins.Loader.csproj" (default targets).
+     1>MarkupCompilePass1:
+         "C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\buildTransitive\..\tools\net6.0\..\net472\XamlCompiler.exe" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\input.json" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\output.json"
+     1>C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\buildTransitive\Microsoft.UI.Xaml.Markup.Compiler.interop.targets(590,9): error MSB3073: The command ""C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\buildTransitive\..\tools\net6.0\..\net472\XamlCompiler.exe" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\input.json" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\output.json"" exited with code 1. [C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj]
+     1>Done Building Project "C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj" (default targets) -- FAILED.
+
+Build FAILED.
+
+       "C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj" (default target) (1) ->
+       (MarkupCompilePass1 target) -> 
+         C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\buildTransitive\Microsoft.UI.Xaml.Markup.Compiler.interop.targets(590,9): error MSB3073: The command ""C:\Users\jpfive\.nuget\packages\microsoft.windowsappsdk\1.6.241114003\buildTransitive\..\tools\net6.0\..\net472\XamlCompiler.exe" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\input.json" "obj\Debug\net8.0-windows10.0.19041.0\win-x64\\output.json"" exited with code 1. [C:\Users\jpfive\source\repos\infopanel\InfoPanel\InfoPanel.csproj]
+
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.89

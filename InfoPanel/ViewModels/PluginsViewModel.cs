@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using InfoPanel.Extensions;
 using InfoPanel.Monitors;
@@ -12,8 +12,11 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using System.Windows.Input; // ICommand interface - shared between WPF and WinUI
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace InfoPanel.ViewModels
 {
@@ -85,18 +88,27 @@ namespace InfoPanel.ViewModels
 
        
         [RelayCommand]
-        public void AddPluginFromZip()
+        public async Task AddPluginFromZip()
         {
-            Microsoft.Win32.OpenFileDialog openFileDialog = new()
+            var window = App.MainWindow;
+            if (window == null) return;
+            
+            var filePicker = new FileOpenPicker
             {
-                Multiselect = false,
-                Filter = "InfoPanel Plugin Archive |InfoPanel.*.zip",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer)
+                SuggestedStartLocation = PickerLocationId.ComputerFolder,
+                ViewMode = PickerViewMode.List
             };
-            if (openFileDialog.ShowDialog() == true)
+            filePicker.FileTypeFilter.Add(".zip");
+            
+            var hwnd = WindowNative.GetWindowHandle(window);
+            InitializeWithWindow.Initialize(filePicker, hwnd);
+            
+            var file = await filePicker.PickSingleFileAsync();
+            if (file != null)
             {
-                var pluginFilePath = openFileDialog.FileName;
-
+                var pluginFilePath = file.Path;
+                var fileName = file.Name;
+                
                 using var fs = new FileStream(pluginFilePath, FileMode.Open);
                 using var za = new ZipArchive(fs, ZipArchiveMode.Read);
                 var entry = za.Entries[0];
@@ -104,7 +116,7 @@ namespace InfoPanel.ViewModels
                 {
                     try
                     {
-                        File.Copy(openFileDialog.FileName, Path.Combine(FileUtil.GetExternalPluginFolder(), openFileDialog.SafeFileName), true);
+                        File.Copy(pluginFilePath, Path.Combine(FileUtil.GetExternalPluginFolder(), fileName), true);
                         ShowRestartBanner = true;
                     }catch { }
                 }

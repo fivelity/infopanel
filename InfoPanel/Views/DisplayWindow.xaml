@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InfoPanel.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:skia="using:SkiaSharp.Views.Windows"
+    xmlns:skia="using:SkiaSharp.Views.WinUI"
     Title="DisplayWindow"
     mc:Ignorable="d">
     <!-- WinUI 3 window styling handled via AppWindow APIs in code-behind -->

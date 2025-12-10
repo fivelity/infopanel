@@ -1,4 +1,4 @@
-﻿<Window x:Class="InfoPanel.PerformanceSettings"
+<Window x:Class="InfoPanel.PerformanceSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,10 +7,7 @@
         xmlns:app="using:InfoPanel"
         xmlns:models="using:InfoPanel.Models"
         xmlns:components="using:InfoPanel.Views.Components"
-        TextElement.FontWeight="Light"
-        TextElement.FontSize="14"
         FontFamily="Segoe UI Variable"
-        DataContext="{Binding RelativeSource={RelativeSource self}}"
         mc:Ignorable="d"
         Title="PerformanceSettings" Width="400" Height="300">
     <Grid Margin="10,10,10,10">

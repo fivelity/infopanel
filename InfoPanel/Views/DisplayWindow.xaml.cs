@@ -12,7 +12,7 @@ using WinRT.Interop;
 using Windows.Foundation;
 using Windows.Graphics;
 using SkiaSharp;
-using SkiaSharp.Views.Windows;
+using SkiaSharp.Views.WinUI;
 using System;
 using Serilog;
 using System.Linq;
