@@ -50,7 +50,7 @@ dlldata.c
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
+
 *.vspscc
 *.vssscc
 .builds
@@ -197,3 +197,5 @@ InnoSetup/Output/
 .vs
 /.claude
 /.serena
+InfoPanel/packages.lock.json
+InfoPanel/packages.lock.json
