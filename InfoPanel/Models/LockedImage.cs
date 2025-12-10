@@ -746,16 +746,16 @@ namespace InfoPanel.Models
                 {
                     if (image.IsTextureBacked)
                     {
-                        if(DisplayWindowManager.Instance.Dispatcher is Dispatcher dispatcher)
+                        var dispatcher = App.MainDispatcherQueue;
+                        if (dispatcher != null)
                         {
-                            if(dispatcher.CheckAccess())
+                            if (dispatcher.HasThreadAccess)
                             {
                                 image.Dispose();
                             }
                             else
                             {
-                                // If not on the UI thread, use BeginInvoke to dispose
-                                dispatcher.BeginInvoke(() => image.Dispose());
+                                dispatcher.TryEnqueue(() => image.Dispose());
                             }
                         }
                     }

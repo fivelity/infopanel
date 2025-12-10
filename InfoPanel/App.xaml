@@ -16,7 +16,8 @@
             <SolidColorBrush x:Key="AppForegroundBrush" Color="LightGray" />
 
             <!-- Converters -->
-            <!-- <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" /> Temporarily excluded -->
+            <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <local:Int32ValueConverter x:Key="Int32ValueConverter" />
             <local:ProfileIndexConverter x:Key="ProfileIndexConverter" />

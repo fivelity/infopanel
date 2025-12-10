@@ -95,9 +95,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!-- Exclude WPF-specific files that won't compile in WinUI 3 -->
-		<Compile Remove="Views\Windows\D2DWindow.cs" />
-		<Compile Remove="Views\Controls\MyImage.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -246,57 +243,6 @@
 	
 	<!-- Only exclude WPF-specific files -->
 	<ItemGroup>
-		<Compile Remove="Views\Windows\D2DWindow.cs" />
-		<Compile Remove="Views\Controls\MyImage.cs" />
-		<Compile Remove="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
-		<Compile Remove="PerformanceSettings.xaml.cs" />
-		<Compile Remove="Views\Windows\TuringDeviceWindow.xaml.cs" />
-		<Compile Remove="Views\Components\WebServer\WebServerSettings.xaml.cs" />
-		<Compile Remove="Views\Components\Chart\BarProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Menu.xaml.cs" />
-		<Compile Remove="Views\Windows\LoadingWindow.xaml.cs" />
-		<Compile Remove="Views\Components\Chart\DonutProperties.xaml.cs" />
-		<Compile Remove="Views\SkiaDisplayWindow.xaml.cs" />
-		<Compile Remove="Views\Pages\AboutPage.xaml.cs" />
-		<Compile Remove="Views\Pages\UsbPanelsPage.xaml.cs" />
-		<Compile Remove="Views\Components\Chart\GraphProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Custom\CustomProperties.xaml.cs" />
-		<Compile Remove="Views\Components\CommonProperties.xaml.cs" />
-		<Compile Remove="Views\Components\DisplayItemView.xaml.cs" />
-		<Compile Remove="Views\Pages\UpdatesPage.xaml.cs" />
-		<Compile Remove="Views\Components\Text\TextProperties.xaml.cs" />
-		<Compile Remove="Views\Pages\SettingsPage.xaml.cs" />
-		<Compile Remove="Views\Components\Text\TableSensorProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Text\SensorProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Group\GroupProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Image\ImageProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Text\DateTimeProperties.xaml.cs" />
-		<Compile Remove="Views\Components\DisplayItems.xaml.cs" />
-		<Compile Remove="Views\Pages\ProfilesPage.xaml.cs" />
-		<Compile Remove="Views\Pages\DesignPage.xaml.cs" />
-		<Compile Remove="Views\Components\PluginProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Shape\ShapeProperties.xaml.cs" />
-		<Compile Remove="ViewModels\HomeViewModel.cs" />
-		<Compile Remove="ViewModels\ProfilesViewModel.cs" />
-		<Compile Remove="ViewModels\DesignViewModel.cs" />
-		<Compile Remove="ViewModels\PluginsViewModel.cs" />
-		<Compile Remove="ViewModels\AboutViewModel.cs" />
-		<Compile Remove="ViewModels\SettingsViewModel.cs" />
-		<Compile Remove="ViewModels\UpdatesViewModel.cs" />
-		<Compile Remove="ViewModels\UsbPanelsViewModel.cs" />
-		<Compile Remove="ViewModels\TuringDeviceWindowViewModel.cs" />
-		<Compile Remove="Views\Pages\HomePage.xaml.cs" />
-		<Compile Remove="Views\Pages\PluginsPage.xaml.cs" />
-	</ItemGroup>
-	
-	<!-- Temporarily exclude problematic XAML files -->
-	<ItemGroup>
-		<Page Remove="Views\Components\**" />
-		<Page Remove="Views\Pages\**" />
-		<Page Remove="Views\Windows\TuringDeviceWindow.xaml" />
-		<Page Remove="Views\Windows\LoadingWindow.xaml" />
-		<Page Remove="Views\SkiaDisplayWindow.xaml" />
-		<Page Remove="PerformanceSettings.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>

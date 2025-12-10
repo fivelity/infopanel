@@ -1,0 +1,75 @@
+Nullability of reference types in type of parameter 'state' of 'void WpfSingleInstance.WaitOrTimerCallback(object state, bool timedOut)' doesn't match the target delegate 'WaitOrTimerCallback' (possibly because of nullability attributes).
+The type or namespace name 'Pages' does not exist in the namespace 'InfoPanel.Views' (are you missing an assembly reference?)
+'Player' does not contain a definition for 'GetBitmap' and no accessible extension method 'GetBitmap' accepting a first argument of type 'Player' could be found (are you missing a using directive or an assembly reference?)
+'DisplayWindowManager' does not contain a definition for 'Dispatcher' and no accessible extension method 'Dispatcher' accepting a first argument of type 'DisplayWindowManager' could be found (are you missing a using directive or an assembly reference?)
+The type or namespace name 'Dispatcher' could not be found (are you missing a using directive or an assembly reference?)
+The name '_contentDialogService' does not exist in the current context
+The type or namespace name 'IContentDialogService' could not be found (are you missing a using directive or an assembly reference?)
+The name '_snackbarService' does not exist in the current context
+The type or namespace name 'ISnackbarService' could not be found (are you missing a using directive or an assembly reference?)
+The name 'InitializeComponent' does not exist in the current context
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+The name 'skElement' does not exist in the current context
+The name 'skElement' does not exist in the current context
+The name 'skElement' does not exist in the current context
+The name '_snackbarService' does not exist in the current context
+The name 'ControlAppearance' does not exist in the current context
+The name '_contentDialogService' does not exist in the current context
+The name '_snackbarService' does not exist in the current context
+The name 'ControlAppearance' does not exist in the current context
+'GlobalSettings' does not contain a definition for 'InitializeComponent' and no accessible extension method 'InitializeComponent' accepting a first argument of type 'GlobalSettings' could be found (are you missing a using directive or an assembly reference?)
+'CommonActions' does not contain a definition for 'InitializeComponent' and no accessible extension method 'InitializeComponent' accepting a first argument of type 'CommonActions' could be found (are you missing a using directive or an assembly reference?)
+'HwInfoSensors' does not contain a definition for 'InitializeComponent' and no accessible extension method 'InitializeComponent' accepting a first argument of type 'HwInfoSensors' could be found (are you missing a using directive or an assembly reference?)
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+'LibreSensors' does not contain a definition for 'InitializeComponent' and no accessible extension method 'InitializeComponent' accepting a first argument of type 'LibreSensors' could be found (are you missing a using directive or an assembly reference?)
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+'PluginSensors' does not contain a definition for 'InitializeComponent' and no accessible extension method 'InitializeComponent' accepting a first argument of type 'PluginSensors' could be found (are you missing a using directive or an assembly reference?)
+The name 'PluginSensors_Loaded' does not exist in the current context
+The name 'PluginSensors_Unloaded' does not exist in the current context
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+No overload for 'Timer_Tick' matches delegate 'EventHandler<object>'
+The name 'InitializeComponent' does not exist in the current context
+The type or namespace name 'System' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'System' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'System' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'System' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'Foundation' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'System' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'System' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'UI' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+The type or namespace name 'UI' does not exist in the namespace 'InfoPanel.Views.Windows' (are you missing an assembly reference?)
+'PointerRoutedEventArgs' does not contain a definition for 'GetPosition' and no accessible extension method 'GetPosition' accepting a first argument of type 'PointerRoutedEventArgs' could be found (are you missing a using directive or an assembly reference?)
+The type or namespace name 'Pages' could not be found (are you missing a using directive or an assembly reference?)
+The type or namespace name 'Pages' could not be found (are you missing a using directive or an assembly reference?)
+The type or namespace name 'Pages' could not be found (are you missing a using directive or an assembly reference?)
+The variable 'e' is declared but never used
+The variable 'ex' is declared but never used
+The field 'DisplayWindowThread._thread' is never used
+The event 'DisplayWindowThread.WindowClosed' is never used
+Non-nullable property 'Input' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.
+Converting null literal or possible null value to non-nullable type.
+Dereference of a possibly null reference.
+Possible null reference return.
+The field 'HWHash.RoundMS' is assigned but its value is never used
+Nullability of reference types in type of parameter 'source' of 'void HWHash.PollSensorData(object source, ElapsedEventArgs e)' doesn't match the target delegate 'ElapsedEventHandler' (possibly because of nullability attributes).
+Unboxing a possibly null value.
+Dereference of a possibly null reference.
+Unboxing a possibly null value.
+The using directive for 'Serilog' appeared previously in this namespace
+Non-nullable property 'Profile' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.
+The variable 'e' is declared but never used
+Possible null reference return.
+Possible null reference return.
+Dereference of a possibly null reference.
+Possible null reference argument for parameter 'textBox' in 'Regex Masking.GetMaskExpression(TextBox textBox)'.
+Possible null reference argument for parameter 'textBox' in 'Regex Masking.GetMaskExpression(TextBox textBox)'.
+Converting null literal or possible null value to non-nullable type.
+Possible null reference argument for parameter 'textBox' in 'Regex Masking.GetMaskExpression(TextBox textBox)'.
+Possible null reference argument for parameter 'newText' in 'string Masking.GetProposedText(TextBox textBox, string newText)'.
+The field 'DisplayWindow._isDragging' is assigned but its value is never used
+The field 'DisplayWindow._dragStartPoint' is never used
+Converting null literal or possible null value to non-nullable type.
+Possible null reference argument for parameter 'eventWaitHandle' in 'void WpfSingleInstance.ActivateFirstInstanceWindow(EventWaitHandle eventWaitHandle)'.

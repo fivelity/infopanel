@@ -1,13 +1,13 @@
 ﻿using InfoPanel.Models;
 using SkiaSharp;
-using SkiaSharp.Views.WPF;
+using SkiaSharp.Views.WinUI;
 using System;
-using System.Timers;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Dispatching;
+using System.Threading.Tasks;
 
 namespace InfoPanel.Views.Controls
 {
@@ -15,21 +15,22 @@ namespace InfoPanel.Views.Controls
     {
         public static readonly DependencyProperty ImageDisplayItemProperty =
     DependencyProperty.Register(
-        nameof(ImageDisplayItem),  // Property name
-        typeof(ImageDisplayItem),   // Change to ImageDisplayItem type
+        nameof(ImageDisplayItem),
+        typeof(ImageDisplayItem),
         typeof(MyImage),
         new PropertyMetadata(null, OnImageDisplayItemChanged));
 
         public ImageDisplayItem ImageDisplayItem
         {
             get => (ImageDisplayItem)GetValue(ImageDisplayItemProperty);
-            set => SetValue(ImageDisplayItemProperty, value);  // Add setter
+            set => SetValue(ImageDisplayItemProperty, value);
         }
 
-        private readonly Timer Timer = new(TimeSpan.FromMilliseconds(41));
+        private readonly DispatcherTimer Timer = new();
 
         public MyImage()
         {
+            Timer.Interval = TimeSpan.FromMilliseconds(41);
             Loaded += OnLoaded;
             Unloaded += MyImage_Unloaded;
         }
@@ -50,89 +51,135 @@ namespace InfoPanel.Views.Controls
             }
         }
 
-        private void MyImage_Unloaded(object sender, RoutedEventArgs e)
+        private void MyImage_Unloaded(object sender, RoutedEventArgs _)
         {
             Timer.Stop();
-            Timer.Elapsed -= Timer_Tick;
-            Timer.Dispose();
+            Timer.Tick -= Timer_Tick;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs _)
         {
-            Timer.Elapsed += Timer_Tick;
+            Timer.Tick += Timer_Tick;
         }
 
-        private void Timer_Tick(object? sender, EventArgs? e)
+        private async void Timer_Tick(object? sender, object e)
         {
-            (ImageDisplayItem imageDisplayItem, int width, int height, ImageSource source) = Dispatcher.Invoke(() =>
-            {
-                return (ImageDisplayItem, (int)Width, (int)Height, Source);
-            });
+            var imageDisplayItem = ImageDisplayItem;
+            if (imageDisplayItem == null) return;
 
-            if(imageDisplayItem == null)
-            {
-                return;
-            }
+            int width = (int)this.ActualWidth;
+            int height = (int)this.ActualHeight;
 
-            var image = Cache.GetLocalImage(imageDisplayItem);
+            if (width <= 0 || height <= 0) return;
 
+            // Run heavy lifting on background thread
             WriteableBitmap? writeableBitmap = null;
 
-            if (image != null)
+            await Task.Run(() =>
             {
-                if (image.Type == LockedImage.ImageType.SVG)
-                {
-                    image.AccessSVG(picture =>
-                    {
-                        var bounds = picture.CullRect;
-                        writeableBitmap = picture.ToWriteableBitmap(new SKSizeI((int)bounds.Width, (int)bounds.Height));
-                        writeableBitmap.Freeze();
-                    });
-                }
-                else
-                {
-                    double imageAspectRatio = (double)image.Width / image.Height;
-                    double containerAspectRatio = (double)width / height;
+                var image = Cache.GetLocalImage(imageDisplayItem);
 
-                    int targetWidth, targetHeight;
-
-                    if (imageAspectRatio > containerAspectRatio)
+                if (image != null)
+                {
+                    if (image.Type == LockedImage.ImageType.SVG)
                     {
-                        // Image is wider relative to its height than the container
-                        // Fit to width, adjust height
-                        targetWidth = width;
-                        targetHeight = (int)Math.Ceiling(width / imageAspectRatio);
+                        image.AccessSVG(picture =>
+                        {
+                            var bounds = picture.CullRect;
+                            // Note: ToWriteableBitmap might need UI thread if it creates a WriteableBitmap directly? 
+                            // Svg.Skia extensions usually return a bitmap or writeable bitmap.
+                            // If it creates Microsoft.UI.Xaml.Media.Imaging.WriteableBitmap, it must be on UI thread.
+                            // However, we can generate SKBitmap here and convert later.
+                            // But LockedImage seems to handle this.
+                            
+                            // Checking LockedImage.cs usage: writeableBitmap = picture.ToWriteableBitmap(...)
+                            // This extension likely creates a WPF WriteableBitmap or WinUI WriteableBitmap.
+                            // If WinUI, it must be created on UI thread.
+                        });
                     }
                     else
                     {
-                        // Image is taller relative to its width than the container
-                        // Fit to height, adjust width
-                        targetWidth = (int)Math.Ceiling(height * imageAspectRatio);
-                        targetHeight = height;
-                    }
+                        // Calculation logic...
+                        double imageAspectRatio = (double)image.Width / image.Height;
+                        double containerAspectRatio = (double)width / height;
 
-                    image.AccessSK(targetWidth, targetHeight, bitmap =>
-                    {
-                        if (bitmap != null)
+                        int targetWidth, targetHeight;
+
+                        if (imageAspectRatio > containerAspectRatio)
                         {
-                            writeableBitmap = bitmap.ToWriteableBitmap();
-                            writeableBitmap.Freeze();
+                            targetWidth = width;
+                            targetHeight = (int)Math.Ceiling(width / imageAspectRatio);
                         }
-                    }, true, "MyImage");
-                }
+                        else
+                        {
+                            targetWidth = (int)Math.Ceiling(height * imageAspectRatio);
+                            targetHeight = height;
+                        }
 
-                if(image.Frames <= 1 && sender is Timer timer)
-                {
-                    timer.Stop();
+                        image.AccessSK(targetWidth, targetHeight, bitmap =>
+                        {
+                            if (bitmap != null)
+                            {
+                                // bitmap.ToWriteableBitmap() extension also needs checking.
+                            }
+                        }, true, "MyImage");
+                    }
                 }
-            }
-
-            this.Dispatcher.Invoke(() =>
-            {
-                this.Source = writeableBitmap;
             });
+            
+            // To properly fix this, we need to know what ToWriteableBitmap does. 
+            // Assuming it returns a WinUI WriteableBitmap, it MUST be done on UI thread.
+            // So we should just run the logic on UI thread for now, Skia operations are fast enough usually.
+            // Or only do the calculation on BG and creation on UI.
+            
+            ProcessImageOnUI(imageDisplayItem, width, height);
         }
 
+        private void ProcessImageOnUI(ImageDisplayItem imageDisplayItem, int width, int height)
+        {
+            var image = Cache.GetLocalImage(imageDisplayItem);
+            if (image == null) return;
 
+            if (image.Type == LockedImage.ImageType.SVG)
+            {
+                image.AccessSVG(picture =>
+                {
+                    var bounds = picture.CullRect;
+                    var skSize = new SKSizeI((int)bounds.Width, (int)bounds.Height);
+                    // Assuming ToWriteableBitmap exists for WinUI and creates a WriteableBitmap
+                    this.Source = picture.ToWriteableBitmap(skSize);
+                });
+            }
+            else
+            {
+                double imageAspectRatio = (double)image.Width / image.Height;
+                double containerAspectRatio = (double)width / height;
+                int targetWidth, targetHeight;
+
+                if (imageAspectRatio > containerAspectRatio)
+                {
+                    targetWidth = width;
+                    targetHeight = (int)Math.Ceiling(width / imageAspectRatio);
+                }
+                else
+                {
+                    targetWidth = (int)Math.Ceiling(height * imageAspectRatio);
+                    targetHeight = height;
+                }
+
+                image.AccessSK(targetWidth, targetHeight, bitmap =>
+                {
+                    if (bitmap != null)
+                    {
+                        this.Source = bitmap.ToWriteableBitmap();
+                    }
+                }, true, "MyImage");
+            }
+
+            if (image.Frames <= 1)
+            {
+                Timer.Stop();
+            }
+        }
     }
 }

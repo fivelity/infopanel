@@ -5,7 +5,7 @@ using InfoPanel.Utils;
 using InfoPanel.ViewModels;
 using InfoPanel.Views;
 using InfoPanel.Views.Windows;
-//using InfoPanel.Views.Pages;
+using InfoPanel.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
@@ -84,6 +84,7 @@ namespace InfoPanel
 
         public Dictionary<Guid, DisplayWindow> DisplayWindows = [];
         private MainWindow? m_window;
+        public static Microsoft.UI.Dispatching.DispatcherQueue MainDispatcherQueue { get; private set; }
 
         public static T? GetService<T>()
         where T : class
@@ -99,6 +100,7 @@ namespace InfoPanel
 
         public App()
         {
+            MainDispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
             this.InitializeComponent();
 
             // 1. Handle exceptions from background threads and Task.Run

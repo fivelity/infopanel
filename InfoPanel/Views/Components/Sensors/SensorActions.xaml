@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InfoPanel"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DesignWidth="600"
     mc:Ignorable="d">
     <Grid
@@ -23,67 +22,67 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <ui:Button
+        <Button
             x:Name="ButtonSelect"
             Grid.Column="1"
-            Appearance="Success"
             Click="ButtonSelect_Click"
-            Icon="{ui:SymbolIcon Temperature20}"
             IsEnabled="True"
-            ToolTip="Add selected sensor as a text item" />
-        <ui:Button
+            ToolTipService.ToolTip="Add selected sensor as a text item">
+            <SymbolIcon Symbol="Character" />
+        </Button>
+        <Button
             x:Name="ButtonAddBar"
             Grid.Column="2"
             Margin="10,0,0,0"
-            Appearance="Success"
             Click="ButtonAddBar_Click"
-            Icon="{ui:SymbolIcon DataBarHorizontal20}"
             IsEnabled="True"
-            ToolTip="Add selected sensor as a bar" />
-        <ui:Button
+            ToolTipService.ToolTip="Add selected sensor as a bar">
+            <SymbolIcon Symbol="ShowResults" />
+        </Button>
+        <Button
             x:Name="ButtonAddDonut"
             Grid.Column="3"
             Margin="10,0,0,0"
-            Appearance="Success"
             Click="ButtonAddDonut_Click"
-            Icon="{ui:SymbolIcon DataPie20}"
             IsEnabled="True"
-            ToolTip="Add selected sensor as a donut" />
-        <ui:Button
+            ToolTipService.ToolTip="Add selected sensor as a donut">
+            <SymbolIcon Symbol="Target" />
+        </Button>
+        <Button
             x:Name="ButtonAddGraph"
             Grid.Column="4"
             Margin="10,0,0,0"
-            Appearance="Success"
             Click="ButtonAddGraph_Click"
-            Icon="{ui:SymbolIcon DataBarVertical20}"
             IsEnabled="True"
-            ToolTip="Add selected sensor as a graph" />
-        <ui:Button
+            ToolTipService.ToolTip="Add selected sensor as a graph">
+            <SymbolIcon Symbol="Sort" />
+        </Button>
+        <Button
             x:Name="ButtonAddCustom"
             Grid.Column="5"
             Margin="10,0,0,0"
-            Appearance="Success"
             Click="ButtonAddCustom_Click"
-            Icon="{ui:SymbolIcon Gauge20}"
             IsEnabled="True"
-            ToolTip="Add selected sensor as gauge" />
-        <ui:Button
+            ToolTipService.ToolTip="Add selected sensor as gauge">
+            <SymbolIcon Symbol="Clock" />
+        </Button>
+        <Button
             x:Name="ButtonAddSensorImage"
             Grid.Column="6"
             Margin="10,0,0,0"
-            Appearance="Success"
             Click="ButtonAddSensorImage_Click"
-            Icon="{ui:SymbolIcon CircleImage20}"
             IsEnabled="True"
-            ToolTip="Add selected sensor as sensor image" />
-        <ui:Button
+            ToolTipService.ToolTip="Add selected sensor as sensor image">
+            <SymbolIcon Symbol="Contact" />
+        </Button>
+        <Button
             x:Name="ButtonReplace"
             Grid.Column="7"
             Margin="10,0,0,0"
-            Appearance="Caution"
             Click="ButtonReplace_Click"
-            Icon="{ui:SymbolIcon ArrowSwap20}"
-            IsEnabled="{Binding Source={x:Static local:SharedModel.Instance}, Path=SelectedItem, Converter={StaticResource IsSensorConverter}}"
-            ToolTip="Replace selected sensor" />
+            IsEnabled="{x:Bind local:SharedModel.Instance.SelectedItem, Mode=OneWay, Converter={StaticResource IsSensorConverter}}"
+            ToolTipService.ToolTip="Replace selected sensor">
+            <SymbolIcon Symbol="Refresh" />
+        </Button>
     </Grid>
 </UserControl>

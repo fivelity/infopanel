@@ -32,7 +32,7 @@ namespace InfoPanel.Views.Components
             {
                 UpdateTimer.Tick += Timer_Tick;
 
-                Timer_Tick(this, new EventArgs());
+                Timer_Tick(this, new object());
                 UpdateTimer.Start();
             }
         }
@@ -45,7 +45,7 @@ namespace InfoPanel.Views.Components
                 UpdateTimer.Tick -= Timer_Tick;
             }
         }
-        private void Timer_Tick(object? sender, EventArgs e)
+        private void Timer_Tick(object? sender, object e)
         {
             LoadSensorTree();
             UpdateSensorDetails();

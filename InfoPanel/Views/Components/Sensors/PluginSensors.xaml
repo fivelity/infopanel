@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:InfoPanel.Models"
     xmlns:viewModels="using:InfoPanel.ViewModels.Components"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI.Controls"
     d:DataContext="{d:DesignInstance Type=viewModels:PluginSensorsVM}"
     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
     mc:Ignorable="d">
@@ -41,17 +42,17 @@
                 <TreeView
                     x:Name="TreeViewInfo"
                     Margin="0,0,0,0"
-                                        ItemsSource="{Binding Sensors}"
+                    ItemsSource="{Binding Sensors}"
                     SelectionChanged="TreeViewInfo_SelectionChanged">
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock
                                     Margin="0,0,0,0"
                                     Foreground="LightGray"
                                     Text="{Binding Name}" />
                             </StackPanel>
-                        </HierarchicalDataTemplate>
+                        </DataTemplate>
                     </TreeView.ItemTemplate>
                 </TreeView>
             </StackPanel>
@@ -69,22 +70,14 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <Label HorizontalAlignment="Right">
-                            <TextBlock FontWeight="Medium" Text="{Binding Path=SelectedItem.Name, FallbackValue='No sensor selected.'}" />
-                        </Label>
-                        <Label
+                        <TextBlock HorizontalAlignment="Right" FontWeight="Medium" Text="{Binding Path=SelectedItem.Name, FallbackValue='No sensor selected.'}" />
+                        <TextBlock
                             Grid.Column="1"
                             Margin="10,0,0,0"
-                            HorizontalAlignment="Right">
-                            <TextBlock FontWeight="Medium" TextTrimming="CharacterEllipsis">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}{1}">
-                                        <Binding Path="SelectedItem.Value" />
-                                        <Binding Path="SelectedItem.Unit" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </Label>
+                            HorizontalAlignment="Right"
+                            FontWeight="Medium" 
+                            TextTrimming="CharacterEllipsis"
+                            Text="{Binding Path=SelectedItem.FormattedValue, FallbackValue='Value'}" />
                     </Grid>
                 </Expander.Header>
                 <StackPanel Margin="0,-5,0,0">
@@ -132,25 +125,25 @@
                 </Grid.ColumnDefinitions>
 
 
-                <ui:Button
+                <Button
                     x:Name="ButtonAddHttpImage"
                     Grid.Column="1"
                     Margin="10,0,0,0"
-                    Appearance="Success"
                     Click="ButtonAddHttpImage_Click"
-                    Icon="{ui:SymbolIcon WebAsset20}"
                     IsEnabled="True"
-                    ToolTip="Add selected sensor as Http image" />
+                    ToolTipService.ToolTip="Add selected sensor as Http image">
+                    <SymbolIcon Symbol="Globe" />
+                </Button>
 
-                <ui:Button
+                <Button
                     x:Name="ButtonAddTableSensor"
                     Grid.Column="2"
                     Margin="10,0,0,0"
-                    Appearance="Success"
                     Click="ButtonAddTableSensor_Click"
-                    Icon="{ui:SymbolIcon Table20}"
                     IsEnabled="{Binding SelectedItem.SensorReading, Converter={StaticResource IsPluginTableConverter}}"
-                    ToolTip="Add selected sensor in table view" />
+                    ToolTipService.ToolTip="Add selected sensor in table view">
+                    <SymbolIcon Symbol="List" />
+                </Button>
             </Grid>
 
             <Separator Grid.Row="4" Margin="0,5,0,0" />

@@ -24,7 +24,7 @@ namespace InfoPanel.Views.Pages
             this.Unloaded += DesignPage_Unloaded;
         }
 
-        private void DesignPage_Unloaded(object sender, RoutedEventArgs e)
+        private void DesignPage_Unloaded(object sender, RoutedEventArgs _)
         {
             SharedModel.Instance.SelectedItem = null;
         }

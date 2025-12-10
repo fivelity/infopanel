@@ -39,7 +39,7 @@ namespace InfoPanel.Views.Pages
             RepeaterVersions.ItemsSource = ViewModel.UpdateVersions;
         }
 
-        private void ButtonCheckUpdates_Click(object sender, RoutedEventArgs e)
+        private void ButtonCheckUpdates_Click(object sender, RoutedEventArgs _)
         {
             CheckUpdates();
         }

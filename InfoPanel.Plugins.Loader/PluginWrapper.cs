@@ -43,7 +43,7 @@ namespace InfoPanel.Plugins.Loader
                 Plugin.Update();
                 _updateTimeMilliseconds = _stopwatch.ElapsedMilliseconds;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 
             }

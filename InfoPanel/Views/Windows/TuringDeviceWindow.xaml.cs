@@ -13,8 +13,11 @@ public sealed partial class TuringDeviceWindow : Window
         this.InitializeComponent();
 
         _viewModel = new TuringDeviceWindowViewModel(device);
-        // Note: In WinUI 3, DataContext binding is handled differently
-        // The ViewModel will need to be accessed via x:Bind or set as a property
+        
+        if (Content is FrameworkElement content)
+        {
+            content.DataContext = _viewModel;
+        }
 
         this.Closed += (s, e) => _viewModel.Cleanup();
     }

@@ -72,7 +72,7 @@ namespace WpfSingleInstanceByEventWaitHandle
             if (application is App app)
             {
                 // Use WinUI 3 DispatcherQueue
-                Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread()?.TryEnqueue(() =>
+                App.MainDispatcherQueue?.TryEnqueue(() =>
                 {
                     //app.ShowMainWindow();
                 });
