@@ -14,7 +14,7 @@ namespace InfoPanel.Views.Components
     {
         private static readonly ILogger Logger = Log.ForContext<TextProperties>();
         public static readonly DependencyProperty ItemProperty =
-            DependencyProperty.Register("TextDisplayItem", typeof(TextDisplayItem), typeof(TextProperties));
+            DependencyProperty.Register("TextDisplayItem", typeof(TextDisplayItem), typeof(TextProperties), null);
 
         public static readonly DependencyProperty CurrentFontProperty =
             DependencyProperty.Register("CurrentFont", typeof(string), typeof(TextProperties),
@@ -59,7 +59,7 @@ namespace InfoPanel.Views.Components
         public new int Width => TextDisplayItem?.Width ?? 0;
         public int MarqueeSpacing => TextDisplayItem?.MarqueeSpacing ?? 0;
         public double MarqueeSpeed => TextDisplayItem?.MarqueeSpeed ?? 0;
-        public Windows.UI.Color Color => TextDisplayItem?.Color ?? Windows.UI.Color.FromArgb(255, 255, 255, 255);
+        public global::Windows.UI.Color Color => TextDisplayItem?.Color ?? global::Windows.UI.Color.FromArgb(255, 255, 255, 255);
         public new int FontSize => TextDisplayItem?.FontSize ?? 12;
         public string Font => TextDisplayItem?.Font ?? string.Empty;
         public new string FontStyle => TextDisplayItem?.FontStyle ?? string.Empty;

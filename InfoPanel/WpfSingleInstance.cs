@@ -69,13 +69,14 @@ namespace WpfSingleInstanceByEventWaitHandle
         private static void WaitOrTimerCallback(object state, bool timedOut)
         {
             Application application = (Application)state;
-            _ = application.Dispatcher.BeginInvoke(new Action(() =>
+            if (application is App app)
             {
-                if (application is App app)
+                // Use WinUI 3 DispatcherQueue
+                Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread()?.TryEnqueue(() =>
                 {
                     //app.ShowMainWindow();
-                }
-            }));
+                });
+            }
         }
     }
 }

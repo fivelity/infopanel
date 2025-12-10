@@ -13,9 +13,9 @@ namespace InfoPanel
             {
                 bValue = b;
             }
-            else if (value is bool? tmp)
+            else if (value is bool? nullable && nullable.HasValue)
             {
-                bValue = tmp ?? false;
+                bValue = nullable.Value;
             }
             return bValue ? Visibility.Collapsed : Visibility.Visible;
         }

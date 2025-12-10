@@ -1,96 +1,145 @@
 ﻿using InfoPanel.Drawing;
 using InfoPanel.Models;
 using InfoPanel.Utils;
+using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Win32;
 using WinRT.Interop;
 using Windows.Foundation;
+using Windows.Graphics;
 using SkiaSharp;
-using SkiaSharp.Views.WinUI;
+using SkiaSharp.Views.Windows;
 using System;
 using Serilog;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Timers;
+using System.ComponentModel;
 
 namespace InfoPanel.Views
 {
     /// <summary>
-    /// Interaction logic for DisplayWindow.xaml
+    /// Display window for rendering profiles using SkiaSharp on WinUI 3
     /// </summary>
     public partial class DisplayWindow : Window
     {
         private static readonly ILogger Logger = Log.ForContext<DisplayWindow>();
-        private SKXamlCanvas? _sKElement;
 
         public Profile Profile { get; }
         public bool OpenGL { get; }
 
         private bool _dragMove = false;
-        private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
+        private readonly DispatcherQueue _dispatcherQueue;
+        private readonly AppWindow _appWindow;
+        private readonly IntPtr _hwnd;
 
         private bool _isUserResizing = false;
-        private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _resizeTimer;
+        private readonly DispatcherQueueTimer _resizeTimer;
         private bool _isDpiChanging = false;
+        private bool _isClosed = false;
 
         private Timer? _renderTimer;
         private readonly FpsCounter FpsCounter = new();
 
+        // For drag tracking
+        private bool _isDragging = false;
+        private Point _dragStartPoint;
+
         public DisplayWindow(Profile profile)
         {
-            // TODO: WinUI 3 equivalent for RenderOptions if needed
-            // RenderOptions.ProcessRenderMode = RenderMode.Default;
             Profile = profile;
-            DataContext = this;
-
             OpenGL = profile.OpenGL;
 
             this.InitializeComponent();
-            InjectSkiaElement();
 
-            if (profile.Resize)
-            {
-                ResizeMode = ResizeMode.CanResize;
-            }
-            else
-            {
-                ResizeMode = ResizeMode.NoResize;
-            }
+            // Get window handle and AppWindow
+            _hwnd = WindowNative.GetWindowHandle(this);
+            var windowId = Win32Interop.GetWindowIdFromWindow(_hwnd);
+            _appWindow = AppWindow.GetFromWindowId(windowId);
 
-            Loaded += Window_Loaded;
-            Closing += DisplayWindow_Closing;
+            // Configure window appearance
+            ConfigureWindowStyle();
+
+            // Set initial size
+            UpdateWindowSize();
+
+            // Wire up events
+            this.Activated += DisplayWindow_Activated;
+            this.Closed += DisplayWindow_Closed;
+            _appWindow.Changed += AppWindow_Changed;
 
             Profile.PropertyChanged += Profile_PropertyChanged;
             ConfigModel.Instance.Settings.PropertyChanged += Config_PropertyChanged;
 
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
 
-            DpiChanged += DisplayWindow_DpiChanged;
-            LocationChanged += DisplayWindow_LocationChanged;
-            SizeChanged += DisplayWindow_SizeChanged;
-
             _dispatcherQueue = this.DispatcherQueue;
             _resizeTimer = _dispatcherQueue.CreateTimer();
             _resizeTimer.Interval = TimeSpan.FromMilliseconds(300);
             _resizeTimer.Tick += OnResizeCompleted;
+
+            // Set up SkiaSharp canvas
+            if (skElement != null)
+            {
+                skElement.Width = Profile.Width;
+                skElement.Height = Profile.Height;
+            }
         }
 
-        private void Window_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void ConfigureWindowStyle()
         {
-            // WinUI 3 equivalent for window handle operations
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            //Performing some magic to hide the form from Alt+Tab
-            _ = SetWindowLong(hwnd, GWL_EX_STYLE, (GetWindowLong(hwnd, GWL_EX_STYLE) | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW);
+            // Hide from Alt+Tab using Win32 API
+            _ = SetWindowLong(_hwnd, GWL_EX_STYLE, (GetWindowLong(_hwnd, GWL_EX_STYLE) | WS_EX_TOOLWINDOW) & ~WS_EX_APPWINDOW);
 
-            SetWindowPositionRelativeToScreen();
+            // Configure presenter for borderless window
+            if (_appWindow.Presenter is OverlappedPresenter presenter)
+            {
+                presenter.IsResizable = Profile.Resize;
+                presenter.IsAlwaysOnTop = Profile.Topmost;
+                presenter.SetBorderAndTitleBar(false, false);
+            }
+        }
 
-            UpdateSkiaTimer();
+        private void UpdateWindowSize()
+        {
+            // Set window size in physical pixels
+            _appWindow.Resize(new SizeInt32(Profile.Width, Profile.Height));
 
-            Activate();
+            // Update SkiaSharp canvas size
+            if (skElement != null)
+            {
+                skElement.Width = Profile.Width;
+                skElement.Height = Profile.Height;
+            }
+        }
+
+        private void DisplayWindow_Activated(object sender, WindowActivatedEventArgs args)
+        {
+            if (args.WindowActivationState != WindowActivationState.Deactivated)
+            {
+                SetWindowPositionRelativeToScreen();
+                UpdateSkiaTimer();
+            }
+        }
+
+        private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+        {
+            if (args.DidSizeChange && !_isDpiChanging)
+            {
+                _isUserResizing = true;
+                _resizeTimer.Stop();
+                _resizeTimer.Start();
+            }
+        }
+
+        private void DisplayWindow_Closed(object sender, WindowEventArgs args)
+        {
+            _isClosed = true;
+            CleanupResources();
         }
 
         private void UpdateSkiaTimer()
@@ -135,7 +184,7 @@ namespace InfoPanel.Views
             }
         }
 
-        private void DisplayWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        private void CleanupResources()
         {
             _resizeTimer.Stop();
             _resizeTimer.Tick -= OnResizeCompleted;
@@ -145,16 +194,13 @@ namespace InfoPanel.Views
             if (_renderTimer != null)
             {
                 _renderTimer.Stop();
-                _renderTimer.Dispose();
                 _renderTimer.Elapsed -= OnTimerElapsed;
+                _renderTimer.Dispose();
             }
 
             Profile.PropertyChanged -= Profile_PropertyChanged;
             SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
-
-            DpiChanged -= DisplayWindow_DpiChanged;
-            LocationChanged -= DisplayWindow_LocationChanged;
-            SizeChanged -= DisplayWindow_SizeChanged;
+            _appWindow.Changed -= AppWindow_Changed;
 
             if (OpenGL)
             {
@@ -167,79 +213,7 @@ namespace InfoPanel.Views
             // TODO: Implement OpenGL cleanup when OpenGL support is added to WinUI 3 SkiaSharp
         }
 
-        private void InjectSkiaElement()
-        {
-            var container = FindName("SkiaContainer") as Panel;
-            if (container == null) return;
-
-            container.Children.Clear();
-
-            if (OpenGL)
-            {
-                AllowsTransparency = false;
-                // TODO: Implement OpenGL equivalent for WinUI 3
-                // SkiaSharp.Views.WinUI doesn't have SKGLElement yet
-                // For now, use regular SKXamlCanvas as fallback
-                var skElement = new SKXamlCanvas
-                {
-                    Name = "skElement",
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                skElement.SetBinding(WidthProperty, new Binding { Path = new PropertyPath("Profile.Width"), Mode = BindingMode.OneWay });
-                skElement.SetBinding(HeightProperty, new Binding { Path = new PropertyPath("Profile.Height"), Mode = BindingMode.OneWay });
-                skElement.PaintSurface += SkElement_PaintSurface;
-                container.Children.Add(skElement);
-
-                _sKElement = skElement;
-            }
-            else
-            {
-                AllowsTransparency = true;
-                var skElement = new SKXamlCanvas
-                {
-                    Name = "skElement",
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top
-                };
-                skElement.SetBinding(WidthProperty, new Binding { Path = new PropertyPath("Profile.Width"), Mode = BindingMode.OneWay });
-                skElement.SetBinding(HeightProperty, new Binding { Path = new PropertyPath("Profile.Height"), Mode = BindingMode.OneWay });
-                skElement.PaintSurface += SkElement_PaintSurface;
-                container.Children.Add(skElement);
-
-                _sKElement = skElement;
-            }
-        }
-
-        private void DisplayWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            // Only track user-initiated size changes, not our DPI corrections
-            if (!_isDpiChanging)
-            {
-                _isUserResizing = true;
-
-                // Restart the timer - user is still resizing
-                _resizeTimer.Stop();
-                _resizeTimer.Start();
-            }
-        }
-
-        // TODO: WinUI 3 doesn't have DpiChangedEventArgs - implement DPI handling differently
-        private void DisplayWindow_DpiChanged(object sender, object e)
-        {
-            _isDpiChanging = true;
-            MaintainPixelSize();
-            _isDpiChanging = false;
-        }
-
-        private void DisplayWindow_LocationChanged(object? sender, EventArgs e)
-        {
-            _isDpiChanging = true;
-            MaintainPixelSize();
-            _isDpiChanging = false;
-        }
-
-        private void OnResizeCompleted(object? sender, EventArgs e)
+        private void OnResizeCompleted(object? sender, object e)
         {
             _resizeTimer.Stop();
 
@@ -250,32 +224,25 @@ namespace InfoPanel.Views
             }
         }
 
-        private int _targetPixelWidth;
-        private int _targetPixelHeight;
-
-        private void MaintainPixelSize()
-        {
-            _targetPixelWidth = Profile.Width;
-            _targetPixelHeight = Profile.Height;
-
-            // TODO: WinUI 3 equivalent for DPI handling
-            // WinUI 3 handles DPI differently than WPF
-            // For now, use direct pixel values
-            this.Width = _targetPixelWidth;
-            this.Height = _targetPixelHeight;
-        }
-
         private void UpdateModelWithNewSize()
         {
-            // TODO: WinUI 3 equivalent for DPI conversion
-            // For now, use direct pixel values
-            Profile.Width = (int)Math.Round(this.ActualWidth);
-            Profile.Height = (int)Math.Round(this.ActualHeight);
+            // Get current window size from AppWindow
+            var size = _appWindow.Size;
+            Profile.Width = size.Width;
+            Profile.Height = size.Height;
+
+            // Update SkiaSharp canvas
+            if (skElement != null)
+            {
+                skElement.Width = size.Width;
+                skElement.Height = size.Height;
+            }
         }
 
         private void OnTimerElapsed(object? sender, ElapsedEventArgs e)
         {
-            _dispatcherQueue.TryEnqueue(() => _sKElement?.Invalidate());
+            if (_isClosed) return;
+            _dispatcherQueue.TryEnqueue(() => skElement?.Invalidate());
         }
 
         private void SkElement_PaintSurface(object? sender, SKPaintSurfaceEventArgs e)
@@ -330,7 +297,6 @@ namespace InfoPanel.Views
 
         private void Profile_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
             if (e.PropertyName == nameof(Profile.TargetWindow) || e.PropertyName == nameof(Profile.WindowX)
                                  || e.PropertyName == nameof(Profile.WindowY) || e.PropertyName == nameof(Profile.StrictWindowMatching))
             {
@@ -346,13 +312,19 @@ namespace InfoPanel.Views
             {
                 _dispatcherQueue.TryEnqueue(() =>
                 {
-                    if (Profile.Resize)
+                    if (_appWindow.Presenter is OverlappedPresenter presenter)
                     {
-                        ResizeMode = ResizeMode.CanResize;
+                        presenter.IsResizable = Profile.Resize;
                     }
-                    else
+                });
+            }
+            else if (e.PropertyName == nameof(Profile.Topmost))
+            {
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    if (_appWindow.Presenter is OverlappedPresenter presenter)
                     {
-                        ResizeMode = ResizeMode.NoResize;
+                        presenter.IsAlwaysOnTop = Profile.Topmost;
                     }
                 });
             }
@@ -360,7 +332,7 @@ namespace InfoPanel.Views
             {
                 _dispatcherQueue.TryEnqueue(() =>
                 {
-                    MaintainPixelSize();
+                    UpdateWindowSize();
                 });
             }
         }
@@ -374,16 +346,16 @@ namespace InfoPanel.Views
                 {
                     switch (e.Key)
                     {
-                        case Microsoft.UI.Xaml.Input.VirtualKey.Up:
+                        case Windows.System.VirtualKey.Up:
                             displayItem.Y -= SharedModel.Instance.MoveValue;
                             break;
-                        case Microsoft.UI.Xaml.Input.VirtualKey.Down:
+                        case Windows.System.VirtualKey.Down:
                             displayItem.Y += SharedModel.Instance.MoveValue;
                             break;
-                        case Microsoft.UI.Xaml.Input.VirtualKey.Left:
+                        case Windows.System.VirtualKey.Left:
                             displayItem.X -= SharedModel.Instance.MoveValue;
                             break;
-                        case Microsoft.UI.Xaml.Input.VirtualKey.Right:
+                        case Windows.System.VirtualKey.Right:
                             displayItem.X += SharedModel.Instance.MoveValue;
                             break;
                     }
@@ -425,23 +397,32 @@ namespace InfoPanel.Views
                 Log.Debug("SetWindowPositionRelativeToScreen targetScreen={TargetScreen}", targetScreen);
                 Log.Debug("SetWindowPositionRelativeToScreen targetScreen={DeviceName} x={X} y={Y}", targetScreen.DeviceName, x, y);
                 ScreenHelper.MoveWindowPhysical(this, (int)x, (int)y);
+                
+                // Show window if it was hidden
+                if (!_appWindow.IsVisible)
+                {
+                    _appWindow.Show();
+                }
             }
-            else if (this.IsVisible)
+            else if (_appWindow.IsVisible)
             {
-                this.Hide();
+                _appWindow.Hide();
             }
         }
 
         private void Window_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            var pointerPoint = e.GetCurrentPoint((UIElement)sender);
+            
+            if (pointerPoint.Properties.IsLeftButtonPressed)
             {
                 if (!dragStart)
                 {
                     var inSelectionBounds = false;
+                    var position = pointerPoint.Position;
                     foreach (var displayItem in SharedModel.Instance.SelectedVisibleItems)
                     {
-                        if (displayItem.ContainsPoint(e.GetPosition(this)))
+                        if (displayItem.ContainsPoint(position))
                         {
                             inSelectionBounds = true;
                             break;
@@ -452,7 +433,7 @@ namespace InfoPanel.Views
                     {
                         foreach (var selectedItem in SharedModel.Instance.SelectedVisibleItems)
                         {
-                            App.Current.Microsoft.UI.Xaml.Window.Current.DispatcherQueue.Invoke(() =>
+                            _dispatcherQueue.TryEnqueue(() =>
                             {
                                 selectedItem.Selected = false;
                             });
@@ -464,36 +445,13 @@ namespace InfoPanel.Views
                 {
                     if (Profile.Drag)
                     {
-                        this.DragMove();
-
-                        var screen = ScreenHelper.GetWindowScreen(this);
-
-                        if (screen != null)
-                        {
-                            var position = ScreenHelper.GetWindowPositionPhysical(this);
-                            var relativePosition = ScreenHelper.GetWindowRelativePosition(screen, position);
-
-                            Log.Debug("SetPosition screen={Screen}", screen);
-                            Log.Debug("SetPosition screen={DeviceName} position={Position} relativePosition={RelativePosition}", screen.DeviceName, position, relativePosition);
-
-                            _dragMove = true;
-
-                            try
-                            {
-                                Profile.TargetWindow = new TargetWindow((int)screen.Bounds.Left, (int)screen.Bounds.Top, (int)screen.Bounds.Width, (int)screen.Bounds.Height, screen.DeviceName);
-                                Profile.WindowX = (int)relativePosition.X;
-                                Profile.WindowY = (int)relativePosition.Y;
-                            }
-                            finally
-                            {
-                                _dragMove = false;
-                            }
-                        }
+                        // Start window drag using Win32 API
+                        StartWindowDrag();
                     }
                 }
                 else
                 {
-                    startPosition = e.GetPosition((UIElement)sender);
+                    startPosition = pointerPoint.Position;
 
                     foreach (var item in SharedModel.Instance.SelectedVisibleItems)
                     {
@@ -503,7 +461,7 @@ namespace InfoPanel.Views
                     dragStart = true;
                 }
             }
-            else if (e.Key == Microsoft.UI.Xaml.Input.VirtualKey.Middle)
+            else if (pointerPoint.Properties.IsMiddleButtonPressed)
             {
                 if (SharedModel.Instance.SelectedProfile != Profile)
                 {
@@ -511,6 +469,7 @@ namespace InfoPanel.Views
                 }
 
                 DisplayItem? clickedItem = null;
+                var clickPosition = pointerPoint.Position;
 
                 var displayItems = SharedModel.Instance.GetProfileDisplayItemsCopy(Profile).ToList();
                 displayItems.Reverse();
@@ -533,14 +492,14 @@ namespace InfoPanel.Views
                                 continue;
                             }
 
-                            if (groupItem.ContainsPoint(e.GetPosition(this)))
+                            if (groupItem.ContainsPoint(clickPosition))
                             {
                                 clickedItem = groupItem;
                                 break;
                             }
                         }
 
-                        if(clickedItem == null)
+                        if (clickedItem == null)
                         {
                             continue;
                         }
@@ -551,7 +510,7 @@ namespace InfoPanel.Views
                         break;
                     }
 
-                    if (item.ContainsPoint(e.GetPosition(this)))
+                    if (item.ContainsPoint(clickPosition))
                     {
                         clickedItem = item;
                         break;
@@ -560,8 +519,13 @@ namespace InfoPanel.Views
 
                 if (clickedItem != null)
                 {
+                    // Check if shift or control is pressed
+                    var shiftState = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Shift);
+                    var ctrlState = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
+                    bool isShiftDown = (shiftState & Windows.UI.Core.CoreVirtualKeyStates.Down) != 0;
+                    bool isCtrlDown = (ctrlState & Windows.UI.Core.CoreVirtualKeyStates.Down) != 0;
 
-                    if (!Microsoft.UI.Input.KeyboardInput.GetKeyStateForCurrentThread(Microsoft.UI.VirtualKey.LeftShift).IsDown && !Microsoft.UI.Input.KeyboardInput.GetKeyStateForCurrentThread(Microsoft.UI.VirtualKey.LeftControl).IsDown)
+                    if (!isShiftDown && !isCtrlDown)
                     {
                         _dispatcherQueue.TryEnqueue(() =>
                         {
@@ -584,8 +548,52 @@ namespace InfoPanel.Views
             }
         }
 
+        /// <summary>
+        /// Starts window drag using Win32 API (replacement for WPF DragMove)
+        /// </summary>
+        private void StartWindowDrag()
+        {
+            // Send WM_NCLBUTTONDOWN with HTCAPTION to start drag
+            const int WM_NCLBUTTONDOWN = 0x00A1;
+            const int HTCAPTION = 2;
+
+            ReleaseCapture();
+            SendMessage(_hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+
+            // After drag completes, update position
+            var screen = ScreenHelper.GetWindowScreen(this);
+
+            if (screen != null)
+            {
+                var position = ScreenHelper.GetWindowPositionPhysical(this);
+                var relativePosition = ScreenHelper.GetWindowRelativePosition(screen, position);
+
+                Log.Debug("SetPosition screen={Screen}", screen);
+                Log.Debug("SetPosition screen={DeviceName} position={Position} relativePosition={RelativePosition}", screen.DeviceName, position, relativePosition);
+
+                _dragMove = true;
+
+                try
+                {
+                    Profile.TargetWindow = new TargetWindow((int)screen.Bounds.Left, (int)screen.Bounds.Top, (int)screen.Bounds.Width, (int)screen.Bounds.Height, screen.DeviceName);
+                    Profile.WindowX = (int)relativePosition.X;
+                    Profile.WindowY = (int)relativePosition.Y;
+                }
+                finally
+                {
+                    _dragMove = false;
+                }
+            }
+        }
+
+        [DllImport("user32.dll")]
+        private static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
         bool dragStart = false;
-        Windows.Foundation.Point startPosition = new Windows.Foundation.Point();
+        global::Windows.Foundation.Point startPosition = new global::Windows.Foundation.Point();
         private void Window_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (dragStart)

@@ -6,38 +6,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InfoPanel.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:skia="using:SkiaSharp.Views.WinUI"
+    xmlns:skia="using:SkiaSharp.Views.Windows"
     Title="DisplayWindow"
-    Width="{Binding Profile.Width, Mode=OneWay}"
-    Height="{Binding Profile.Height, Mode=OneWay}"
-    Background="Transparent"
-    DataContext="{Binding RelativeSource={RelativeSource self}}"
-    KeyUp="Window_KeyUp"
-    PointerPressed="Window_PointerPressed"
-    PointerMoved="Window_PointerMoved"
-    PointerReleased="Window_PointerReleased"
-    ResizeMode="CanResize"
-    ShowInTaskbar="False"
-    Topmost="{Binding Profile.Topmost}"
-    WindowStyle="None"
     mc:Ignorable="d">
-    <!-- WinUI 3 doesn't use WindowChrome - window styling handled differently -->
-    <Canvas x:Name="SkiaContainer">
-        <!-- Replaced with SkiaSharp element -->
-        <skia:SKXamlCanvas x:Name="skElement"
-            Width="{Binding Profile.Width, Mode=OneWay}"
-            Height="{Binding Profile.Height, Mode=OneWay}"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top" />
-
-        <!-- TODO: Implement OpenGL equivalent for WinUI 3 -->
-        <!-- <skia:SKSwapChainPanel
-            x:Name="skGlElement"
-            Width="{Binding Profile.Width, Mode=OneWay}"
-            Height="{Binding Profile.Height, Mode=OneWay}"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            PaintSurface="skGlElement_PaintSurface"
-            Visibility="Hidden" />-->
-    </Canvas>
+    <!-- WinUI 3 window styling handled via AppWindow APIs in code-behind -->
+    <Grid x:Name="RootGrid" 
+          Background="Transparent"
+          KeyUp="Window_KeyUp"
+          PointerPressed="Window_PointerPressed"
+          PointerMoved="Window_PointerMoved"
+          PointerReleased="Window_PointerReleased">
+        <Canvas x:Name="SkiaContainer">
+            <!-- SkiaSharp canvas - size set in code-behind -->
+            <skia:SKXamlCanvas x:Name="skElement"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                PaintSurface="SkElement_PaintSurface" />
+        </Canvas>
+    </Grid>
+    <!-- TODO: Implement OpenGL equivalent for WinUI 3 using SKSwapChainPanel when available -->
 </Window>

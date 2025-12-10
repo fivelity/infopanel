@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:InfoPanel.Views.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    x:Name="UserControlRoot"
+        x:Name="UserControlRoot"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -161,9 +160,9 @@
                     Content="yyyy"
                     Tag="yyyy"
                     ToolTip="Year (2024)" />
-            </WrapPanel>
+            </StackPanel>
 
-            <WrapPanel Margin="0,0,0,0" Visibility="{Binding ElementName=UserControlRoot, Path=IsTimeVisible, Converter={StaticResource BoolToVisConverter}}">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Visibility="{Binding ElementName=UserControlRoot, Path=IsTimeVisible, Converter={StaticResource BoolToVisConverter}}">
                 <!--  Time Components  -->
                 <Button
                     Margin="0,0,2,2"
@@ -238,9 +237,9 @@
                     Content="t"
                     Tag="t"
                     ToolTip="A/P" />
-            </WrapPanel>
+            </StackPanel>
 
-            <WrapPanel Margin="0,5,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <!--  Separators  -->
                 <Button
                     Margin="0,0,2,2"
@@ -277,7 +276,7 @@
                     Content=","
                     Tag=", "
                     ToolTip="Comma separator" />
-            </WrapPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

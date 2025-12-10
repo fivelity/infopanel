@@ -160,15 +160,16 @@ namespace InfoPanel
                 return;
             }
 
-            if (Application.Current.Dispatcher is Dispatcher dispatcher)
+            var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+            if (dispatcherQueue != null)
             {
-                if (dispatcher.CheckAccess())
+                if (dispatcherQueue.HasThreadAccess)
                 {
                     action(collection);
                 }
                 else
                 {
-                    dispatcher.Invoke(() =>
+                    dispatcherQueue.TryEnqueue(() =>
                     {
                         action(collection);
                     });
@@ -1173,7 +1174,7 @@ namespace InfoPanel
 
                 SaveDisplayItems(profile, displayItems);
 
-                Dispatcher.CurrentDispatcher.Invoke(() =>
+                Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
                 {
                     ConfigModel.Instance.AddProfile(profile);
                     ConfigModel.Instance.SaveProfiles();

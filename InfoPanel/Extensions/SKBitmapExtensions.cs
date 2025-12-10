@@ -1,4 +1,5 @@
 ﻿using InfoPanel.ViewModels;
+using InfoPanel.Enums;
 using SkiaSharp;
 using System;
 
@@ -6,13 +7,13 @@ namespace InfoPanel.Extensions
 {
     public static partial class SKBitmapExtensions
     {
-        public static SKBitmap EnsureBitmapSize(SKBitmap sourceBitmap, int targetWidth, int targetHeight, LCD_ROTATION rotation = LCD_ROTATION.RotateNone)
+        public static SKBitmap EnsureBitmapSize(SKBitmap sourceBitmap, int targetWidth, int targetHeight, Rotation rotation = Rotation.RotateNone)
         {
             // Get effective dimensions after rotation
             var (effectiveWidth, effectiveHeight) = GetRotatedDimensions(sourceBitmap.Width, sourceBitmap.Height, rotation);
 
             // If already the right size and no rotation needed, return original
-            if (rotation == LCD_ROTATION.RotateNone &&
+            if (rotation == Rotation.RotateNone &&
                 effectiveWidth == targetWidth &&
                 effectiveHeight == targetHeight)
             {
@@ -38,7 +39,7 @@ namespace InfoPanel.Extensions
                 // Apply transformations in one go
                 canvas.Translate(x + scaledWidth / 2f, y + scaledHeight / 2f);
 
-                if (rotation != LCD_ROTATION.RotateNone)
+                if (rotation != Rotation.RotateNone)
                 {
                     var rotationAngle = GetRotationAngle(rotation);
                     canvas.RotateDegrees(rotationAngle);
@@ -64,22 +65,22 @@ namespace InfoPanel.Extensions
             return resultBitmap;
         }
 
-        private static (int width, int height) GetRotatedDimensions(int width, int height, LCD_ROTATION rotation)
+        private static (int width, int height) GetRotatedDimensions(int width, int height, Rotation rotation)
         {
             return rotation switch
             {
-                LCD_ROTATION.Rotate90FlipNone or LCD_ROTATION.Rotate270FlipNone => (height, width),
+                Rotation.Rotate90FlipNone or Rotation.Rotate270FlipNone => (height, width),
                 _ => (width, height)
             };
         }
 
-        private static float GetRotationAngle(LCD_ROTATION rotation)
+        private static float GetRotationAngle(Rotation rotation)
         {
             return rotation switch
             {
-                LCD_ROTATION.Rotate90FlipNone => 90f,
-                LCD_ROTATION.Rotate180FlipNone => 180f,
-                LCD_ROTATION.Rotate270FlipNone => 270f,
+                Rotation.Rotate90FlipNone => 90f,
+                Rotation.Rotate180FlipNone => 180f,
+                Rotation.Rotate270FlipNone => 270f,
                 _ => 0f
             };
         }

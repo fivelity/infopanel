@@ -11,8 +11,7 @@
         TextElement.FontSize="14"
         DataContext="{Binding RelativeSource={RelativeSource self}}"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        Title="WebServerSettings" Width="400" SizeToContent="Height">
+        Title="WebServerSettings" Width="400" Height="300">
     <Grid Margin="10,10,10,10">
         <Grid.RowDefinitions>
             <RowDefinition/>

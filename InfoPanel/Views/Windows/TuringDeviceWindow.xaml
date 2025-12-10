@@ -4,12 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Turing Device Manager"
     Width="900"
     Height="600"
-    ResizeMode="CanResize"
-    WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,10 +14,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar
-            Title="{Binding DeviceName, FallbackValue='Turing Device Manager'}"
+        <Border
             Grid.Row="0"
-            ShowMaximize="False" />
+            Background="#FF2D2D30"
+            Padding="10">
+            <TextBlock Text="{Binding DeviceName, FallbackValue='Turing Device Manager'}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+        </Border>
 
         <TabControl Grid.Row="1" Margin="10">
             <!--  Video Management Tab  -->
@@ -34,89 +33,95 @@
                     </Grid.RowDefinitions>
 
                     <!--  Storage Info  -->
-                    <ui:Card Grid.Row="0" Margin="0,0,0,10">
+                    <Border Grid.Row="0" Background="#FF2D2D30" Padding="10">
+                        <TextBlock Text="{Binding DeviceName, FallbackValue='Turing Device Manager'}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                    </Border>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0,0,0,10"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Text="Storage Information" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0,0,10,5"
+                                Text="Total Space:" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,0,0,5"
+                                Text="{Binding TotalStorageDisplay}" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,0,10,5"
+                                Text="Used Space:" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,0,0,5"
+                                Text="{Binding UsedStorageDisplay}" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                Text="Free Space:" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Text="{Binding FreeStorageDisplay}" />
+                        </Grid>
+
+                        <ProgressBar
+                            Height="10"
+                            Margin="0,10,0,0"
+                            Maximum="100"
+                            Value="{Binding StorageUsagePercentage}" />
+                    </StackPanel>
+                    <Border Grid.Row="1" Margin="0,0,0,10" Background="#FF333337" CornerRadius="4" Padding="10">
                         <StackPanel>
                             <TextBlock
                                 Margin="0,0,0,10"
                                 FontSize="16"
                                 FontWeight="Bold"
-                                Text="Storage Information" />
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                Text="Action Buttons" />
 
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="0,0,10,5"
-                                    Text="Total Space:" />
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Margin="0,0,0,5"
-                                    Text="{Binding TotalStorageDisplay}" />
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="0,0,10,5"
-                                    Text="Used Space:" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="0,0,0,5"
-                                    Text="{Binding UsedStorageDisplay}" />
-
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
+                            <StackPanel
+                                Margin="0,0,0,10"
+                                Orientation="Horizontal">
+                                <Button
                                     Margin="0,0,10,0"
-                                    Text="Free Space:" />
+                                    Command="{Binding RefreshStorageCommand}"
+                                    Content="Refresh" />
+                                <Button
+                                    Margin="0,0,10,0"
+                                    Command="{Binding UploadVideoCommand}"
+                                    Content="Upload Video" />
                                 <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Text="{Binding FreeStorageDisplay}" />
-                            </Grid>
-
-                            <ProgressBar
-                                Height="10"
-                                Margin="0,10,0,0"
-                                Maximum="100"
-                                Value="{Binding StorageUsagePercentage}" />
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontStyle="Italic"
+                                    Text="{Binding CurrentlyPlaying, StringFormat='Currently Playing: {0}', FallbackValue='Currently Playing: Nothing'}" />
+                            </StackPanel>
                         </StackPanel>
-                    </ui:Card>
-
-                    <!--  Action Buttons  -->
-                    <StackPanel
-                        Grid.Row="1"
-                        Margin="0,0,0,10"
-                        Orientation="Horizontal">
-                        <ui:Button
-                            Margin="0,0,10,0"
-                            Command="{Binding RefreshStorageCommand}"
-                            Content="Refresh"
-                            Icon="{ui:SymbolIcon ArrowSync24}" />
-                        <ui:Button
-                            Margin="0,0,10,0"
-                            Command="{Binding UploadVideoCommand}"
-                            Content="Upload Video"
-                            Icon="{ui:SymbolIcon VideoClip24}" />
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            FontStyle="Italic"
-                            Text="{Binding CurrentlyPlaying, StringFormat='Currently Playing: {0}', FallbackValue='Currently Playing: Nothing'}" />
-                    </StackPanel>
+                    </Border>
 
                     <!--  File List  -->
-                    <ui:Card Grid.Row="2">
+                    <Border Grid.Row="2" Margin="0,0,0,10" Background="#FF333337" CornerRadius="4" Padding="10">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -130,66 +135,59 @@
                                 FontWeight="Bold"
                                 Text="Video Files" />
 
-                            <DataGrid
-                                Grid.Row="1"
-                                AutoGenerateColumns="False"
-                                CanUserAddRows="False"
-                                GridLinesVisibility="Horizontal"
-                                HeadersVisibility="Column"
-                                IsReadOnly="True"
-                                ItemsSource="{Binding DeviceFiles}"
-                                SelectedItem="{Binding SelectedFile}">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn
-                                        Width="*"
-                                        Binding="{Binding Name}"
-                                        Header="Name" />
-                                    <DataGridTextColumn
-                                        Width="80"
-                                        Binding="{Binding Type}"
-                                        Header="Type" />
-                                    <DataGridTextColumn
-                                        Width="100"
-                                        Binding="{Binding SizeDisplay}"
-                                        Header="Size" />
-                                    <DataGridTemplateColumn Width="200" Header="Actions">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <ui:Button
-                                                        Margin="0,0,5,0"
-                                                        Padding="5,2"
-                                                        Command="{Binding DataContext.PlayFileCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                        CommandParameter="{Binding}"
-                                                        Content="Play"
-                                                        FontSize="12" />
-                                                    <ui:Button
-                                                        Padding="5,2"
-                                                        Appearance="Danger"
-                                                        Command="{Binding DataContext.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                        CommandParameter="{Binding}"
-                                                        Content="Delete"
-                                                        FontSize="12" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding DeviceFiles}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#FF444444" Margin="0,0,0,5" Padding="10" CornerRadius="4">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="80" />
+                                                        <ColumnDefinition Width="100" />
+                                                        <ColumnDefinition Width="200" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding Type}" VerticalAlignment="Center" Margin="10,0" />
+                                                    <TextBlock Grid.Column="2" Text="{Binding SizeDisplay}" VerticalAlignment="Center" />
+                                                    <StackPanel Grid.Column="3" Orientation="Horizontal">
+                                                        <Button
+                                                            Margin="0,0,5,0"
+                                                            Padding="5,2"
+                                                            Command="{Binding DataContext.PlayFileCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="Play"
+                                                            FontSize="12" />
+                                                        <Button
+                                                            Padding="5,2"
+                                                            Command="{Binding DataContext.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="Delete"
+                                                            FontSize="12" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
                         </Grid>
-                    </ui:Card>
+                    </Border>
 
                     <!--  Status Bar Container with fixed height  -->
                     <Grid
                         Grid.Row="3"
                         Height="60"
                         Margin="0,10,0,0">
-                        <ui:InfoBar
-                            Title="{Binding StatusTitle}"
-                            VerticalAlignment="Top"
-                            IsOpen="{Binding IsStatusVisible}"
-                            Message="{Binding StatusMessage}"
-                            Severity="{Binding StatusSeverity}" />
+                        <Border
+                            Grid.Row="3"
+                            Height="60"
+                            Margin="0,10,0,0"
+                            Background="#FF444444"
+                            CornerRadius="4"
+                            Padding="10">
+                            <TextBlock Text="{Binding StatusMessage}" Foreground="White" VerticalAlignment="Center" />
+                        </Border>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -200,7 +198,7 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <!--  Device Settings  -->
-                            <ui:Card Margin="0,0,0,10">
+                <Border Grid.Row="1" Margin="0,0,0,10" Background="#FF333337" CornerRadius="4" Padding="10">
                                 <StackPanel>
                                     <TextBlock
                                         Margin="0,0,0,10"
@@ -251,10 +249,10 @@
                                         Text="Note: When 'Video' is selected as startup mode, the currently playing video will be set as the auto-play video."
                                         TextWrapping="Wrap" />
                                 </StackPanel>
-                            </ui:Card>
+                            </Border>
 
                             <!--  Device Actions  -->
-                            <ui:Card>
+                            <Border Margin="0,0,0,10" Background="#FF333337" CornerRadius="4" Padding="10">
                                 <StackPanel>
                                     <TextBlock
                                         Margin="0,0,0,10"
@@ -262,20 +260,18 @@
                                         FontWeight="Bold"
                                         Text="Device Actions" />
 
-                                    <WrapPanel>
-                                        <ui:Button
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
                                             Margin="0,0,10,10"
                                             Command="{Binding SaveSettingsCommand}"
-                                            Content="Save Settings"
-                                            Icon="{ui:SymbolIcon Save24}" />
-                                        <ui:Button
+                                            Content="Save Settings" />
+                                        <Button
                                             Margin="0,0,10,10"
                                             Command="{Binding RestartDeviceCommand}"
-                                            Content="Restart Device"
-                                            Icon="{ui:SymbolIcon ArrowReset24}" />
-                                    </WrapPanel>
+                                            Content="Restart Device" />
+                                    </StackPanel>
                                 </StackPanel>
-                            </ui:Card>
+                            </Border>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -288,10 +284,10 @@
             Background="#80000000"
             Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ui:ProgressRing
+                <ProgressRing
                     Width="50"
                     Height="50"
-                    IsIndeterminate="True" />
+                    IsActive="True" />
                 <TextBlock
                     Margin="0,10,0,0"
                     HorizontalAlignment="Center"
@@ -300,4 +296,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</ui:FluentWindow>
+</Window>

@@ -8,7 +8,7 @@ namespace InfoPanel.Views.Components
     public sealed partial class BarProperties : UserControl
     {
         public static readonly DependencyProperty ItemProperty =
-            DependencyProperty.Register("BarDisplayItem", typeof(BarDisplayItem), typeof(BarProperties));
+            DependencyProperty.Register("BarDisplayItem", typeof(BarDisplayItem), typeof(BarProperties), new PropertyMetadata(null));
 
         public BarDisplayItem BarDisplayItem
         {

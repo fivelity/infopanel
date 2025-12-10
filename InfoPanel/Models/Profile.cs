@@ -152,7 +152,7 @@ namespace InfoPanel.Models
 
         }
 
-        private string _font = Fonts.SystemFontFamilies.First().ToString();
+        private string _font = "Segoe UI Variable";
 
         public string Font
         {

@@ -3,7 +3,8 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-				<Nullable>enable</Nullable>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<Nullable>enable</Nullable>
 		<UseWinUI>true</UseWinUI>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ApplicationIcon>Resources\Images\favicon.ico</ApplicationIcon>
@@ -94,24 +95,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Remove="Views\**" />
-		<Page Remove="**\*.xaml" />
-		<ApplicationDefinition Remove="App.xaml" />
-	</ItemGroup>
-	<ItemGroup>
-		<!-- Test with minimal XAML files to isolate compilation issue -->
-		<ApplicationDefinition Include="App.xaml" />
-		<Page Include="Views\Windows\MainWindow.xaml" />
-		<Page Include="Views\DisplayWindow.xaml" />
-	</ItemGroup>
-	<ItemGroup>
+		<!-- Exclude WPF-specific files that won't compile in WinUI 3 -->
 		<Compile Remove="Views\Windows\D2DWindow.cs" />
 		<Compile Remove="Views\Controls\MyImage.cs" />
-		<Compile Remove="Views\Components\Text\SensorProperties.xaml.cs" />
-		<Compile Remove="Views\Components\Text\Masking.cs" />
-		<Compile Remove="Views\Components\Text\DateTimeProperties.xaml.cs" />
-		<Compile Remove="Views\Components\DisplayItems.xaml.cs" />
-		<Compile Remove="Views\Components\Custom\CustomProperties.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -242,12 +228,75 @@
 		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
 		<PackageReference Include="SkiaSharp" Version="3.119.1" />
 		<PackageReference Include="SkiaSharp.Views.WinUI" Version="3.119.1" />
+		<PackageReference Include="SkiaSharp.NativeAssets.WinUI" Version="3.119.1" />
 		<PackageReference Include="Svg.Skia" Version="3.2.1" />
 		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.10" />
 		<PackageReference Include="System.IO.Ports" Version="9.0.10" />
 		<PackageReference Include="TaskScheduler" Version="2.12.2" />
 		<PackageReference Include="Topten.RichTextKit" Version="0.4.167" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.3" />
+	</ItemGroup>
+	
+	<!-- Direct reference to SkiaSharp WinUI native projection for XAML compiler -->
+	<ItemGroup>
+		<Reference Include="SkiaSharp.Views.WinUI.Native.Projection">
+			<HintPath>$(NuGetPackageRoot)skiasharp.nativeassets.winui\3.119.1\runtimes\win-x64\lib\net8.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.Projection.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	
+	<!-- Only exclude WPF-specific files -->
+	<ItemGroup>
+		<Compile Remove="Views\Windows\D2DWindow.cs" />
+		<Compile Remove="Views\Controls\MyImage.cs" />
+		<Compile Remove="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
+		<Compile Remove="PerformanceSettings.xaml.cs" />
+		<Compile Remove="Views\Windows\TuringDeviceWindow.xaml.cs" />
+		<Compile Remove="Views\Components\WebServer\WebServerSettings.xaml.cs" />
+		<Compile Remove="Views\Components\Chart\BarProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Menu.xaml.cs" />
+		<Compile Remove="Views\Windows\LoadingWindow.xaml.cs" />
+		<Compile Remove="Views\Components\Chart\DonutProperties.xaml.cs" />
+		<Compile Remove="Views\SkiaDisplayWindow.xaml.cs" />
+		<Compile Remove="Views\Pages\AboutPage.xaml.cs" />
+		<Compile Remove="Views\Pages\UsbPanelsPage.xaml.cs" />
+		<Compile Remove="Views\Components\Chart\GraphProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Custom\CustomProperties.xaml.cs" />
+		<Compile Remove="Views\Components\CommonProperties.xaml.cs" />
+		<Compile Remove="Views\Components\DisplayItemView.xaml.cs" />
+		<Compile Remove="Views\Pages\UpdatesPage.xaml.cs" />
+		<Compile Remove="Views\Components\Text\TextProperties.xaml.cs" />
+		<Compile Remove="Views\Pages\SettingsPage.xaml.cs" />
+		<Compile Remove="Views\Components\Text\TableSensorProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Text\SensorProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Group\GroupProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Image\ImageProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Text\DateTimeProperties.xaml.cs" />
+		<Compile Remove="Views\Components\DisplayItems.xaml.cs" />
+		<Compile Remove="Views\Pages\ProfilesPage.xaml.cs" />
+		<Compile Remove="Views\Pages\DesignPage.xaml.cs" />
+		<Compile Remove="Views\Components\PluginProperties.xaml.cs" />
+		<Compile Remove="Views\Components\Shape\ShapeProperties.xaml.cs" />
+		<Compile Remove="ViewModels\HomeViewModel.cs" />
+		<Compile Remove="ViewModels\ProfilesViewModel.cs" />
+		<Compile Remove="ViewModels\DesignViewModel.cs" />
+		<Compile Remove="ViewModels\PluginsViewModel.cs" />
+		<Compile Remove="ViewModels\AboutViewModel.cs" />
+		<Compile Remove="ViewModels\SettingsViewModel.cs" />
+		<Compile Remove="ViewModels\UpdatesViewModel.cs" />
+		<Compile Remove="ViewModels\UsbPanelsViewModel.cs" />
+		<Compile Remove="ViewModels\TuringDeviceWindowViewModel.cs" />
+		<Compile Remove="Views\Pages\HomePage.xaml.cs" />
+		<Compile Remove="Views\Pages\PluginsPage.xaml.cs" />
+	</ItemGroup>
+	
+	<!-- Temporarily exclude problematic XAML files -->
+	<ItemGroup>
+		<Page Remove="Views\Components\**" />
+		<Page Remove="Views\Pages\**" />
+		<Page Remove="Views\Windows\TuringDeviceWindow.xaml" />
+		<Page Remove="Views\Windows\LoadingWindow.xaml" />
+		<Page Remove="Views\SkiaDisplayWindow.xaml" />
+		<Page Remove="PerformanceSettings.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>

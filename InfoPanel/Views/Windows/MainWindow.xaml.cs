@@ -52,13 +52,13 @@ namespace InfoPanel.Views.Windows
                 Type? pageType = tag switch
                 {
                     "home" => typeof(Pages.HomePage),
-                    "profiles" => typeof(Pages.ProfilesPage),
-                    "design" => typeof(Pages.DesignPage),
-                    "updates" => typeof(Pages.UpdatesPage),
+                    //"profiles" => typeof(Pages.ProfilesPage),
+                    //"design" => typeof(Pages.DesignPage),
+                    //"updates" => typeof(Pages.UpdatesPage),
                     "plugins" => typeof(Pages.PluginsPage),
-                    "usbpanels" => typeof(Pages.UsbPanelsPage),
-                    "settings" => typeof(Pages.SettingsPage),
-                    "about" => typeof(Pages.AboutPage),
+                    //"usbpanels" => typeof(Pages.UsbPanelsPage),
+                    //"settings" => typeof(Pages.SettingsPage),
+                    //"about" => typeof(Pages.AboutPage),
                     _ => null
                 };
 

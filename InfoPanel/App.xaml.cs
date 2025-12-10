@@ -3,8 +3,9 @@ using InfoPanel.Monitors;
 using InfoPanel.Services;
 using InfoPanel.Utils;
 using InfoPanel.ViewModels;
+using InfoPanel.Views;
 using InfoPanel.Views.Windows;
-using InfoPanel.Views.Pages;
+//using InfoPanel.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
@@ -60,22 +61,22 @@ namespace InfoPanel
            services.AddSingleton<INavigationService, NavigationService>();
 
            // Views and ViewModels
-           services.AddScoped<Views.Pages.HomePage>();
-           services.AddScoped<HomeViewModel>();
-           services.AddScoped<Views.Pages.ProfilesPage>();
-           services.AddScoped<ProfilesViewModel>();
-           services.AddScoped<Views.Pages.DesignPage>();
-           services.AddScoped<DesignViewModel>();
-           services.AddScoped<Views.Pages.PluginsPage>();
-           services.AddScoped<PluginsViewModel>();
-           services.AddScoped<Views.Pages.AboutPage>();
-           services.AddScoped<AboutViewModel>();
-           services.AddScoped<Views.Pages.SettingsPage>();
-           services.AddScoped<SettingsViewModel>();
-           services.AddScoped<Views.Pages.UpdatesPage>();
-           services.AddScoped<UpdatesViewModel>();
-           services.AddScoped<Views.Pages.UsbPanelsPage>();
-           services.AddScoped<UsbPanelsViewModel>();
+           //services.AddScoped<Views.Pages.HomePage>();
+           //services.AddScoped<HomeViewModel>();
+           //services.AddScoped<Views.Pages.ProfilesPage>();
+           //services.AddScoped<ProfilesViewModel>();
+           //services.AddScoped<Views.Pages.DesignPage>();
+           //services.AddScoped<DesignViewModel>();
+           //services.AddScoped<Views.Pages.PluginsPage>();
+           //services.AddScoped<PluginsViewModel>();
+           //services.AddScoped<Views.Pages.AboutPage>();
+           //services.AddScoped<AboutViewModel>();
+           //services.AddScoped<Views.Pages.SettingsPage>();
+           //services.AddScoped<SettingsViewModel>();
+           //services.AddScoped<Views.Pages.UpdatesPage>();
+           //services.AddScoped<UpdatesViewModel>();
+           //services.AddScoped<Views.Pages.UsbPanelsPage>();
+           //services.AddScoped<UsbPanelsViewModel>();
 
            // Main window
            services.AddSingleton<MainWindow>();
@@ -380,7 +381,7 @@ namespace InfoPanel
             //window?.Close();
         }
 
-        private void DisplayWindow_Closed(object? sender, EventArgs e)
+        private void DisplayWindow_Closed(object sender, Microsoft.UI.Xaml.WindowEventArgs e)
         {
             if (sender is DisplayWindow displayWindow)
             {

@@ -68,19 +68,26 @@ namespace InfoPanel
 
         public void AccessSettings(Action<Settings> action)
         {
-            if (System.Windows.Application.Current.Dispatcher is Dispatcher dispatcher)
+            // In WinUI 3, use DispatcherQueue
+            var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+            if (dispatcherQueue != null)
             {
-                if (dispatcher.CheckAccess())
+                if (dispatcherQueue.HasThreadAccess)
                 {
                     action(Settings);
                 }
                 else
                 {
-                    dispatcher.Invoke(() =>
+                    dispatcherQueue.TryEnqueue(() =>
                     {
                         action(Settings);
                     });
                 }
+            }
+            else
+            {
+                // Fallback for non-UI thread
+                action(Settings);
             }
         }
 
@@ -92,7 +99,7 @@ namespace InfoPanel
                 {
                     if (profile.Active)
                     {
-                        if (System.Windows.Application.Current is App app)
+                        if (Microsoft.UI.Xaml.Application.Current is App app)
                         {
                             app.ShowDisplayWindow(profile);
                         }
@@ -106,7 +113,7 @@ namespace InfoPanel
             {
                 foreach (Profile profile in e.OldItems)
                 {
-                    if (System.Windows.Application.Current is App app)
+                    if (Microsoft.UI.Xaml.Application.Current is App app)
                     {
                         app.CloseDisplayWindow(profile);
                     }
@@ -124,14 +131,14 @@ namespace InfoPanel
                 {
                     if (profile.Active)
                     {
-                        if (System.Windows.Application.Current is App app)
+                        if (Microsoft.UI.Xaml.Application.Current is App app)
                         {
                             app.ShowDisplayWindow(profile);
                         }
                     }
                     else
                     {
-                        if (System.Windows.Application.Current is App app)
+                        if (Microsoft.UI.Xaml.Application.Current is App app)
                         {
                             app.CloseDisplayWindow(profile);
                         }
@@ -160,7 +167,7 @@ namespace InfoPanel
                 taskDefinition.RegistrationInfo.Description = "Runs InfoPanel on startup.";
                 taskDefinition.RegistrationInfo.Author = "Habib Rehman";
                 taskDefinition.Triggers.Add(new LogonTrigger { Delay = TimeSpan.FromSeconds(Settings.AutoStartDelay) });
-                taskDefinition.Actions.Add(new ExecAction(Application.ExecutablePath));
+                taskDefinition.Actions.Add(new ExecAction(System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName ?? ""));
                 taskDefinition.Principal.RunLevel = TaskRunLevel.Highest;
                 taskDefinition.Settings.DisallowStartIfOnBatteries = false;
                 taskDefinition.Settings.StopIfGoingOnBatteries = false;

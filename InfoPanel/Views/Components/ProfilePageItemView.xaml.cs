@@ -1,6 +1,6 @@
 ﻿using InfoPanel.Drawing;
 using SkiaSharp;
-using SkiaSharp.Views.WinUI;
+using SkiaSharp.Views.Windows;
 using System;
 using System.Diagnostics;
 using System.Linq;

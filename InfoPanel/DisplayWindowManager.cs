@@ -37,7 +37,6 @@ namespace InfoPanel
                     else
                     {
                         // Just show existing window
-                        existingWindow.Show();
                         existingWindow.Activate();
                     }
                 }
@@ -51,20 +50,17 @@ namespace InfoPanel
         private void CreateAndShowWindow(Profile profile)
         {
             var window = new DisplayWindow(profile);
-            window.Closed += Window_Closed;
+            window.Closed += (s, e) => Window_Closed(window);
             _windows[profile.Guid] = window;
-            window.Show();
+            window.Activate();
         }
 
-        private void Window_Closed(object? sender, EventArgs e)
+        private void Window_Closed(DisplayWindow displayWindow)
         {
-            if (sender is DisplayWindow displayWindow)
+            lock (_lock)
             {
-                lock (_lock)
-                {
-                    _windows.Remove(displayWindow.Profile.Guid);
-                    displayWindow.Closed -= Window_Closed;
-                }
+                _windows.Remove(displayWindow.Profile.Guid);
+                displayWindow.Closed -= (s, e) => Window_Closed(displayWindow);
             }
         }
 

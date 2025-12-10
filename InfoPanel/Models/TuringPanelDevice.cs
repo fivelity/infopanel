@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using InfoPanel.TuringPanel;
 using InfoPanel.ViewModels;
+using InfoPanel.Enums;
 using Serilog;
 using System;
 using System.Drawing.Text;
@@ -53,7 +54,7 @@ namespace InfoPanel.Models
         private Guid _profileGuid = Guid.Empty;
 
         [ObservableProperty]
-        private LCD_ROTATION _rotation = LCD_ROTATION.RotateNone;
+        private Rotation _rotation = Rotation.RotateNone;
 
         [ObservableProperty]
         private int _brightness = 100;
@@ -110,9 +111,10 @@ namespace InfoPanel.Models
 
         private void DispatchUpdate(bool? isRunning, int? frameRate, long? frameTime, string? errorMessage)
         {
-            if (System.Windows.Application.Current?.Dispatcher is Dispatcher dispatcher)
+            var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+            if (dispatcherQueue != null)
             {
-                dispatcher.BeginInvoke(() =>
+                dispatcherQueue.TryEnqueue(() =>
                 {
                     if (isRunning != null)
                     {
