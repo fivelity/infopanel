@@ -191,29 +191,61 @@ namespace InfoPanel.Services
             // Add theme ID for tracking
             dict["ThemeId"] = theme.Id;
 
-            // Add color tokens
-            dict["ThemePrimaryColor"] = theme.Colors.Primary;
-            dict["ThemePrimaryHoverColor"] = theme.Colors.PrimaryHover;
-            dict["ThemePrimaryPressedColor"] = theme.Colors.PrimaryPressed;
-            dict["ThemeBackgroundColor"] = theme.Colors.Background;
-            dict["ThemeBackgroundSecondaryColor"] = theme.Colors.BackgroundSecondary;
-            dict["ThemeBackgroundTertiaryColor"] = theme.Colors.BackgroundTertiary;
-            dict["ThemeSurfaceColor"] = theme.Colors.Surface;
-            dict["ThemeSurfaceHoverColor"] = theme.Colors.SurfaceHover;
-            dict["ThemeSurfacePressedColor"] = theme.Colors.SurfacePressed;
-            dict["ThemeTextPrimaryColor"] = theme.Colors.TextPrimary;
-            dict["ThemeTextSecondaryColor"] = theme.Colors.TextSecondary;
-            dict["ThemeTextTertiaryColor"] = theme.Colors.TextTertiary;
-            dict["ThemeTextDisabledColor"] = theme.Colors.TextDisabled;
-            dict["ThemeAccentColor"] = theme.Colors.Accent;
-            dict["ThemeAccentHoverColor"] = theme.Colors.AccentHover;
-            dict["ThemeSuccessColor"] = theme.Colors.Success;
-            dict["ThemeWarningColor"] = theme.Colors.Warning;
-            dict["ThemeErrorColor"] = theme.Colors.Error;
-            dict["ThemeInfoColor"] = theme.Colors.Info;
-            dict["ThemeBorderColor"] = theme.Colors.Border;
-            dict["ThemeBorderHoverColor"] = theme.Colors.BorderHover;
-            dict["ThemeDividerColor"] = theme.Colors.Divider;
+            // Helper to add color and brush resources
+            void AddColorResources(string themeKey, string dsKey, string colorString, System.Windows.Media.Color defaultColor)
+            {
+                // Parse color
+                var color = Helpers.ColorHelper.ParseColor(colorString, defaultColor);
+                
+                // Add color resource
+                dict[themeKey] = colorString; // Keep original string for reference
+                dict[dsKey] = color;          // Add typed Color for DS token
+
+                // Add brush resource
+                var brush = new System.Windows.Media.SolidColorBrush(color);
+                brush.Freeze();
+                dict[$"{dsKey}Brush"] = brush;
+                
+                // For compatibility with Theme... keys if they were intended to be brushes
+                // dict[$"{themeKey}Brush"] = brush; 
+            }
+
+            // Default colors for fallback (using dark theme defaults)
+            var defaults = new ThemeModel().Colors; 
+
+            // Add color tokens with DS mapping
+            AddColorResources("ThemePrimaryColor", "DS_Primary", theme.Colors.Primary, Helpers.ColorHelper.ParseColor(defaults.Primary, System.Windows.Media.Colors.Blue));
+            AddColorResources("ThemePrimaryHoverColor", "DS_PrimaryHover", theme.Colors.PrimaryHover, Helpers.ColorHelper.ParseColor(defaults.PrimaryHover, System.Windows.Media.Colors.DarkBlue));
+            AddColorResources("ThemePrimaryPressedColor", "DS_PrimaryPressed", theme.Colors.PrimaryPressed, Helpers.ColorHelper.ParseColor(defaults.PrimaryPressed, System.Windows.Media.Colors.Navy));
+            
+            AddColorResources("ThemeBackgroundColor", "DS_Background", theme.Colors.Background, Helpers.ColorHelper.ParseColor(defaults.Background, System.Windows.Media.Colors.Black));
+            AddColorResources("ThemeBackgroundSecondaryColor", "DS_BackgroundSecondary", theme.Colors.BackgroundSecondary, Helpers.ColorHelper.ParseColor(defaults.BackgroundSecondary, System.Windows.Media.Colors.Gray));
+            AddColorResources("ThemeBackgroundTertiaryColor", "DS_BackgroundTertiary", theme.Colors.BackgroundTertiary, Helpers.ColorHelper.ParseColor(defaults.BackgroundTertiary, System.Windows.Media.Colors.DarkGray));
+            
+            // Map Surface to Card/Popover/Input as they usually share the same background in this design system
+            AddColorResources("ThemeSurfaceColor", "DS_Card", theme.Colors.Surface, Helpers.ColorHelper.ParseColor(defaults.Surface, System.Windows.Media.Colors.Gray));
+            AddColorResources("ThemeSurfaceColor", "DS_Popover", theme.Colors.Surface, Helpers.ColorHelper.ParseColor(defaults.Surface, System.Windows.Media.Colors.Gray));
+            AddColorResources("ThemeSurfaceColor", "DS_Input", theme.Colors.Surface, Helpers.ColorHelper.ParseColor(defaults.Surface, System.Windows.Media.Colors.Gray));
+            
+            AddColorResources("ThemeSurfaceHoverColor", "DS_CardHover", theme.Colors.SurfaceHover, Helpers.ColorHelper.ParseColor(defaults.SurfaceHover, System.Windows.Media.Colors.LightGray));
+            
+            AddColorResources("ThemeTextPrimaryColor", "DS_Foreground", theme.Colors.TextPrimary, Helpers.ColorHelper.ParseColor(defaults.TextPrimary, System.Windows.Media.Colors.White));
+            AddColorResources("ThemeTextSecondaryColor", "DS_ForegroundSecondary", theme.Colors.TextSecondary, Helpers.ColorHelper.ParseColor(defaults.TextSecondary, System.Windows.Media.Colors.LightGray));
+            AddColorResources("ThemeTextTertiaryColor", "DS_ForegroundMuted", theme.Colors.TextTertiary, Helpers.ColorHelper.ParseColor(defaults.TextTertiary, System.Windows.Media.Colors.Gray));
+            AddColorResources("ThemeTextDisabledColor", "DS_ForegroundDisabled", theme.Colors.TextDisabled, Helpers.ColorHelper.ParseColor(defaults.TextDisabled, System.Windows.Media.Colors.DarkGray));
+            
+            AddColorResources("ThemeAccentColor", "DS_Accent", theme.Colors.Accent, Helpers.ColorHelper.ParseColor(defaults.Accent, System.Windows.Media.Colors.Blue));
+            AddColorResources("ThemeAccentHoverColor", "DS_AccentHover", theme.Colors.AccentHover, Helpers.ColorHelper.ParseColor(defaults.AccentHover, System.Windows.Media.Colors.DarkBlue));
+            
+            AddColorResources("ThemeSuccessColor", "DS_Success", theme.Colors.Success, Helpers.ColorHelper.ParseColor(defaults.Success, System.Windows.Media.Colors.Green));
+            AddColorResources("ThemeWarningColor", "DS_Warning", theme.Colors.Warning, Helpers.ColorHelper.ParseColor(defaults.Warning, System.Windows.Media.Colors.Orange));
+            AddColorResources("ThemeErrorColor", "DS_Destructive", theme.Colors.Error, Helpers.ColorHelper.ParseColor(defaults.Error, System.Windows.Media.Colors.Red));
+            
+            AddColorResources("ThemeBorderColor", "DS_Border", theme.Colors.Border, Helpers.ColorHelper.ParseColor(defaults.Border, System.Windows.Media.Colors.Gray));
+            AddColorResources("ThemeBorderHoverColor", "DS_BorderHover", theme.Colors.BorderHover, Helpers.ColorHelper.ParseColor(defaults.BorderHover, System.Windows.Media.Colors.LightGray));
+            
+            // Explicitly set DS_Ring to Primary if not defined separately
+            AddColorResources("ThemePrimaryColor", "DS_Ring", theme.Colors.Primary, Helpers.ColorHelper.ParseColor(defaults.Primary, System.Windows.Media.Colors.Blue));
 
             // Add typography tokens
             dict["ThemeFontFamily"] = theme.Typography.FontFamily;

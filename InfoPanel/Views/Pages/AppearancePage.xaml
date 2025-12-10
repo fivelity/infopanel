@@ -229,15 +229,6 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-
-                            <!--  Apply Button  -->
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button
-                                    MinWidth="120"
-                                    Command="{Binding ViewModel.ApplyThemeCommand}"
-                                    Content="Apply Theme"
-                                    IsEnabled="{Binding ViewModel.HasSelectedTheme}" />
-                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
@@ -385,15 +376,6 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-
-                            <!--  Apply Button  -->
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button
-                                    MinWidth="120"
-                                    Command="{Binding ViewModel.ApplyLayoutCommand}"
-                                    Content="Apply Layout"
-                                    IsEnabled="{Binding ViewModel.HasSelectedLayout}" />
-                            </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
@@ -459,7 +441,14 @@
                                             Background="{DynamicResource ControlFillColorSecondaryBrush}"
                                             BorderBrush="{Binding IsActive, Converter={StaticResource BooleanToBrushConverter}}"
                                             BorderThickness="2"
-                                            CornerRadius="8">
+                                            CornerRadius="8"
+                                            Cursor="Hand">
+                                            <Border.InputBindings>
+                                                <MouseBinding
+                                                    Command="{Binding DataContext.ViewModel.LoadWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                    CommandParameter="{Binding Id}"
+                                                    MouseAction="LeftClick" />
+                                            </Border.InputBindings>
                                             <Grid Margin="16">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
@@ -514,12 +503,6 @@
                                                     Grid.Column="1"
                                                     VerticalAlignment="Center"
                                                     Orientation="Horizontal">
-                                                    <Button
-                                                        Margin="0,0,8,0"
-                                                        Command="{Binding DataContext.ViewModel.LoadWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                                        CommandParameter="{Binding Id}"
-                                                        Content="Load"
-                                                        ToolTip="Load this workspace" />
                                                     <Button
                                                         Margin="0,0,8,0"
                                                         Command="{Binding DataContext.ViewModel.SaveWorkspaceCommand, RelativeSource={RelativeSource AncestorType=Page}}"

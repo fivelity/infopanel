@@ -77,12 +77,10 @@ namespace InfoPanel.ViewModels
 
             // Initialize commands
             SelectThemeCommand = new RelayCommand<string>(SelectTheme);
-            ApplyThemeCommand = new RelayCommand(ApplyTheme, () => HasSelectedTheme);
             ImportThemeCommand = new AsyncRelayCommand(ImportThemeAsync);
             ExportThemeCommand = new AsyncRelayCommand(ExportThemeAsync);
 
             SelectLayoutCommand = new RelayCommand<string>(SelectLayout);
-            ApplyLayoutCommand = new RelayCommand(ApplyLayout, () => HasSelectedLayout);
             ImportLayoutCommand = new AsyncRelayCommand(ImportLayoutAsync);
             ExportLayoutCommand = new AsyncRelayCommand(ExportLayoutAsync);
 
@@ -129,27 +127,21 @@ namespace InfoPanel.ViewModels
             SelectedThemeId = themeId;
             HasSelectedTheme = true;
 
+            // Apply theme immediately
+            try
+            {
+                _themeProvider.ApplyTheme(themeId);
+            }
+            catch (Exception ex)
+            {
+                // Log error or show unobtrusive notification if needed
+                System.Diagnostics.Debug.WriteLine($"Error applying theme: {ex.Message}");
+            }
+
             // Update selection visual state
             foreach (var theme in AvailableThemes)
             {
                 theme.IsSelected = theme.Id == themeId;
-            }
-        }
-
-        private void ApplyTheme()
-        {
-            if (string.IsNullOrEmpty(SelectedThemeId)) return;
-
-            try
-            {
-                _themeProvider.ApplyTheme(SelectedThemeId);
-                MessageBox.Show($"Theme '{SelectedThemeId}' applied successfully!", "Theme Applied",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error applying theme: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -236,27 +228,20 @@ namespace InfoPanel.ViewModels
             SelectedLayoutId = layoutId;
             HasSelectedLayout = true;
 
+            // Apply layout immediately
+            try
+            {
+                _layoutProvider.CurrentLayoutId = layoutId;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error applying layout: {ex.Message}");
+            }
+
             // Update selection visual state
             foreach (var layout in AvailableLayouts)
             {
                 layout.IsSelected = layout.Id == layoutId;
-            }
-        }
-
-        private void ApplyLayout()
-        {
-            if (string.IsNullOrEmpty(SelectedLayoutId)) return;
-
-            try
-            {
-                _layoutProvider.CurrentLayoutId = SelectedLayoutId;
-                MessageBox.Show($"Layout '{SelectedLayoutId}' applied successfully!", "Layout Applied",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error applying layout: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -376,8 +361,7 @@ namespace InfoPanel.ViewModels
                     LoadWorkspaces();
                     LoadThemes();
                     LoadLayouts();
-                    MessageBox.Show($"Workspace '{workspace.Name}' loaded successfully!", "Workspace Loaded",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Removed success message box for smoother experience
                 }
                 catch (Exception ex)
                 {

@@ -11,7 +11,7 @@
     Usage:
     Apply styles using StaticResource:
 
-    <Border Style="{StaticResource DS_Card}">
+    <Border Style="{StaticResource DS_CardStyle}">
         <StackPanel>
             <TextBlock Style="{StaticResource DS_CardTitle}" Text="Card Title"/>
             <TextBlock Style="{StaticResource DS_CardDescription}" Text="Description"/>

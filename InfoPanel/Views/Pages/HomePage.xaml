@@ -173,7 +173,7 @@
                 Margin="16,0,0,0"
                 VerticalAlignment="Top">
                 
-                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                <Border Style="{StaticResource DS_CardStyle}" Margin="0,0,0,16">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -205,7 +205,7 @@
                     </Grid>
                 </Border>
 
-                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                <Border Style="{StaticResource DS_CardStyle}" Margin="0,0,0,16">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -236,7 +236,7 @@
                     </Grid>
                 </Border>
 
-                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                <Border Style="{StaticResource DS_CardStyle}" Margin="0,0,0,16">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -267,7 +267,7 @@
                     </Grid>
                 </Border>
 
-                <Border Style="{StaticResource DS_Card}" Margin="0,0,0,16">
+                <Border Style="{StaticResource DS_CardStyle}" Margin="0,0,0,16">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />

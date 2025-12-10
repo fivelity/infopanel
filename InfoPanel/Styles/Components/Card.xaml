@@ -9,7 +9,7 @@
     -->
 
     <!-- Base Card Style -->
-    <Style x:Key="DS_Card" TargetType="Border">
+    <Style x:Key="DS_CardStyle" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource DS_CardBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -25,12 +25,12 @@
     </Style>
 
     <!-- Card with no padding (for content that fills the card) -->
-    <Style x:Key="DS_Card_NoPadding" TargetType="Border" BasedOn="{StaticResource DS_Card}">
+    <Style x:Key="DS_Card_NoPadding" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
         <Setter Property="Padding" Value="0"/>
     </Style>
 
     <!-- Card with hover effect -->
-    <Style x:Key="DS_Card_Hoverable" TargetType="Border" BasedOn="{StaticResource DS_Card}">
+    <Style x:Key="DS_Card_Hoverable" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
         <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -79,12 +79,12 @@
     </Style>
 
     <!-- Compact Card (smaller padding) -->
-    <Style x:Key="DS_Card_Compact" TargetType="Border" BasedOn="{StaticResource DS_Card}">
+    <Style x:Key="DS_Card_Compact" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
         <Setter Property="Padding" Value="{StaticResource DS_Thickness_4}"/>
     </Style>
 
     <!-- Flat Card (no shadow) -->
-    <Style x:Key="DS_Card_Flat" TargetType="Border" BasedOn="{StaticResource DS_Card}">
+    <Style x:Key="DS_Card_Flat" TargetType="Border" BasedOn="{StaticResource DS_CardStyle}">
         <Setter Property="Effect" Value="{x:Null}"/>
     </Style>
 

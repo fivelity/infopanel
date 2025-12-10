@@ -161,7 +161,6 @@
         <Setter Property="BorderBrush" Value="{StaticResource DS_BorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="{StaticResource DS_Thickness_6}"/>
-        <Setter Property="Effect" Value="{StaticResource DS_Shadow_Sm}"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -174,7 +173,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{StaticResource DS_Radius_Lg}"
                             Padding="{TemplateBinding Padding}"
-                            Effect="{TemplateBinding Effect}">
+                            Effect="{StaticResource DS_Shadow_Sm}">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
